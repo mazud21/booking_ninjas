@@ -1,4 +1,4 @@
-
+import 'package:booking_ninjas/view/history.dart';
 import 'package:booking_ninjas/view/login.dart';
 import 'package:booking_ninjas/view/login_signup.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -58,6 +58,10 @@ class Routes{
     ),GetPage(
       name: '/passwordUpdateSuccessful',
       page: () => PasswordUpdateSuccessful(),
+      //binding: DataBindings(),
+    ),GetPage(
+      name: '/history',
+      page: () => History(),
       //binding: DataBindings(),
     ),
 
