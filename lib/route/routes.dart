@@ -1,10 +1,12 @@
 import 'package:booking_ninjas/view/history.dart';
 import 'package:booking_ninjas/view/login.dart';
 import 'package:booking_ninjas/view/login_signup.dart';
+import 'package:booking_ninjas/view/tasks.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../test/test.dart';
 import '../view/account_verification.dart';
+import '../view/current_task.dart';
 import '../view/forgot_password.dart';
 import '../view/new_password.dart';
 import '../view/password_reset.dart';
@@ -62,6 +64,14 @@ class Routes{
     ),GetPage(
       name: '/history',
       page: () => History(),
+      //binding: DataBindings(),
+    ),GetPage(
+      name: '/tasks',
+      page: () => Tasks(),
+      //binding: DataBindings(),
+    ),GetPage(
+      name: '/currentTask',
+      page: () => const CurrentTask(getSecond: 0,),
       //binding: DataBindings(),
     ),
 
