@@ -1,4 +1,6 @@
-import 'package:booking_ninjas/widgets/stopwatch.dart';
+import 'package:bn_staff/pages_v2/new/report_problem.dart';
+import 'package:bn_staff/widgets/stopwatch.dart';
+import 'package:booking_ninjas/widgets/report_problem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,7 @@ import 'package:get/get.dart';
 class CurrentTask extends StatefulWidget {
   final int getSecond;
 
-  const CurrentTask({super.key, required this.getSecond});
+  const CurrentTask({this.getSecond});
 
   @override
   State<CurrentTask> createState() => _CurrentTaskState();
@@ -18,15 +20,18 @@ class _CurrentTaskState extends State<CurrentTask> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Current task'),
-        leadingWidth: Get.width*0.02,
+        leadingWidth: Get.width*0.2,
         leading: InkWell(
           onTap: () => Get.back(),
           child: Padding(
             padding: EdgeInsets.all(4),
             child: Row(
               children: const [
-                Icon(Icons.arrow_back_ios),
-                Text('Back')
+                SizedBox(
+                  width: 16,
+                ),
+                Icon(Icons.arrow_back_ios, color: Colors.blue,),
+                Text('Back', style: TextStyle(color: Colors.blue),)
               ],
             ),
           ),
@@ -106,14 +111,14 @@ class _CurrentTaskState extends State<CurrentTask> {
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: Color.fromRGBO(
+                    primary: Color.fromRGBO(
                         242, 242, 247, 1),
                     padding: EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () => /*Get.to(Login())*/null,
+                  onPressed: () => bsReportProblem(context),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -128,7 +133,7 @@ class _CurrentTaskState extends State<CurrentTask> {
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: Color.fromRGBO(44, 44, 46, 1),
+                    primary: Color.fromRGBO(44, 44, 46, 1),
                     padding: EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -144,4 +149,14 @@ class _CurrentTaskState extends State<CurrentTask> {
       ),
     );
   }
+
+  bsReportProblem(BuildContext context){
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ReportProblem();
+      },
+    );
+  }
+
 }
