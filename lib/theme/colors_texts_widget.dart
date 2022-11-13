@@ -8,24 +8,24 @@ class PalletColors {
 
   ///ButtonColor
   static const btn_white = const Color.fromRGBO(255, 255, 255, 1.0);
-  static const btn_red = const Color(0xBC2929);
-  static const btn_soft_red = const Color(0xBC292926);
-  static const btn_green = const Color(0x089716);
-  static const btn_deep_blue = const Color(0x1A74C3);
+  static const btn_red = const Color(0xFFBC2929);
+  static const btn_soft_red = const Color.fromRGBO(255,186,186, 1);
+  static const btn_green = const Color(0xFF089716);
+  static const btn_deep_blue = const Color(0xFF1A74C3);
   static const btn_orange = const Color.fromRGBO(255, 255, 255, 1.0);
-  static const btn_soft_grey = const Color(0xF2F2F7);
+  static const btn_soft_grey = const Color(0xFFF2F2F7);
 
   ///ChipColor
-  static const chip_orange = const Color(0xF8BC76);
-  static const chip_green = const Color(0x57C068);
-  static const chip_red = const Color(0xEB8888);
+  static const chip_orange = const Color(0xFFF8BC76);
+  static const chip_green = const Color(0xFF57C068);
+  static const chip_red = const Color(0xFFEB8888);
   static const chip_soft_blue = const Color(0x72BCF826);
 
   ///TextColor
   static const text_white = const Color.fromRGBO(255, 255, 255, 1.0);
   static const text_soft_grey = const Color.fromRGBO(60, 60, 67, 0.6);
-  static const text_blue = const Color(0x72BCF8);
-  static const text_red = const Color(0xBC2929);
+  static const text_blue = const Color(0xFF72BCF8);
+  static const text_red = const Color(0xFFbc2929);
 }
 
 class TextCustom {
@@ -42,8 +42,8 @@ class TextCustom {
     return ts;
   }
 
-  headline3() {
-    ts = const TextStyle(color: Colors.black, fontSize: 14);
+  headline3(Color c) {
+    ts = TextStyle(color: c, fontSize: 14);
     return ts;
   }
 
@@ -82,4 +82,66 @@ class TextCustom {
     ts = const TextStyle(fontSize: 18, color: Colors.black);
     return ts;
   }
+}
+
+class ButtonCustom{
+
+  late final ButtonStyle style;
+
+  elevatedGreen(){
+
+    style = ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: PalletColors.btn_green,
+      padding: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+
+    return style;
+  }
+
+  elevatedRed(){
+
+    style = ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: PalletColors.btn_red,
+      padding: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+
+    return style;
+  }
+
+  elevatedRedSoft(){
+
+    style = ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: PalletColors.btn_soft_red,
+      padding: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+
+    return style;
+  }
+
+  elevatedGrey(){
+
+    style = ElevatedButton.styleFrom(
+      elevation: 0,
+      backgroundColor: PalletColors.btn_soft_grey,
+      padding: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+
+    return style;
+  }
+
 }

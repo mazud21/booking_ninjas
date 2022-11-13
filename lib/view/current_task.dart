@@ -1,8 +1,10 @@
+import 'package:booking_ninjas/widgets/completed_task.dart';
 import 'package:booking_ninjas/widgets/report_problem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../theme/colors_texts_widget.dart';
 import '../widgets/stopwatch.dart';
 
 class CurrentTask extends StatefulWidget {
@@ -139,7 +141,7 @@ class _CurrentTaskState extends State<CurrentTask> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () => /*Get.to(Login())*/null,
+                  onPressed: () => dialogTakePhotos(context),
                   child: Text('Take photos', style: TextStyle(color: Colors.white),
                   )
               ),
@@ -160,6 +162,25 @@ class _CurrentTaskState extends State<CurrentTask> {
             child: ReportProblem(),
           );
         });
+  }
+
+  dialogTakePhotos(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Align(
+              alignment: Alignment.center,
+              child: Text('Please take photos of the completed task',
+                  style: TextCustom().headline2()),
+            ),
+            content: SizedBox(
+              height: Get.height*0.6,
+              child: CompletedTask(),
+            ),
+          );
+        },
+    );
   }
 
 }
