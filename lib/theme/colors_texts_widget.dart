@@ -29,54 +29,57 @@ class PalletColors {
 }
 
 class TextCustom {
-  TextStyle ts;
+  late TextStyle ts;
 
   headline1() {
-    ts = TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold);
+    ts = const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold);
     return ts;
   }
 
   headline2() {
-    ts = TextStyle(
+    ts = const TextStyle(
         fontWeight: FontWeight.w700, fontSize: 20, color: Colors.black);
     return ts;
   }
 
-  caption() {
-    ts = TextStyle(color: Colors.black, fontSize: 14);
-    subtitle2() {
-      return ts;
-    }
-
-    ts = TextStyle(color: Colors.black, fontSize: 14);
-    bodyText2() {
-      return ts;
-    }
-
-    ts = TextStyle(color: Colors.black, fontSize: 14);
-    headline3() {
-      return ts;
-    }
-
-    ts = TextStyle(
-        fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black);
+  headline3() {
+    ts = const TextStyle(color: Colors.black, fontSize: 14);
     return ts;
   }
 
   headline4() {
-    ts = TextStyle(
+    ts = const TextStyle(
         fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black);
     return ts;
   }
 
   headline5() {
-    ts = TextStyle(fontSize: 16, color: Colors.black);
-    headline6() {
-      return ts;
-    }
+    ts = const TextStyle(fontSize: 16, color: Colors.black);
+    return ts;
+  }
 
-    ts = TextStyle(
-        fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black);
+  headline6() {
+    ts = const TextStyle(fontSize: 16, color: Colors.black);
+    return ts;
+  }
+
+  caption() {
+    ts = const TextStyle(color: Colors.black, fontSize: 14);
+    return ts;
+  }
+
+  subtitle2() {
+    ts = const TextStyle(color: Colors.black, fontSize: 14);
+    return ts;
+  }
+
+  bodyText2() {
+    ts = const TextStyle(color: Colors.black, fontSize: 14);
+    return ts;
+  }
+
+  bodyText3() {
+    ts = const TextStyle(fontSize: 18, color: Colors.black);
     return ts;
   }
 }

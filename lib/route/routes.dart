@@ -4,7 +4,7 @@ import 'package:booking_ninjas/view/login_signup.dart';
 import 'package:booking_ninjas/view/tasks.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
-import '../test/test.dart';
+import '../test/test_getx_infinity_scroll.dart';
 import '../view/account_verification.dart';
 import '../view/current_task.dart';
 import '../view/forgot_password.dart';

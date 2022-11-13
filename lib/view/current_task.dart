@@ -1,14 +1,14 @@
-import 'package:bn_staff/pages_v2/new/report_problem.dart';
-import 'package:bn_staff/widgets/stopwatch.dart';
 import 'package:booking_ninjas/widgets/report_problem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../widgets/stopwatch.dart';
+
 class CurrentTask extends StatefulWidget {
   final int getSecond;
 
-  const CurrentTask({this.getSecond});
+  const CurrentTask({required this.getSecond});
 
   @override
   State<CurrentTask> createState() => _CurrentTaskState();
@@ -20,7 +20,7 @@ class _CurrentTaskState extends State<CurrentTask> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Current task'),
-        leadingWidth: Get.width*0.2,
+        leadingWidth: Get.width*0.25,
         leading: InkWell(
           onTap: () => Get.back(),
           child: Padding(
@@ -152,11 +152,14 @@ class _CurrentTaskState extends State<CurrentTask> {
 
   bsReportProblem(BuildContext context){
     showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return ReportProblem();
-      },
-    );
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: ReportProblem(),
+          );
+        });
   }
 
 }

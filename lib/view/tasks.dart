@@ -137,7 +137,7 @@ class _TasksState extends State<Tasks> {
                       children: [
                         Text('Current task'),
                         TextButton(
-                          onPressed: () => null,
+                          onPressed: () => Get.to(CurrentTask(getSecond: firstSecond,)),
                           child: Text('Open'),
                         )
                       ],
@@ -211,7 +211,7 @@ class _TasksState extends State<Tasks> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
-                              onPressed: () => Get.to(CurrentTask(getSecond: firstSecond,)),
+                              onPressed: () => /*Get.to(CurrentTask(getSecond: firstSecond,))*/ null,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [

@@ -20,7 +20,7 @@ class User extends GetView<DataController>{
                   child: ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
-                      data![index]['picture']['thumbnail']
+                      data[index]['picture']['thumbnail']
                       ),
                     ),
                     title: Text('${data[index]['name']['first']} ${data[index]['name']['first']}'),
