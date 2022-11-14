@@ -1,3 +1,4 @@
+import 'package:booking_ninjas/view/problems.dart';
 import 'package:booking_ninjas/widgets/completed_task.dart';
 import 'package:booking_ninjas/widgets/report_problem.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,6 +109,16 @@ class _CurrentTaskState extends State<CurrentTask> {
               ),
               child: Text('Personal notes'),
             ),
+            Row(
+              children: [
+                Text('3 problems reported', style: TextCustom().headline3(PalletColors.btn_red),),
+                Spacer(),
+                TextButton(
+                  onPressed: () => bsProblemsList(context),
+                  child: Text('Open'),
+                )
+              ],
+            ),
             SizedBox(
               width: Get.width*0.55,
               child: ElevatedButton(
@@ -160,6 +171,18 @@ class _CurrentTaskState extends State<CurrentTask> {
           return FractionallySizedBox(
             heightFactor: 0.9,
             child: ReportProblem(),
+          );
+        });
+  }
+
+  bsProblemsList(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: Problems(),
           );
         });
   }
