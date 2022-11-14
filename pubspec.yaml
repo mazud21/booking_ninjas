@@ -54,6 +54,7 @@ dependencies:
   #other
   google_fonts: ^3.0.1
   dotted_border: ^2.0.0+3
+  flutter_swipe_button: ^2.1.1+1
 
 dev_dependencies:
   flutter_test:

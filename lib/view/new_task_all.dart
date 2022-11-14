@@ -35,7 +35,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset('asset/images/broom.png'),
+                        Image.asset('assets/images/broom.png'),
                         Flexible(child: Text('Clean room, replace linen, Clean room, replace linen')),
                       ],
                     ),

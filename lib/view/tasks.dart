@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:booking_ninjas/view/current_task.dart';
+import 'package:booking_ninjas/view/detail_new_task.dart';
+import 'package:booking_ninjas/view/detail_today_tasks_all.dart';
+import 'package:booking_ninjas/view/new_task_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -98,7 +101,7 @@ class _TasksState extends State<Tasks> {
                       children: [
                         Text('Today\'s tasks $firstSecond'),
                         TextButton(
-                          onPressed: () => null,
+                          onPressed: () => bsDetailTodayTaskAll(context),
                           child: Text('See All'),
                         )
                       ],
@@ -239,7 +242,7 @@ class _TasksState extends State<Tasks> {
                         children: [
                           Text('New tasks'),
                           TextButton(
-                            onPressed: () => null,
+                            onPressed: () => bsNewTaskAll(context),
                             child: Text('See All'),
                           ),
                         ],
@@ -257,7 +260,7 @@ class _TasksState extends State<Tasks> {
                               height: 16,
                             ),
                             ListTile(
-                              onTap: () => null,
+                              onTap: () => bsDetailTodayTask(context),
                               leading: Image.asset('assets/images/broom.png'),
                               title: Text('Clean room'),
                               //subtitle: Text('Room 475, Floor 4, Building 8'),
@@ -324,6 +327,42 @@ class _TasksState extends State<Tasks> {
         ),
       ),
     );
+  }
+
+  bsDetailTodayTask(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: DetailNewTask(),
+          );
+        });
+  }
+
+  bsDetailTodayTaskAll(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: DetailTodayTasksAll(),
+          );
+        });
+  }
+
+  bsNewTaskAll(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: NewTaskAll(),
+          );
+        });
   }
 
 }
