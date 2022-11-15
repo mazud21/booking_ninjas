@@ -111,7 +111,7 @@ class _CurrentTaskState extends State<CurrentTask> {
             ),
             Row(
               children: [
-                Text('3 problems reported', style: TextCustom().headline3(PalletColors.btn_red),),
+                Text('3 problems reported',),
                 Spacer(),
                 TextButton(
                   onPressed: () => bsProblemsList(context),
@@ -194,8 +194,7 @@ class _CurrentTaskState extends State<CurrentTask> {
           return AlertDialog(
             title: Align(
               alignment: Alignment.center,
-              child: Text('Please take photos of the completed task',
-                  style: TextCustom().headline2()),
+              child: Text('Please take photos of the completed task'),
             ),
             content: SizedBox(
               height: Get.height*0.6,

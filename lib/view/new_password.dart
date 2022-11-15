@@ -1,17 +1,12 @@
+import 'package:booking_ninjas/view/password_update_successful.dart';
 import 'package:booking_ninjas/view/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class NewPassword extends StatefulWidget {
+import '../theme/colors_texts_widget.dart';
 
-  @override
-  State<NewPassword> createState() => _NewPasswordState();
-}
-
-class _NewPasswordState extends State<NewPassword> {
-
-  final _formKey = GlobalKey<FormState>();
+class NewPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -23,67 +18,67 @@ class _NewPasswordState extends State<NewPassword> {
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text('Create new password',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32),
-                ),
+      body: FormNewPassword(),
+    );
+  }
+}
+
+class FormNewPassword extends StatefulWidget {
+
+  @override
+  State<FormNewPassword> createState() => _FormNewPasswordState();
+}
+
+class _FormNewPasswordState extends State<FormNewPassword> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Create new password',
+                style: TextCustom().textLargeHeading(),
               ),
-              SizedBox(
-                height: 16,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Old Password",
+                  //fillColor: Colors.white,
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "New Password",
+                  //fillColor: Colors.white,
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonCustom().elevatedGreen(),
+                  onPressed: () => Get.to(PasswordUpdateSuccessful()),
+                  child: Text('Update Password', style: TextCustom().textButton(PalletColors.text_white),)
               ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Old Password",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: Colors.white10,
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "New Password",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                          color: Colors.white10
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    onPressed: () => Get.to('/'),
-                    child: Text('Update Password')
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

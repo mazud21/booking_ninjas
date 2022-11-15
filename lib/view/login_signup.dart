@@ -1,6 +1,6 @@
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/login.dart';
 import 'package:booking_ninjas/view/signup.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,28 +17,22 @@ class _LoginSignUpState extends State<LoginSignUp> {
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(top: Get.height*0.2),
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
             Image.asset('assets/images/hgi_logo_color_hr1.png'),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: EdgeInsets.all(16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
+              style: ButtonCustom().elevatedGreen(),
                 onPressed: () => Get.to(Login()),
-                child: Text('Login')
+                child: Text('Login', style: TextCustom().textButton(PalletColors.text_white),)
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            const Center(
-              child: Text('or continue with'),
+            Center(
+              child: Text('or continue with', style: TextCustom().textFootnote(PalletColors.text_soft_grey)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Row(
@@ -58,20 +52,13 @@ class _LoginSignUpState extends State<LoginSignUp> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(8, 151, 22, 0.15),
-                  padding: EdgeInsets.all(16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
+                style: ButtonCustom().elevatedSoftGreen(),
                 onPressed: () => Get.to(SignUp()),
-                child: const Text('Create account', style: TextStyle(color: Color.fromRGBO(8, 151, 22, 1)
-                ),)
+                child: Text('Create account',  style: TextCustom().textButton(PalletColors.text_green),)
             ),
           ],
         ),

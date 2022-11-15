@@ -1,15 +1,10 @@
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerificationSuccessful extends StatefulWidget {
-  const VerificationSuccessful({Key? key}) : super(key: key);
+class VerificationSuccessful extends StatelessWidget {
 
-  @override
-  State<VerificationSuccessful> createState() => _VerificationSuccessfulState();
-}
-
-class _VerificationSuccessfulState extends State<VerificationSuccessful> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,36 +19,32 @@ class _VerificationSuccessfulState extends State<VerificationSuccessful> {
         padding: EdgeInsets.all(32),
         child: Column(
           children: [
-            Spacer(),
+            const Spacer(),
             Align(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Text('Verification successful',
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 26),
+                style: TextCustom().textLargeHeading(),
               ),
             ),
-            SizedBox(
-              height: 16,
+            const SizedBox(
+              height: 24,
             ),
-            Text('We’ve succesfully verified your email and an account with us has been created for you.'),
-            Spacer(),
+            Text('We’ve succesfully verified your email and an account with us has been created for you.',
+            style: TextCustom().textFootnote(PalletColors.text_black)),
+            const Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
+                  style: ButtonCustom().elevatedGreen(),
                   onPressed: () => Get.to('/'),
-                  child: Text('Let\'s start!')
+                  child: Text('Let\'s start!', style: TextCustom().textButton(PalletColors.text_white),)
               ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),
     );
   }
+  
 }

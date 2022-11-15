@@ -1,14 +1,12 @@
+import 'package:booking_ninjas/view/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PasswordUpdateSuccessful extends StatefulWidget {
+import '../theme/colors_texts_widget.dart';
 
-  @override
-  State<PasswordUpdateSuccessful> createState() => _PasswordUpdateSuccessfulState();
-}
+class PasswordUpdateSuccessful extends StatelessWidget {
 
-class _PasswordUpdateSuccessfulState extends State<PasswordUpdateSuccessful> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,35 +18,36 @@ class _PasswordUpdateSuccessfulState extends State<PasswordUpdateSuccessful> {
             child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
       body: Container(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         child: Column(
           children: [
             Align(
               alignment: Alignment.center,
               child: Text('Password update successful',
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 26),
+                style: TextCustom().textLargeHeading(),
               ),
             ),
-            SizedBox(
-              height: 16,
+            const SizedBox(
+              height: 24,
             ),
-            Text('We’ve succesfully verified your email and an account with us has been created for you.'),
-            Spacer(),
+            Text('We’ve succesfully verified your email and an account with us has been created for you.',
+            style: TextCustom().textFootnote(PalletColors.text_black)),
+            const Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () => Get.to('/'),
-                  child: Text('Let\'s start!')
+                  onPressed: () => Get.to(Login()),
+                  child: Text('Let\'s start!', style: TextCustom().textButton(PalletColors.text_white))
               ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

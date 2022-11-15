@@ -21,7 +21,7 @@ class _ReportProblemState extends State<ReportProblem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Report a problem', style: TextCustom().headline4(),),
+        title: Text('Report a problem'),
         elevation: 1,
         leadingWidth: Get.width*0.3,
         leading: InkWell(
@@ -52,11 +52,11 @@ class _ReportProblemState extends State<ReportProblem> {
           children: [
             Row(
               children: [
-                Text('Category', style: TextCustom().caption(),),
+                Text('Category'),
                 Spacer(),
                 Row(
                   children: [
-                    Text('Category', style: TextCustom().caption(),),
+                    Text('Category'),
                     Icon(Icons.chevron_right)
                   ],
                 ),

@@ -1,4 +1,7 @@
 import 'package:booking_ninjas/route/routes.dart';
+import 'package:booking_ninjas/view/history.dart';
+import 'package:booking_ninjas/view/login_signup.dart';
+import 'package:booking_ninjas/view/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,12 +20,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme: GoogleFonts.notoSansTextTheme(
+        /*textTheme: GoogleFonts.notoSansTextTheme(
           Theme.of(context).textTheme
-        )
+        )*/
+        fontFamily: 'SF Pro Display'
       ),
-      initialRoute: '/tasks',
+      //initialRoute: '/tasks',
       getPages: Routes.routes,
+      home: Tasks(),
     );
   }
 }

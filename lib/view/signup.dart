@@ -1,18 +1,11 @@
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/account_verification.dart';
 import 'package:booking_ninjas/view/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUp extends StatefulWidget {
-
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
-
-  final _formKey = GlobalKey<FormState>();
+class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -24,114 +17,97 @@ class _SignUpState extends State<SignUp> {
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: EdgeInsets.all(32),
-          child: Column(
-            children: [
-              Spacer(),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Create an account',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32),
-                ),
+      body: Center(child: FormSignUp()),
+    );
+  }
+}
+
+class FormSignUp extends StatefulWidget {
+
+  @override
+  State<FormSignUp> createState() => _FormSignUpState();
+}
+
+class _FormSignUpState extends State<FormSignUp> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            const Spacer(),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Create an account', style: TextCustom().textLargeHeading()),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "First Name",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Last Name",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Email Address",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonCustom().elevatedGreen(),
+                  onPressed: () => Get.to(AccountVerification()),
+                  child: Text('Create Account', style: TextCustom().textButton(PalletColors.text_white),)
               ),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "First Name",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: Colors.white10,
-                      ),
-                    ),
+            ),
+            const Spacer(),
+            Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Already Registered?', style: TextCustom().textFootnote(PalletColors.text_black),),
+                  TextButton(
+                      onPressed: () => Get.to(Login()),
+                      child: Text('Log in', style: TextCustom().textFootnote(PalletColors.text_green),)
                   )
+                ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Last Name",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                          color: Colors.white10
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Email Address",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: Colors.white10,
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                          color: Colors.white10
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    onPressed: () => Get.to(AccountVerification()),
-                    child: Text('Create Account')
-                ),
-              ),
-              Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Already Registered?'),
-                    TextButton(
-                        onPressed: () => Get.to(Login()),
-                        child: Text('Log in', style: TextStyle(
-                          color: Colors.green
-                        ),)
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

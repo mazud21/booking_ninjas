@@ -1,18 +1,11 @@
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
+import 'package:booking_ninjas/view/forgot_password.dart';
 import 'package:booking_ninjas/view/password_reset.dart';
 import 'package:booking_ninjas/view/signup.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatefulWidget {
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-
-  final _formKey = GlobalKey<FormState>();
+class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -22,94 +15,93 @@ class _LoginState extends State<Login> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
         leading: InkWell(
             onTap: () => Get.back(),
-            child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
+            child: const Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Text('Welcome back!',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32),
-                ),
+      body: FormLogin(),
+    );
+  }
+}
+
+class FormLogin extends StatefulWidget {
+
+  @override
+  State<FormLogin> createState() => _FormLoginState();
+}
+
+class _FormLoginState extends State<FormLogin> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Spacer(),
+            Align(
+              alignment: Alignment.center,
+              child: Text('Welcome back!', style: TextCustom().textLargeHeading()),
               ),
-              SizedBox(
-                height: 16,
+            const SizedBox(
+              height: 24,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Email Address",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonCustom().elevatedGreen(),
+                  onPressed: () => Get.to(Login()),
+                  child: Text('Login', style: TextCustom().textButton(PalletColors.text_white),)
               ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Email Address",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: Colors.white10,
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                          color: Colors.white10
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    onPressed: () => Get.to(Login()),
-                    child: Text('Login')
-                ),
-              ),
-              Row(
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Forgot Password?', style: TextCustom().textFormCaption(PalletColors.text_black),),
+                TextButton(
+                    onPressed: () => Get.to(ForgotPassword()),
+                    child: Text('Reset Password', style: TextCustom().textFormCaption(PalletColors.text_blue),)
+                )
+              ],
+            ),
+            const Spacer(),
+            Align(
+              alignment: Alignment.center,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Forgot Password?'),
+                  Text('Not Registered', style: TextCustom().textFormCaption(PalletColors.text_black)),
                   TextButton(
-                      onPressed: () => Get.to(PasswordReset()),
-                      child: Text('Reset Password')
+                      onPressed: () => Get.to(SignUp()),
+                      child: Text('Create Account', style: TextCustom().textFormCaption(PalletColors.text_blue))
                   )
                 ],
               ),
-              Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Not Registered'),
-                    TextButton(
-                        onPressed: () => Get.to(SignUp()),
-                        child: Text('Create Account')
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

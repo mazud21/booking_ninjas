@@ -1,17 +1,11 @@
+import 'package:booking_ninjas/view/password_reset.dart';
 import 'package:booking_ninjas/view/verification_successful.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPassword extends StatefulWidget {
+import '../theme/colors_texts_widget.dart';
 
-  @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-
-  final _formKey = GlobalKey<FormState>();
+class ForgotPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -23,52 +17,57 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: EdgeInsets.all(32),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text('Forgot password',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 32),
-                ),
+      body: FormForgotPassword(),
+    );
+  }
+}
+
+class FormForgotPassword extends StatefulWidget {
+
+  @override
+  State<FormForgotPassword> createState() => _FormForgotPasswordState();
+}
+
+class _FormForgotPasswordState extends State<FormForgotPassword> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: EdgeInsets.all(32),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Forgot password',
+                style: TextCustom().textLargeHeading(),
               ),
-              SizedBox(
-                height: 16,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Enter your Email",
+                  //fillColor: Colors.white,
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonCustom().elevatedGreen(),
+                  onPressed: () => Get.to(PasswordReset()),
+                  child: Text('Reset my Password', style: TextCustom().textButton(PalletColors.text_white),)
               ),
-              TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Enter your Email",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: Colors.white10,
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    onPressed: () => Get.to(VerificationSuccessful()),
-                    child: Text('Reset my Password')
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

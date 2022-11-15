@@ -65,9 +65,8 @@ class _CompletedTaskState extends State<CompletedTask> {
                   style: ButtonCustom().elevatedRedSoft(),
                   onPressed: () {},
                   child: Text(
-                    'Cancel',
-                    style: TextCustom().headline3(PalletColors.text_red),
-                  )),
+                    'Cancel'),
+                  ),
             ],
           ),
         ),
