@@ -1,13 +1,11 @@
-import 'package:booking_ninjas/theme/colors_texts_widget.dart';
-import 'package:booking_ninjas/view/new_password.dart';
-import 'package:booking_ninjas/view/verification_successful.dart';
+import 'package:booking_ninjas/view/account_pages/password_update_successful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'password_update_successful.dart';
+import '../../theme/colors_texts_widget.dart';
 
-class PasswordReset extends StatelessWidget {
+class NewPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +17,18 @@ class PasswordReset extends StatelessWidget {
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: FormPasswordReset(),
+      body: FormNewPassword(),
     );
   }
 }
 
-class FormPasswordReset extends StatefulWidget {
+class FormNewPassword extends StatefulWidget {
 
   @override
-  State<FormPasswordReset> createState() => _FormPasswordResetState();
+  State<FormNewPassword> createState() => _FormNewPasswordState();
 }
 
-class _FormPasswordResetState extends State<FormPasswordReset> {
+class _FormNewPasswordState extends State<FormNewPassword> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -39,45 +37,44 @@ class _FormPasswordResetState extends State<FormPasswordReset> {
     return Form(
       key: _formKey,
       child: Container(
-        padding: EdgeInsets.all(32),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text('Password reset',
+              child: Text('Create new password',
                 style: TextCustom().textLargeHeading(),
               ),
             ),
             const SizedBox(
               height: 24,
             ),
-            Text('We’ll need to verify your account and email. A six digit verification code was sent to your john.doe@company.com ',
-                style: TextCustom().textFootnote(PalletColors.text_black)),
-            const SizedBox(
-              height: 24,
-            ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Enter Verification Code', style: TextCustom().textFootnote(PalletColors.text_black),)),
-            const SizedBox(
-              height: 8,
-            ),
             TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Verification Code",
+                  labelText: "Old Password",
                   //fillColor: Colors.white,
                   border: BorderCustom().outlineForm(),
                 )
             ),
             const SizedBox(
-              height: 16,
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "New Password",
+                  //fillColor: Colors.white,
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 24,
             ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                   style: ButtonCustom().elevatedGreen(),
-                  onPressed: () => Get.to(NewPassword()),
-                  child: Text('Verify Account', style: TextCustom().textButton(PalletColors.text_white),)
+                  onPressed: () => Get.to(PasswordUpdateSuccessful()),
+                  child: Text('Update Password', style: TextCustom().textButton(PalletColors.text_white),)
               ),
             ),
           ],
@@ -86,5 +83,3 @@ class _FormPasswordResetState extends State<FormPasswordReset> {
     );
   }
 }
-
-

@@ -52,9 +52,10 @@ dependencies:
   shared_preferences: ^2.0.15
 
   #other
-  google_fonts: ^3.0.1
   dotted_border: ^2.0.0+3
   flutter_swipe_button: ^2.1.1+1
+  syncfusion_flutter_datepicker: ^20.3.57
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -94,9 +95,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: SF Pro Display
+    - family: SF Pro Text
       fonts:
-        - asset: fonts/sfpro.ttf
+        - asset: fonts/SFProText-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

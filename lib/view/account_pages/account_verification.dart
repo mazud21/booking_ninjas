@@ -1,5 +1,5 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
-import 'package:booking_ninjas/view/verification_successful.dart';
+import 'package:booking_ninjas/view/account_pages/verification_successful.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,11 +1,12 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
-import 'package:booking_ninjas/view/forgot_password.dart';
-import 'package:booking_ninjas/view/password_reset.dart';
-import 'package:booking_ninjas/view/signup.dart';
+import 'package:booking_ninjas/view/account_pages/account_verification.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
+import 'login.dart';
+
+class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +16,20 @@ class Login extends StatelessWidget {
         backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
         leading: InkWell(
             onTap: () => Get.back(),
-            child: const Icon(Icons.arrow_back_ios, color: Colors.black45,)),
+            child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
-      body: FormLogin(),
+      body: Center(child: FormSignUp()),
     );
   }
 }
 
-class FormLogin extends StatefulWidget {
+class FormSignUp extends StatefulWidget {
 
   @override
-  State<FormLogin> createState() => _FormLoginState();
+  State<FormSignUp> createState() => _FormSignUpState();
 }
 
-class _FormLoginState extends State<FormLogin> {
+class _FormSignUpState extends State<FormSignUp> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,16 +38,35 @@ class _FormLoginState extends State<FormLogin> {
     return Form(
       key: _formKey,
       child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+        child: ListView(
+          shrinkWrap: true,
           children: [
             const Spacer(),
             Align(
-              alignment: Alignment.center,
-              child: Text('Welcome back!', style: TextCustom().textLargeHeading()),
-              ),
+              alignment: Alignment.centerLeft,
+              child: Text('Create an account', style: TextCustom().textLargeHeading()),
+            ),
             const SizedBox(
               height: 24,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "First Name",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Last Name",
+                  border: BorderCustom().outlineForm(),
+                )
+            ),
+            const SizedBox(
+              height: 12,
             ),
             TextFormField(
                 decoration: InputDecoration(
@@ -55,7 +75,7 @@ class _FormLoginState extends State<FormLogin> {
                 )
             ),
             const SizedBox(
-              height: 12,
+              height: 20,
             ),
             TextFormField(
                 decoration: InputDecoration(
@@ -70,22 +90,9 @@ class _FormLoginState extends State<FormLogin> {
               width: double.infinity,
               child: ElevatedButton(
                   style: ButtonCustom().elevatedGreen(),
-                  onPressed: () => Get.to(Login()),
-                  child: Text('Login', style: TextCustom().textButton(PalletColors.text_white),)
+                  onPressed: () => Get.to(AccountVerification()),
+                  child: Text('Create Account', style: TextCustom().textButton(PalletColors.text_white),)
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Forgot Password?', style: TextCustom().textFormCaption(PalletColors.text_black),),
-                TextButton(
-                    onPressed: () => Get.to(ForgotPassword()),
-                    child: Text('Reset Password', style: TextCustom().textFormCaption(PalletColors.text_blue),)
-                )
-              ],
             ),
             const Spacer(),
             Align(
@@ -93,10 +100,10 @@ class _FormLoginState extends State<FormLogin> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not Registered', style: TextCustom().textFormCaption(PalletColors.text_black)),
+                  Text('Already Registered?', style: TextCustom().textFootnote(PalletColors.text_black),),
                   TextButton(
-                      onPressed: () => Get.to(SignUp()),
-                      child: Text('Create Account', style: TextCustom().textFormCaption(PalletColors.text_blue))
+                      onPressed: () => Get.to(Login()),
+                      child: Text('Log in', style: TextCustom().textFootnote(PalletColors.text_green),)
                   )
                 ],
               ),

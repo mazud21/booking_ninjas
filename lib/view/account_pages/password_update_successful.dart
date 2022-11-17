@@ -1,9 +1,9 @@
-import 'package:booking_ninjas/view/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../theme/colors_texts_widget.dart';
+import '../../theme/colors_texts_widget.dart';
+import 'login.dart';
 
 class PasswordUpdateSuccessful extends StatelessWidget {
 

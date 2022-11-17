@@ -1,18 +1,17 @@
-import 'package:booking_ninjas/view/history.dart';
-import 'package:booking_ninjas/view/login.dart';
-import 'package:booking_ninjas/view/login_signup.dart';
-import 'package:booking_ninjas/view/tasks.dart';
+import 'package:booking_ninjas/view/main_pages/history.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../test/test_getx_infinity_scroll.dart';
-import '../view/account_verification.dart';
+import '../view/account_pages/account_verification.dart';
+import '../view/account_pages/login.dart';
+import '../view/account_pages/login_signup.dart';
+import '../view/account_pages/new_password.dart';
+import '../view/account_pages/password_reset.dart';
+import '../view/account_pages/password_update_successful.dart';
+import '../view/account_pages/verification_successful.dart';
 import '../view/current_task.dart';
-import '../view/forgot_password.dart';
-import '../view/new_password.dart';
-import '../view/password_reset.dart';
-import '../view/password_update_successful.dart';
-import '../view/user.dart';
-import '../view/verification_successful.dart';
+import '../view/account_pages/forgot_password.dart';
+import '../view/main_pages/tasks.dart';
 
 class Routes{
 

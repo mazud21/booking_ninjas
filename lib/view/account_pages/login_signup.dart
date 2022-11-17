@@ -1,8 +1,9 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
-import 'package:booking_ninjas/view/login.dart';
-import 'package:booking_ninjas/view/signup.dart';
+import 'package:booking_ninjas/view/account_pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'login.dart';
 
 class LoginSignUp extends StatefulWidget {
 
