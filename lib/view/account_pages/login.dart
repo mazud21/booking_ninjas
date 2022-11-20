@@ -1,8 +1,16 @@
+import 'dart:developer';
+
+import 'package:booking_ninjas/network/endpoint.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/account_pages/forgot_password.dart';
 import 'package:booking_ninjas/view/account_pages/signup.dart';
+import 'package:booking_ninjas/view/dashboard.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:form_validator/form_validator.dart';
+import 'package:get/get.dart' hide Response;
 
 class Login extends StatelessWidget {
 
@@ -12,9 +20,6 @@ class Login extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
-        leading: InkWell(
-            onTap: () => Get.back(),
-            child: const Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
       body: FormLogin(),
     );
@@ -30,6 +35,14 @@ class FormLogin extends StatefulWidget {
 class _FormLoginState extends State<FormLogin> {
 
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  bool _obscureText = true;
+
+  late Response response;
+  var dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +61,33 @@ class _FormLoginState extends State<FormLogin> {
               height: 24,
             ),
             TextFormField(
+              controller: email,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email Address",
                   border: BorderCustom().outlineForm(),
-                )
+                ),
+              validator: ValidationBuilder().email().build(),
             ),
             const SizedBox(
               height: 12,
             ),
             TextFormField(
+                controller: password,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: _obscureText,
+                validator: ValidationBuilder().required().build(),
                 decoration: InputDecoration(
                   labelText: "Password",
+                  suffixIcon: InkWell(
+                    onTap: _toggle,
+                    child: Icon(
+                      _obscureText
+                          ? CupertinoIcons.eye_slash
+                          : CupertinoIcons.eye,
+                      color: PalletColors.btn_green,
+                    ),
+                  ),
                   border: BorderCustom().outlineForm(),
                 )
             ),
@@ -69,7 +98,15 @@ class _FormLoginState extends State<FormLogin> {
               width: double.infinity,
               child: ElevatedButton(
                   style: ButtonCustom().elevatedGreen(),
-                  onPressed: () => Get.to(Login()),
+                  onPressed: () {
+                    if(_formKey.currentState!.validate()){
+                      EasyLoading.show(status: 'loading...');
+                      getLogin(email.text, password.text);
+                    } else {
+
+                    }
+
+                  },
                   child: Text('Login', style: TextCustom().textButton(PalletColors.text_white),)
               ),
             ),
@@ -105,4 +142,41 @@ class _FormLoginState extends State<FormLogin> {
       ),
     );
   }
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  getLogin(String email, String password) async {
+    response = await dio.get(Endpoint.LOGIN_URL, queryParameters: {'username': 'test-9ztmnbrnlwyw@example.com', 'password': 'kp5n^tvkidFll', 'is_test': 'true'});
+    log('CHECK_LOGIN: ${response.data.toString()}');
+
+    var status = response.data.toString();
+
+    if(status == 1){
+      Get.off(Dashboard());
+      EasyLoading.dismiss();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('The email and password you entered incorrect'), backgroundColor: PalletColors.btn_red,),
+      );
+      EasyLoading.dismiss();
+    }
+
+  }
+
+}
+
+String? validateEmail(String? value) {
+  String pattern =
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+      r"{0,253}[a-zA-Z0-9])?)*$";
+  RegExp regex = RegExp(pattern);
+  if (value == null || value.isEmpty || !regex.hasMatch(value))
+    return 'Enter a valid email address';
+  else
+    return null;
 }

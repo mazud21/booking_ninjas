@@ -1,6 +1,10 @@
-import 'package:bn_staff/notifications.dart';
+import 'dart:developer';
+
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../view/notifications.dart';
 
 class AppBarCustom {
 
@@ -11,9 +15,7 @@ class AppBarCustom {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Tasks $selectedIndex',
-          )
+          Text(setTitle(selectedIndex), style: TextCustom().heading1(),)
         ],
       ),
       elevation: 0,
@@ -22,6 +24,25 @@ class AppBarCustom {
         Padding(padding: const EdgeInsets.all(16), child: MyAppBarIcon())
       ],
     );
+  }
+
+  setTitle(int index){
+    late String title;
+
+    if(index == 0){
+      title = 'Tasks';
+    } else if(index == 1){
+      title = 'Notes';
+    } else if(index == 2){
+      title = 'History';
+    } else {
+      title = 'Profile';
+    }
+
+    log('TITLE: $title');
+
+    return title;
+
   }
 
   getSubAppBarCustom() {

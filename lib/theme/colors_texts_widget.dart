@@ -90,7 +90,7 @@ class TextCustom {
   }
 
   textMenu() {
-    ts = const TextStyle(fontSize: 10, color: PalletColors.text_black, fontWeight: FontWeight.w500);
+    ts = const TextStyle(fontSize: 11.5, color: PalletColors.text_black, fontWeight: FontWeight.w500);
     return ts;
   }
 

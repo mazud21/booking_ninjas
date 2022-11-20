@@ -32,7 +32,7 @@ class _DetailTodayTasksAllState extends State<DetailTodayTasksAll> {
               },
               onValueChanged: (value){
                 setState(() {
-                  groupValue = value;
+                  groupValue = value!;
                 });
               },
             ),
@@ -112,7 +112,7 @@ class _ListSpvState extends State<ListSpv> {
                   Dismissible(
                     confirmDismiss: (direction) async {
                       log('GET_DISMISS');
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Hello',), backgroundColor: Colors.white,));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hello',), backgroundColor: Colors.white,));
                       return null;
                     },
                     // Each Dismissible must contain a Key. Keys allow Flutter to
