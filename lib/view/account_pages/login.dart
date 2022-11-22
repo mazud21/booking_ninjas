@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +27,11 @@ class Login extends StatelessWidget {
 }
 
 class FormLogin extends StatefulWidget {
-
   @override
   State<FormLogin> createState() => _FormLoginState();
 }
 
 class _FormLoginState extends State<FormLogin> {
-
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController email = TextEditingController();
@@ -55,18 +53,19 @@ class _FormLoginState extends State<FormLogin> {
             const Spacer(),
             Align(
               alignment: Alignment.center,
-              child: Text('Welcome back!', style: TextCustom().textLargeHeading()),
-              ),
+              child:
+                  Text('Welcome back!', style: TextCustom().textLargeHeading()),
+            ),
             const SizedBox(
               height: 24,
             ),
             TextFormField(
               controller: email,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: "Email Address",
-                  border: BorderCustom().outlineForm(),
-                ),
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: "Email Address",
+                border: BorderCustom().outlineForm(),
+              ),
               validator: ValidationBuilder().email().build(),
             ),
             const SizedBox(
@@ -89,8 +88,7 @@ class _FormLoginState extends State<FormLogin> {
                     ),
                   ),
                   border: BorderCustom().outlineForm(),
-                )
-            ),
+                )),
             const SizedBox(
               height: 24,
             ),
@@ -99,16 +97,15 @@ class _FormLoginState extends State<FormLogin> {
               child: ElevatedButton(
                   style: ButtonCustom().elevatedGreen(),
                   onPressed: () {
-                    if(_formKey.currentState!.validate()){
+                    if (_formKey.currentState!.validate()) {
                       EasyLoading.show(status: 'loading...');
                       getLogin(email.text, password.text);
-                    } else {
-
-                    }
-
+                    } else {}
                   },
-                  child: Text('Login', style: TextCustom().textButton(PalletColors.text_white),)
-              ),
+                  child: Text(
+                    'Login',
+                    style: TextCustom().textButton(PalletColors.text_white),
+                  )),
             ),
             const SizedBox(
               height: 12,
@@ -116,11 +113,17 @@ class _FormLoginState extends State<FormLogin> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Forgot Password?', style: TextCustom().textFormCaption(PalletColors.text_black),),
+                Text(
+                  'Forgot Password?',
+                  style: TextCustom().textFormCaption(PalletColors.text_black),
+                ),
                 TextButton(
                     onPressed: () => Get.to(ForgotPassword()),
-                    child: Text('Reset Password', style: TextCustom().textFormCaption(PalletColors.text_blue),)
-                )
+                    child: Text(
+                      'Reset Password',
+                      style:
+                          TextCustom().textFormCaption(PalletColors.text_blue),
+                    ))
               ],
             ),
             const Spacer(),
@@ -129,11 +132,14 @@ class _FormLoginState extends State<FormLogin> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not Registered', style: TextCustom().textFormCaption(PalletColors.text_black)),
+                  Text('Not Registered',
+                      style: TextCustom()
+                          .textFormCaption(PalletColors.text_black)),
                   TextButton(
                       onPressed: () => Get.to(SignUp()),
-                      child: Text('Create Account', style: TextCustom().textFormCaption(PalletColors.text_blue))
-                  )
+                      child: Text('Create Account',
+                          style: TextCustom()
+                              .textFormCaption(PalletColors.text_blue)))
                 ],
               ),
             )
@@ -150,23 +156,38 @@ class _FormLoginState extends State<FormLogin> {
   }
 
   getLogin(String email, String password) async {
-    response = await dio.get(Endpoint.LOGIN_URL, queryParameters: {'username': 'test-9ztmnbrnlwyw@example.com', 'password': 'kp5n^tvkidFll', 'is_test': 'true'});
+    response = await dio.get(Endpoint.LOGIN_URL, queryParameters: {
+      'username': /*'test-5zqqdxohps7d@example.com'*/ email,
+      'password': /*'i!vvrAv4cotfi'*/ password,
+      'is_test': 'true'
+    });
     log('CHECK_LOGIN: ${response.data.toString()}');
 
-    var status = response.data.toString();
+    var session_id = response.data['session_id'].toString();
+    var org_url = response.data['org_url'].toString();
+    var status = response.data['status'].toString();
 
-    if(status == 1){
-      Get.off(Dashboard());
+    if (status == '1') {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("session_id", session_id);
+      prefs.setString("org_url", org_url);
+      prefs.setString("status", status);
+
       EasyLoading.dismiss();
+
+      Get.off(Dashboard());
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('The email and password you entered incorrect'), backgroundColor: PalletColors.btn_red,),
+        const SnackBar(
+          content: Text('The email or password you entered incorrect'),
+          backgroundColor: PalletColors.btn_red,
+        ),
       );
       EasyLoading.dismiss();
     }
-
   }
-
 }
 
 String? validateEmail(String? value) {

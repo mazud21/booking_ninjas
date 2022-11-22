@@ -60,7 +60,7 @@ class Profile extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   SharedPreferences preferences = await SharedPreferences.getInstance();
-                  preferences.remove('userID');
+                  preferences.remove('session_id');
 
                   Get.offAll(SplashScreen());
                 },

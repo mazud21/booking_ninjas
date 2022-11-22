@@ -28,11 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkLogIn() async {
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    var userId =prefs.getString("userId");
+    var session_id =prefs.getString("session_id");
 
-    debugPrint("TEST_USERID: $userId");
+    debugPrint("TEST_USERID: $session_id");
 
-    if (userId ==''|| userId == null ||userId.isEmpty) {
+    if (session_id ==''|| session_id == null ||session_id.isEmpty) {
       Get.off(Login());
     } else {
       Get.off(Dashboard());
