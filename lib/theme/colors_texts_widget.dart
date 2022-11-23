@@ -59,8 +59,18 @@ class TextCustom {
     return ts;
   }
 
+  textTextBold(Color c) {
+    ts = TextStyle(fontSize: 17, color: c, fontWeight: FontWeight.bold);
+    return ts;
+  }
+
   heading1() {
     ts = const TextStyle(fontSize: 18, color: PalletColors.text_black, fontWeight: FontWeight.bold);
+    return ts;
+  }
+
+  heading1Blue() {
+    ts = const TextStyle(fontSize: 20, color: PalletColors.text_blue, fontWeight: FontWeight.bold);
     return ts;
   }
 
@@ -91,6 +101,11 @@ class TextCustom {
 
   textMenu() {
     ts = const TextStyle(fontSize: 11.5, color: PalletColors.text_black, fontWeight: FontWeight.w500);
+    return ts;
+  }
+
+  textMenuGrey() {
+    ts = const TextStyle(fontSize: 11.5, color: PalletColors.text_soft_grey, fontWeight: FontWeight.w500);
     return ts;
   }
 

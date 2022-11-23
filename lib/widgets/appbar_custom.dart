@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../view/notifications.dart';
 
@@ -45,8 +46,62 @@ class AppBarCustom {
 
   }
 
-  getSubAppBarCustom() {
-    return;
+  getSubAppBarCustom(String title) {
+    return AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(title, style: TextCustom().textTextBold(PalletColors.text_black),)
+        ],
+      ),
+      leadingWidth: Get.width*0.31,
+      leading: InkWell(
+        onTap: () => Get.back(),
+        child: Padding(
+          padding: EdgeInsets.all(4),
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 16,
+              ),
+              const Icon(Icons.arrow_back_ios, color: PalletColors.text_blue,),
+              Text('Back', style: TextCustom().textText(PalletColors.text_blue),)
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
+    );
+  }
+
+  getBSAppBarCustom(String title) {
+    return AppBar(
+      title: Text(title, style: TextCustom().textTextBold(PalletColors.text_black),),
+      elevation: 1,
+      leadingWidth: Get.width*0.3,
+      leading: InkWell(
+        onTap: () => Get.back(),
+        child: Padding(
+          padding: EdgeInsets.all(4),
+          child: Row(
+            children: const [
+              SizedBox(
+                width: 16,
+              ),
+              Icon(Icons.arrow_back_ios, color: Colors.blue,),
+              Text('Back', style: TextStyle(color: Colors.blue),),
+            ],
+          ),
+        ),
+      ),
+      actions: const [
+        Padding(
+            padding: EdgeInsets.all(20),
+            child: Text('Save', style: TextStyle(color: Colors.blue)))
+      ],
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
+    );
   }
 }
 

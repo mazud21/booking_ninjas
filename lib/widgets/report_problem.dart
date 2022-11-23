@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,53 +21,37 @@ class _ReportProblemState extends State<ReportProblem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Report a problem'),
-        elevation: 1,
-        leadingWidth: Get.width*0.3,
-        leading: InkWell(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: EdgeInsets.all(4),
-            child: Row(
-              children: const [
-                SizedBox(
-                  width: 16,
-                ),
-                Icon(Icons.arrow_back_ios, color: Colors.blue,),
-                Text('Back', style: TextStyle(color: Colors.blue),),
-              ],
-            ),
-          ),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(16),
-              child: Text('Save', style: TextStyle(color: Colors.blue)))
-        ],
-        backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
-      ),
+      appBar: AppBarCustom().getBSAppBarCustom('Report a problem'),
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Row(
-              children: [
-                Text('Category'),
-                Spacer(),
-                Row(
-                  children: [
-                    Text('Category'),
-                    Icon(Icons.chevron_right)
-                  ],
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  Text('Category'),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Text('Category'),
+                      Icon(Icons.chevron_right)
+                    ],
+                  ),
+                ],
+              ),
             ),
             Divider(
               height: 1,
-              color: PalletColors.btn_soft_grey,
+              color: Colors.grey,
             ),
-            Text('Describe a maintenance issue'),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                  child: Text('Describe a maintenance issue')
+              ),
+            ),
             Form(
               key: _formKey,
                 child: Column(
@@ -80,7 +65,7 @@ class _ReportProblemState extends State<ReportProblem> {
                           ),
                         )
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     SizedBox(
@@ -88,17 +73,17 @@ class _ReportProblemState extends State<ReportProblem> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            primary: Color.fromRGBO(
+                            backgroundColor: const Color.fromRGBO(
                                 242, 242, 247, 1),
                             padding: EdgeInsets.all(16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          onPressed: () => null,
+                          onPressed: () => pickImage(),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
+                            children: const [
                               Icon(Icons.camera_alt_rounded,color: Colors.black,),
                               Text('Add problem photo', style: TextStyle(color: Colors.black),)
                             ],
@@ -115,8 +100,8 @@ class _ReportProblemState extends State<ReportProblem> {
     );
   }
 
-  void pickImage(ImageSource imageSource) async {
-    var image = await ImagePicker().pickImage(source: imageSource, imageQuality: 5);
+  void pickImage() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 5);
     if (image == null) {
       return null;
     }

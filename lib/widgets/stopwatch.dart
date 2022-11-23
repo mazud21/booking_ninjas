@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:flutter/material.dart';
 
 class FlutterStopWatch extends StatefulWidget {
@@ -70,7 +71,7 @@ class _FlutterStopWatchState extends State<FlutterStopWatch> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "$hoursStr:$minutesStr:$secondsStr",
+      "$hoursStr:$minutesStr:$secondsStr", style: TextCustom().heading1Blue(),
     );
   }
 

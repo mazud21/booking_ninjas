@@ -11,6 +11,8 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'test/speech_to_text.dart';
+
 main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
