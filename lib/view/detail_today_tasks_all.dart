@@ -38,29 +38,13 @@ class _DetailTodayTasksAllState extends State<DetailTodayTasksAll> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 50),
-              child: groupValue == 0 ? ListSpv() : listTask,
+              child: groupValue == 0 ? ListSpv() : ListTask(),
             ),
           ],
         ),
       ),
     );
   }
-
-  Widget listTask = ListView.builder(
-    itemCount: 4,
-    itemBuilder: (context, index) {
-      return SizedBox(
-        height: 200,
-        child: Card(
-          child: Column(
-            children: [
-              Text('task')
-            ],
-          ),
-        ),
-      );
-    },
-  );
 
 }
 
