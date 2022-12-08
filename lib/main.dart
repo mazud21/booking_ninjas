@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:booking_ninjas/route/routes.dart';
+import 'package:booking_ninjas/test/test_background_task.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/dashboard.dart';
 import 'package:booking_ninjas/view/main_pages/profile.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: PalletColors.text_blue)),
         //initialRoute: '/tasks',
         getPages: Routes.routes,
-        home: SplashScreen(),
+        home: StopWatch(),
         builder: EasyLoading.init(),
       ),
     );

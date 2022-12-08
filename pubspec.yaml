@@ -59,6 +59,12 @@ dependencies:
   package_info_plus: ^3.0.2
   form_validator: ^1.0.3
   flutter_easyloading: ^3.0.5
+  #flutter_background_service: ^2.4.5
+
+  speech_to_text: any
+  highlight_text: any
+  avatar_glow: any
+  stop_watch_timer: any
 
 dev_dependencies:
   flutter_test:
