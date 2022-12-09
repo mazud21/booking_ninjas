@@ -5,14 +5,13 @@ import 'package:booking_ninjas/widgets/report_problem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../theme/colors_texts_widget.dart';
 import '../widgets/stopwatch.dart';
 
 class CurrentTask extends StatefulWidget {
-  final int getSecond;
-
-  const CurrentTask({required this.getSecond});
 
   @override
   State<CurrentTask> createState() => _CurrentTaskState();
@@ -20,6 +19,56 @@ class CurrentTask extends StatefulWidget {
 
 class _CurrentTaskState extends State<CurrentTask> {
   bool visibleReported = true;
+
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadTime();
+  }
+
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    isLapHours: true,
+    onChange: (value) => print('onChange $value'),
+    onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
+    onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
+  );
+
+  restoreTime() async {
+    //Get
+    prefs = await SharedPreferences.getInstance();
+    DateTime dt = DateTime.fromMillisecondsSinceEpoch(
+        (prefs.getInt('time') ?? DateTime.now().millisecondsSinceEpoch));
+
+    DateTime dt1 = DateTime.now();
+    DateTime dt2 = dt;
+
+    Duration diff = dt1.difference(dt2);
+
+    return diff.inSeconds;
+  }
+
+  loadTime() async {
+    int a = await restoreTime();
+
+    print('CHECK_TIME: $a');
+
+    if(a == 0){
+
+    } else {
+      _stopWatchTimer.setPresetSecondTime(a);
+      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    }
+
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await _stopWatchTimer.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +180,29 @@ class _CurrentTaskState extends State<CurrentTask> {
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                     child: Text('Time', style: TextCustom().textMenu())),
-                FlutterStopWatch(counterGet: widget.getSecond),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: StreamBuilder<int>(
+                    stream: _stopWatchTimer.rawTime,
+                    initialData: _stopWatchTimer.rawTime.value,
+                    builder: (context, snap) {
+                      final value = snap.data;
+                      final displayTime =
+                      StopWatchTimer.getDisplayTime(value!, milliSecond: false);
+                      return Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              displayTime,
+                              style: const TextStyle(fontSize: 26, color: Colors.lightBlueAccent),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 Text(
                   'Est. time 30 min',
                   style: TextCustom().textMenuGrey(),

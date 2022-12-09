@@ -70,7 +70,7 @@ class Routes{
       //binding: DataBindings(),
     ),GetPage(
       name: '/currentTask',
-      page: () => const CurrentTask(getSecond: 0,),
+      page: () => CurrentTask(),
       //binding: DataBindings(),
     ),
 

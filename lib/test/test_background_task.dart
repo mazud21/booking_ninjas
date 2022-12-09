@@ -84,103 +84,84 @@ class _StopWatchState extends State<StopWatch> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              /// Display stop watch time
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: StreamBuilder<int>(
-                  stream: _stopWatchTimer.rawTime,
-                  initialData: _stopWatchTimer.rawTime.value,
-                  builder: (context, snap) {
-                    final value = snap.data;
-                    final displayTime =
-                        StopWatchTimer.getDisplayTime(value!, milliSecond: false);
-                    return Column(
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            /// Display stop watch time
+            Padding(
+              padding: const EdgeInsets.only(bottom: 0),
+              child: StreamBuilder<int>(
+                stream: _stopWatchTimer.rawTime,
+                initialData: _stopWatchTimer.rawTime.value,
+                builder: (context, snap) {
+                  final value = snap.data;
+                  final displayTime =
+                  StopWatchTimer.getDisplayTime(value!, milliSecond: false);
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          displayTime,
+                          style: const TextStyle(
+                              fontSize: 40,
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            /// Button
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(
-                            displayTime,
-                            style: const TextStyle(
-                                fontSize: 40,
-                                fontFamily: 'Helvetica',
-                                fontWeight: FontWeight.bold),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              _stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.start);
+                              saveTime();
+                            },
+                            child: const Text(
+                              'Start',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              _stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.stop);
+                              prefs.remove('time');
+                            },
+                            child: const Text(
+                              'Stop',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ],
-                    );
-                  },
-                ),
-              ),
-
-              /// Button
-              Padding(
-                padding: const EdgeInsets.all(2),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _stopWatchTimer.onExecute
-                                    .add(StopWatchExecute.start);
-                                saveTime();
-                              },
-                              child: const Text(
-                                'Start',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _stopWatchTimer.onExecute
-                                    .add(StopWatchExecute.stop);
-                                prefs.remove('time');
-                              },
-                              child: const Text(
-                                'Stop',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _stopWatchTimer.onExecute
-                                    .add(StopWatchExecute.reset);
-                              },
-                              child: const Text(
-                                'Reset',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,7 +1,12 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
+import 'package:booking_ninjas/view/dashboard.dart';
+import 'package:booking_ninjas/view/main_pages/history.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class CompletedTask extends StatefulWidget {
   @override
@@ -9,6 +14,26 @@ class CompletedTask extends StatefulWidget {
 }
 
 class _CompletedTaskState extends State<CompletedTask> {
+
+  late SharedPreferences prefs;
+
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    isLapHours: true,
+    onChange: (value) => print('onChange $value'),
+    onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
+    onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
+  );
+
+  inActiveTask() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('task', 'inActive');
+  }
+
+  stopTaskTime() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.remove('time');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +81,12 @@ class _CompletedTaskState extends State<CompletedTask> {
               ),
               ElevatedButton(
                   style: ButtonCustom().elevatedGreen(),
-                  onPressed: () {},
+                  onPressed: () {
+                    inActiveTask();
+                    stopTaskTime();
+                    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                    Get.offAll(Dashboard());
+                  },
                   child: Text('Mark as completed')),
               SizedBox(
                 height: 16,

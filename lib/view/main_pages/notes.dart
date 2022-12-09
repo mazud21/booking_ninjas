@@ -10,6 +10,7 @@ class Notes extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           // Add your onPressed code here!
+          bsAddNote(context);
         },
         label: const Text('New note'),
         icon: const Icon(Icons.add),
@@ -44,7 +45,55 @@ class Notes extends StatelessWidget {
       ),
     );
   }
+
+  bsAddNote(BuildContext context){
+    AlertDialog(
+      title: Stack(
+        children: [
+          Positioned(
+            top: 16,
+              child: Text('New note'),
+          ),
+          Positioned(
+            right: 8,
+              top: 8,
+              child: Icon(Icons.close)
+          )
+        ],
+      ),
+      content: AddNote(),
+    );
+  }
+
 }
+
+class AddNote extends StatelessWidget {
+  const AddNote({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          TextFormField(
+            maxLines: 10,
+            style: BorderCustom().outlineForm(),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: ButtonCustom().elevatedGreen()
+            ),
+              onPressed: () {
+
+              },
+              child: Text('Save')
+          )
+        ],
+      ),
+    );
+  }
+}
+
 
 class ListNotes extends StatefulWidget {
   @override

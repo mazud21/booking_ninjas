@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/current_task.dart';
+import 'package:booking_ninjas/view/dashboard.dart';
 import 'package:booking_ninjas/view/detail_new_task.dart';
 import 'package:booking_ninjas/view/detail_today_tasks_all.dart';
 import 'package:booking_ninjas/view/new_task_all.dart';
@@ -9,7 +10,10 @@ import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
+import '../../widgets/completed_task.dart';
 import '../../widgets/stopwatch.dart';
 
 class Tasks extends StatefulWidget {
@@ -18,7 +22,6 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,11 +37,9 @@ class _TasksState extends State<Tasks> {
       ),
     );
   }
-
 }
 
 class Card1 extends StatefulWidget {
-
   @override
   State<Card1> createState() => _Card1State();
 }
@@ -54,7 +55,10 @@ class _Card1State extends State<Card1> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Today\'s tasks', style: TextCustom().heading2(),),
+                Text(
+                  'Today\'s tasks',
+                  style: TextCustom().heading2(),
+                ),
                 TextButton(
                   onPressed: () => bsDetailTodayTaskAll(context),
                   child: Text('See All'),
@@ -87,7 +91,7 @@ class _Card1State extends State<Card1> {
     );
   }
 
-  bsDetailTodayTaskAll(BuildContext context){
+  bsDetailTodayTaskAll(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -98,32 +102,30 @@ class _Card1State extends State<Card1> {
           );
         });
   }
-
 }
 
 class Card2 extends StatefulWidget {
-
   @override
   State<Card2> createState() => _Card2State();
 }
 
 class _Card2State extends State<Card2> {
 
-  late Timer _timer;
-  int firstSecond = 0;
-  incrementSecond(){
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      setState(() {
-        firstSecond++;
-      });
-    });
-  }
+  late SharedPreferences prefs;
+
+  String activeTask = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    incrementSecond();
+
+    checkTaskAvailable();
+  }
+
+  checkTaskAvailable() async {
+    prefs = await SharedPreferences.getInstance();
+    activeTask = prefs.getString('task')!;
   }
 
   @override
@@ -138,98 +140,228 @@ class _Card2State extends State<Card2> {
               children: [
                 Text('Current task'),
                 TextButton(
-                  onPressed: () => Get.to(CurrentTask(getSecond: firstSecond,)),
+                  onPressed: () => Get.to(CurrentTask()),
                   child: Text('Open'),
                 )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(child: Text('Clean room, replace linen, Clean room, replace linen')),
-                Chip(
-                  label: Text('In progress'),
-                  padding: EdgeInsets.fromLTRB(8, 8, 12, 10),
-                  backgroundColor: Colors.orange,
-                  deleteIcon: Icon(Icons.keyboard_arrow_down),
-                  onDeleted: () {
-                  },
-                ),
-              ],
-            ),
-            ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Container(
-                    padding: EdgeInsets.all(8),
-                    color: Colors.blue,
-                    child: Icon(Icons.vpn_key, color: Colors.white,)),
-              ),
-              title: Text('Room 326'),
-              subtitle: Text('Floor 3, Building 8'),
-              //dense: true,
-            ),
-            Column(
-              children: [
-                Text('Time'),
-                FlutterStopWatch(counterGet: firstSecond,),
-                Text('00:04:20', style: TextStyle(fontSize: 26, color: Colors.lightBlueAccent),),
-                Text('Est. time 30 min'),
-                SizedBox(
-                  height: 26,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.55,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(
-                            167, 167, 167, 0.33529411764705882),
-                        padding: EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      onPressed: () => /*Get.to(Login())*/null,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.chat,color: Colors.black,),
-                          Text('Report a problem', style: TextStyle(color: Colors.black),)
-                        ],
-                      )
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                        padding: EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      onPressed: () => /*Get.to(CurrentTask(getSecond: firstSecond,))*/ null,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.check),
-                          Text('Mark as completed')
-                        ],
-                      )
-                  ),
-                ),
-              ],
-            )
+            activeTask == 'active' ? ActiveTask() : noTask
           ],
         ),
       ),
     );
   }
+  
+  Widget noTask = const Center(
+    child: Text('You don’t have a current task, please accept one to start working'),
+  );
 }
+
+class ActiveTask extends StatefulWidget {
+  const ActiveTask({Key? key}) : super(key: key);
+
+  @override
+  State<ActiveTask> createState() => _ActiveTaskState();
+}
+
+class _ActiveTaskState extends State<ActiveTask> {
+
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    loadTime();
+
+    _stopWatchTimer.rawTime.listen((value) =>
+        print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));
+    _stopWatchTimer.minuteTime.listen((value) => print('minuteTime $value'));
+    _stopWatchTimer.secondTime.listen((value) => print('secondTime $value'));
+    _stopWatchTimer.records.listen((value) => print('records $value'));
+  }
+
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    isLapHours: true,
+    onChange: (value) => print('onChange $value'),
+    onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
+    onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
+  );
+
+  restoreTime() async {
+    //Get
+    prefs = await SharedPreferences.getInstance();
+    DateTime dt = DateTime.fromMillisecondsSinceEpoch(
+        (prefs.getInt('time') ?? DateTime.now().millisecondsSinceEpoch));
+
+    DateTime dt1 = DateTime.now();
+    DateTime dt2 = dt;
+
+    Duration diff = dt1.difference(dt2);
+
+    return diff.inSeconds;
+  }
+
+  loadTime() async {
+    int a = await restoreTime();
+
+    print('CHECK_TIME: $a');
+
+    if (a == 0) {
+    } else {
+      _stopWatchTimer.setPresetSecondTime(a);
+      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    }
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await _stopWatchTimer.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                child: Text(
+                    'Clean room, replace linen, Clean room, replace linen')),
+            Chip(
+              label: Text('In progress'),
+              padding: EdgeInsets.fromLTRB(8, 8, 12, 10),
+              backgroundColor: Colors.orange,
+              deleteIcon: Icon(Icons.keyboard_arrow_down),
+              onDeleted: () {},
+            ),
+          ],
+        ),
+        ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Container(
+                padding: EdgeInsets.all(8),
+                color: Colors.blue,
+                child: Icon(
+                  Icons.vpn_key,
+                  color: Colors.white,
+                )),
+          ),
+          title: Text('Room 326'),
+          subtitle: Text('Floor 3, Building 8'),
+          //dense: true,
+        ),
+        Column(
+          children: [
+            Text('Time'),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 0),
+              child: StreamBuilder<int>(
+                stream: _stopWatchTimer.rawTime,
+                initialData: _stopWatchTimer.rawTime.value,
+                builder: (context, snap) {
+                  final value = snap.data;
+                  final displayTime = StopWatchTimer.getDisplayTime(value!,
+                      milliSecond: false);
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          displayTime,
+                          style: const TextStyle(
+                              fontSize: 26, color: Colors.lightBlueAccent),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            //Text('00:04:20', style: TextStyle(fontSize: 26, color: Colors.lightBlueAccent),),
+            Text('Est. time 30 min'),
+            SizedBox(
+              height: 26,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.55,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary:
+                    Color.fromRGBO(167, 167, 167, 0.33529411764705882),
+                    padding: EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () => /*Get.to(Login())*/ null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(
+                        Icons.chat,
+                        color: Colors.black,
+                      ),
+                      Text(
+                        'Report a problem',
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  )),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    padding: EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed:
+                      () => dialogTakePhotos(context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(Icons.check),
+                      Text('Mark as completed')
+                    ],
+                  )),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  dialogTakePhotos(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Align(
+            alignment: Alignment.center,
+            child: Text('Please take photos of the completed task'),
+          ),
+          content: SizedBox(
+            height: Get.height * 0.6,
+            child: CompletedTask(),
+          ),
+        );
+      },
+    );
+  }
+
+}
+
 
 class Card3 extends StatefulWidget {
   const Card3({Key? key}) : super(key: key);
@@ -239,6 +371,20 @@ class Card3 extends StatefulWidget {
 }
 
 class _Card3State extends State<Card3> {
+
+  late SharedPreferences prefs;
+
+  activeTask() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('task', 'active');
+  }
+
+  saveTime() async {
+    //Insert
+    prefs = await SharedPreferences.getInstance();
+    prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -287,8 +433,9 @@ class _Card3State extends State<Card3> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.height*0.05,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.green,
@@ -296,13 +443,20 @@ class _Card3State extends State<Card3> {
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
-                                    onPressed: () => /*Get.to(Login())*/null,
-                                    child: Text('Accept')
-                                ),
+                                    onPressed: () {
+                                      activeTask();
+                                      saveTime();
+
+                                      //temporary method
+                                      Get.offAll(Dashboard());
+
+                                    },
+                                    child: Text('Accept')),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.height*0.05,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.red,
@@ -310,9 +464,8 @@ class _Card3State extends State<Card3> {
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
-                                    onPressed: () => /*Get.to(Login())*/null,
-                                    child: Text('Decline')
-                                ),
+                                    onPressed: () => /*Get.to(Login())*/ null,
+                                    child: Text('Decline')),
                               ),
                             ],
                           ),
@@ -336,7 +489,7 @@ class _Card3State extends State<Card3> {
     );
   }
 
-  bsDetailTodayTask(BuildContext context){
+  bsDetailTodayTask(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -348,7 +501,7 @@ class _Card3State extends State<Card3> {
         });
   }
 
-  bsNewTaskAll(BuildContext context){
+  bsNewTaskAll(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -359,5 +512,4 @@ class _Card3State extends State<Card3> {
           );
         });
   }
-
 }
