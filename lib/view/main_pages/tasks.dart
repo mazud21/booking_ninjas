@@ -1,4 +1,5 @@
-import 'dart:async';
+
+import 'dart:developer';
 
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/current_task.dart';
@@ -6,7 +7,6 @@ import 'package:booking_ninjas/view/dashboard.dart';
 import 'package:booking_ninjas/view/detail_new_task.dart';
 import 'package:booking_ninjas/view/detail_today_tasks_all.dart';
 import 'package:booking_ninjas/view/new_task_all.dart';
-import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../widgets/completed_task.dart';
-import '../../widgets/stopwatch.dart';
 
 class Tasks extends StatefulWidget {
   @override
@@ -22,18 +21,59 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
+
+  late SharedPreferences prefs;
+  late String activeTask;
+  ValueNotifier<bool> _switchValue = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Future.delayed(Duration(seconds: 1), () {
+      checkTaskAvailable();
+
+    });
+
+  }
+
+  checkTaskAvailable() async {
+    prefs = await SharedPreferences.getInstance();
+    activeTask = prefs.getString('task')!;
+
+    if(activeTask == 'inActive'){
+      setState(() {
+
+      });
+      _switchValue = ValueNotifier<bool>(false);
+    } else {
+      setState(() {
+
+      });
+      _switchValue = ValueNotifier<bool>(true);
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            Card1(),
-            Card2(),
-            Card3(),
-          ],
-        ),
+      body: ValueListenableBuilder(
+          valueListenable: _switchValue,
+          builder: (context, value, child) {
+            return  Container(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                children: [
+                  Card1(),
+                  Text('$value'),
+                  Card2(switchValue: value),
+                  Card3(switchValue: _switchValue),
+                ],
+              ),
+            );
+          },
       ),
     );
   }
@@ -105,6 +145,11 @@ class _Card1State extends State<Card1> {
 }
 
 class Card2 extends StatefulWidget {
+
+  late bool switchValue;
+
+  Card2({required this.switchValue});
+
   @override
   State<Card2> createState() => _Card2State();
 }
@@ -120,12 +165,26 @@ class _Card2State extends State<Card2> {
     // TODO: implement initState
     super.initState();
 
-    checkTaskAvailable();
+    Future.delayed(Duration(seconds: 5), () {
+      checkTaskAvailable();
+
+    });
   }
+
 
   checkTaskAvailable() async {
     prefs = await SharedPreferences.getInstance();
     activeTask = prefs.getString('task')!;
+
+    log('CHECK_VALUE_TASK: $activeTask');
+
+    if(widget.switchValue){
+      setState(() {
+
+      });
+
+    }
+
   }
 
   @override
@@ -145,7 +204,8 @@ class _Card2State extends State<Card2> {
                 )
               ],
             ),
-            activeTask == 'active' ? ActiveTask() : noTask
+            widget.switchValue ? ActiveTask() : noTask,
+            //activeTask == 'active' ? ActiveTask() : noTask
           ],
         ),
       ),
@@ -155,6 +215,177 @@ class _Card2State extends State<Card2> {
   Widget noTask = const Center(
     child: Text('You don’t have a current task, please accept one to start working'),
   );
+}
+
+class Card3 extends StatefulWidget {
+
+  late ValueNotifier<bool> switchValue;
+
+  Card3({required this.switchValue});
+
+  @override
+  State<Card3> createState() => _Card3State();
+}
+
+class _Card3State extends State<Card3> {
+
+  late SharedPreferences prefs;
+  late String actTask;
+
+  activeTask() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('task', 'active');
+  }
+
+  checkTaskAvailable() async {
+    prefs = await SharedPreferences.getInstance();
+    actTask = prefs.getString('task')!;
+
+    if(actTask == 'inActive'){
+      widget.switchValue.value = false;
+    }
+
+  }
+
+  saveTime() async {
+    //Insert
+    prefs = await SharedPreferences.getInstance();
+    prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkTaskAvailable();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('New tasks'),
+                  TextButton(
+                    onPressed: () => bsNewTaskAll(context),
+                    child: Text('See All'),
+                  ),
+                ],
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ListTile(
+                      onTap: () => bsDetailTodayTask(context),
+                      leading: Image.asset('assets/images/broom.png'),
+                      title: Text('Clean room'),
+                      //subtitle: Text('Room 475, Floor 4, Building 8'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Room 475, Floor 4, Building 8'),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.green,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      activeTask();
+                                      saveTime();
+
+                                      widget.switchValue.value = true;
+
+                                    },
+                                    child: Text('Accept')),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () => /*Get.to(Login())*/ null,
+                                    child: Text('Decline')),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      height: 0.1,
+                      color: Color.fromRGBO(205, 205, 205, 1.0),
+                    )
+                  ],
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  bsDetailTodayTask(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: DetailNewTask(),
+          );
+        });
+  }
+
+  bsNewTaskAll(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: NewTaskAll(),
+          );
+        });
+  }
 }
 
 class ActiveTask extends StatefulWidget {
@@ -206,13 +437,10 @@ class _ActiveTaskState extends State<ActiveTask> {
   loadTime() async {
     int a = await restoreTime();
 
-    print('CHECK_TIME: $a');
+    print('CHECK_TIMEA: $a');
 
-    if (a == 0) {
-    } else {
-      _stopWatchTimer.setPresetSecondTime(a);
-      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-    }
+    _stopWatchTimer.setPresetSecondTime(a);
+    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
   }
 
   @override
@@ -360,156 +588,4 @@ class _ActiveTaskState extends State<ActiveTask> {
     );
   }
 
-}
-
-
-class Card3 extends StatefulWidget {
-  const Card3({Key? key}) : super(key: key);
-
-  @override
-  State<Card3> createState() => _Card3State();
-}
-
-class _Card3State extends State<Card3> {
-
-  late SharedPreferences prefs;
-
-  activeTask() async {
-    prefs = await SharedPreferences.getInstance();
-    prefs.setString('task', 'active');
-  }
-
-  saveTime() async {
-    //Insert
-    prefs = await SharedPreferences.getInstance();
-    prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('New tasks'),
-                  TextButton(
-                    onPressed: () => bsNewTaskAll(context),
-                    child: Text('See All'),
-                  ),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 16,
-                    ),
-                    ListTile(
-                      onTap: () => bsDetailTodayTask(context),
-                      leading: Image.asset('assets/images/broom.png'),
-                      title: Text('Clean room'),
-                      //subtitle: Text('Room 475, Floor 4, Building 8'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Room 475, Floor 4, Building 8'),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      activeTask();
-                                      saveTime();
-
-                                      //temporary method
-                                      Get.offAll(Dashboard());
-
-                                    },
-                                    child: Text('Accept')),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    onPressed: () => /*Get.to(Login())*/ null,
-                                    child: Text('Decline')),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      height: 0.1,
-                      color: Color.fromRGBO(205, 205, 205, 1.0),
-                    )
-                  ],
-                );
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  bsDetailTodayTask(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return FractionallySizedBox(
-            heightFactor: 0.9,
-            child: DetailNewTask(),
-          );
-        });
-  }
-
-  bsNewTaskAll(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return FractionallySizedBox(
-            heightFactor: 0.9,
-            child: NewTaskAll(),
-          );
-        });
-  }
 }
