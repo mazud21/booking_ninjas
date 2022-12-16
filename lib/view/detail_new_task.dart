@@ -8,6 +8,13 @@ class DetailNewTask extends StatefulWidget {
 }
 
 class _DetailNewTaskState extends State<DetailNewTask> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

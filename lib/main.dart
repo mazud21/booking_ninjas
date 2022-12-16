@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/route/routes.dart';
 import 'package:booking_ninjas/test/test_background_task.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'test/speech_to_text.dart';
+import 'test/testValueListen.dart';
 
 main() async {
 
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-              create: (_) => null,
+              create: (_) => FetchData(),
           ),
         ],
       child: GetMaterialApp(
@@ -50,7 +52,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: PalletColors.text_blue)),
         //initialRoute: '/tasks',
         getPages: Routes.routes,
-        home: Dashboard(),
+        home: SplashScreen(),
         builder: EasyLoading.init(),
       ),
     );

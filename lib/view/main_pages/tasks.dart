@@ -1,6 +1,8 @@
 
 import 'dart:developer';
 
+import 'package:booking_ninjas/models/flightModel.dart';
+import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/current_task.dart';
 import 'package:booking_ninjas/view/dashboard.dart';
@@ -10,6 +12,7 @@ import 'package:booking_ninjas/view/new_task_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -67,7 +70,6 @@ class _TasksState extends State<Tasks> {
               child: ListView(
                 children: [
                   Card1(),
-                  Text('$value'),
                   Card2(switchValue: value),
                   Card3(switchValue: _switchValue),
                 ],
@@ -89,7 +91,7 @@ class _Card1State extends State<Card1> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Row(
@@ -101,14 +103,14 @@ class _Card1State extends State<Card1> {
                 ),
                 TextButton(
                   onPressed: () => bsDetailTodayTaskAll(context),
-                  child: Text('See All'),
+                  child: const Text('See All'),
                 )
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Assigned by supervisor'),
+                const Text('Assigned by supervisor'),
                 TextButton(
                   onPressed: () => null,
                   child: Text('20'),
@@ -118,7 +120,7 @@ class _Card1State extends State<Card1> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Accepted from tasks'),
+                const Text('Accepted from tasks'),
                 TextButton(
                   onPressed: () => null,
                   child: Text('8'),
@@ -191,20 +193,21 @@ class _Card2State extends State<Card2> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Current task'),
+                const Text('Current task'),
                 TextButton(
                   onPressed: () => Get.to(CurrentTask()),
-                  child: Text('Open'),
+                  child: const Text('Open'),
                 )
               ],
             ),
-            widget.switchValue ? ActiveTask() : noTask,
+            widget.switchValue ? const ActiveTask() : noTask,
             //activeTask == 'active' ? ActiveTask() : noTask
           ],
         ),
@@ -212,7 +215,8 @@ class _Card2State extends State<Card2> {
     );
   }
   
-  Widget noTask = const Center(
+  Widget noTask = const Align(
+    alignment: Alignment.center,
     child: Text('You don’t have a current task, please accept one to start working'),
   );
 }
@@ -229,8 +233,79 @@ class Card3 extends StatefulWidget {
 
 class _Card3State extends State<Card3> {
 
+  @override
+  Widget build(BuildContext context) {
+
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('New tasks'),
+                  TextButton(
+                    onPressed: () => bsNewTaskAll(context),
+                    child: Text('See All'),
+                  ),
+                ],
+              ),
+            ),
+            FutureBuilder(
+              future: Provider.of<FetchData>(context, listen: true).getListFlight(),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return const CupertinoActivityIndicator(
+                      radius: 15,
+                      animating: true,
+                    );
+                  } else {
+                    return SizedBox(
+                      height: Get.height*0.48,
+                      child: ListInfinityTask(flightModel: snapshot.data, switchValue: widget.switchValue,),
+                    );
+                  }
+                },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  bsNewTaskAll(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: NewTaskAll(),
+          );
+        });
+  }
+
+}
+
+class ListInfinityTask extends StatefulWidget {
+  late ValueNotifier<bool> switchValue;
+  final flightModel;
+
+  ListInfinityTask({required this.switchValue, required this.flightModel});
+
+  @override
+  State<ListInfinityTask> createState() => _ListInfinityTaskState();
+}
+
+class _ListInfinityTaskState extends State<ListInfinityTask> {
+
   late SharedPreferences prefs;
   late String actTask;
+
+  late List<Data> _list;
 
   activeTask() async {
     prefs = await SharedPreferences.getInstance();
@@ -258,108 +333,91 @@ class _Card3State extends State<Card3> {
     // TODO: implement initState
     super.initState();
     checkTaskAvailable();
+
+    _list = widget.flightModel.data!.cast<Data>();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('New tasks'),
-                  TextButton(
-                    onPressed: () => bsNewTaskAll(context),
-                    child: Text('See All'),
-                  ),
-                ],
+    return Scaffold(
+      body: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 16,
               ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Column(
+              ListTile(
+                onTap: () => bsDetailTodayTask(context),
+                leading: Image.asset('assets/images/broom.png'),
+                title: Text('${_list[index].name}'),
+                //subtitle: Text('Room 475, Floor 4, Building 8'),
+                subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
                     SizedBox(
                       height: 16,
                     ),
-                    ListTile(
-                      onTap: () => bsDetailTodayTask(context),
-                      leading: Image.asset('assets/images/broom.png'),
-                      title: Text('Clean room'),
-                      //subtitle: Text('Room 475, Floor 4, Building 8'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Room 475, Floor 4, Building 8'),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      activeTask();
-                                      saveTime();
-
-                                      widget.switchValue.value = true;
-
-                                    },
-                                    child: Text('Accept')),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height:
+                          MediaQuery.of(context).size.height * 0.05,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    onPressed: () => /*Get.to(Login())*/ null,
-                                    child: Text('Decline')),
+                              onPressed: () {
+                                activeTask();
+                                saveTime();
+
+                                widget.switchValue.value = true;
+
+                              },
+                              child: Text('Accept')),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height:
+                          MediaQuery.of(context).size.height * 0.05,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                        ],
-                      ),
+                              onPressed: () => /*Get.to(Login())*/ null,
+                              child: Text('Decline')),
+                        ),
+                      ],
                     ),
-                    Divider(
-                      height: 0.1,
-                      color: Color.fromRGBO(205, 205, 205, 1.0),
-                    )
+                    SizedBox(
+                      height: 8,
+                    ),
                   ],
-                );
-              },
-            )
-          ],
-        ),
-      ),
+                ),
+              ),
+              Divider(
+                height: 0.1,
+                color: Color.fromRGBO(205, 205, 205, 1.0),
+              )
+            ],
+          );
+        },
+      )
     );
   }
 
@@ -375,18 +433,8 @@ class _Card3State extends State<Card3> {
         });
   }
 
-  bsNewTaskAll(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return FractionallySizedBox(
-            heightFactor: 0.9,
-            child: NewTaskAll(),
-          );
-        });
-  }
 }
+
 
 class ActiveTask extends StatefulWidget {
   const ActiveTask({Key? key}) : super(key: key);
@@ -461,9 +509,9 @@ class _ActiveTaskState extends State<ActiveTask> {
                     'Clean room, replace linen, Clean room, replace linen')),
             Chip(
               label: Text('In progress'),
-              padding: EdgeInsets.fromLTRB(8, 8, 12, 10),
+              padding: const EdgeInsets.fromLTRB(8, 8, 12, 10),
               backgroundColor: Colors.orange,
-              deleteIcon: Icon(Icons.keyboard_arrow_down),
+              deleteIcon: const Icon(Icons.keyboard_arrow_down),
               onDeleted: () {},
             ),
           ],
@@ -474,7 +522,7 @@ class _ActiveTaskState extends State<ActiveTask> {
             child: Container(
                 padding: EdgeInsets.all(8),
                 color: Colors.blue,
-                child: Icon(
+                child: const Icon(
                   Icons.vpn_key,
                   color: Colors.white,
                 )),
@@ -485,7 +533,7 @@ class _ActiveTaskState extends State<ActiveTask> {
         ),
         Column(
           children: [
-            Text('Time'),
+            const Text('Time'),
             Padding(
               padding: const EdgeInsets.only(bottom: 0),
               child: StreamBuilder<int>(
@@ -512,16 +560,16 @@ class _ActiveTaskState extends State<ActiveTask> {
             ),
             //Text('00:04:20', style: TextStyle(fontSize: 26, color: Colors.lightBlueAccent),),
             Text('Est. time 30 min'),
-            SizedBox(
+            const SizedBox(
               height: 26,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.55,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary:
-                    Color.fromRGBO(167, 167, 167, 0.33529411764705882),
-                    padding: EdgeInsets.all(16),
+                    backgroundColor:
+                    const Color.fromRGBO(167, 167, 167, 0.33529411764705882),
+                    padding: const EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -529,7 +577,7 @@ class _ActiveTaskState extends State<ActiveTask> {
                   onPressed: () => /*Get.to(Login())*/ null,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.chat,
                         color: Colors.black,
@@ -541,15 +589,15 @@ class _ActiveTaskState extends State<ActiveTask> {
                     ],
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    padding: EdgeInsets.all(16),
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
