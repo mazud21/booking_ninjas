@@ -1,8 +1,10 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/splashscreen.dart';
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
@@ -57,19 +59,36 @@ class Profile extends StatelessWidget {
                   )
                 ],
               ),
-              InkWell(
-                onTap: () async {
-                  SharedPreferences preferences = await SharedPreferences.getInstance();
-                  preferences.remove('session_id');
-
-                  Get.offAll(SplashScreen());
-                },
-                child: Icon(Icons.power_settings_new),
-              )
             ],
           ),
           SizedBox(
             height: 16,
+          ),
+          Text(
+            'Current level',
+            style: TextCustom()
+                .textFootnote(PalletColors.text_soft_grey),
+          ),
+          Text(
+            'Silver',
+            style: TextCustom()
+                .heading1(),
+          ),
+          CircularPercentIndicator(
+            radius: 60,
+            lineWidth: 13.0,
+            animation: true,
+            percent: 0.7,
+            center: new Text(
+              "75%",
+              style:
+              new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            ),
+            footer: SizedBox(
+              height: 24,
+            ),
+            circularStrokeCap: CircularStrokeCap.round,
+            progressColor: PalletColors.btn_deep_blue,
           ),
           Card(
             shape:
@@ -88,7 +107,7 @@ class Profile extends StatelessWidget {
                         style: TextCustom()
                             .textFootnote(PalletColors.text_soft_grey),
                       ),
-                      Text('135', style: TextCustom().heading1()),
+                      Text('135/150', style: TextCustom().heading1()),
                     ],
                   ),
                   Column(
@@ -164,7 +183,7 @@ class Profile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.fromLTRB(16, 8, 0, 16),
                   child: InkWell(
-                    onTap: () => null,
+                    onTap: () => bsAddSkill(context),
                     child: Row(
                       children: [
                         Icon(Icons.add_box_outlined, color: PalletColors.btn_deep_blue,),
@@ -265,12 +284,85 @@ class Profile extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
+            ),
+          ),
+          SizedBox(
+            height: 32,
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+            child: InkWell(
+              onTap: () async {
+                SharedPreferences preferences = await SharedPreferences.getInstance();
+                preferences.remove('session_id');
+
+                Get.offAll(SplashScreen());
+              },
+              child: Card(
+                elevation: 0,
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Log out',
+                        style: TextCustom().textText(PalletColors.text_black),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
       ),
     ));
   }
+
+  bsAddSkill(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: AddNewSkill(),
+          );
+        });
+  }
 }
+
+class AddNewSkill extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarCustom().getBSAppBarCustom('Add new skill'),
+      body: ListView(
+        children: [
+          Text('General', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
+          Text('Cleaning'),
+          Text('Maintenance'),
+          Text('Knowledge of cleaning products'),
+          Text('Ability to operate cleaning tools', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
+          Text('Steam cleaner'),
+          Text('Floor buffer'),
+          Text('Steel scrubber'),
+          Text('Window and Glass Squeegee'),
+          Text('Floor cleaning machine'),
+          Text('Other Skills', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
+          Text('Problem solving'),
+          Text('Endurance'),
+          Text('Attentiveness to detail'),
+        ],
+      ),
+    );
+  }
+}
+
