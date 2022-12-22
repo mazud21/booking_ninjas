@@ -1,3 +1,5 @@
+import 'package:booking_ninjas/theme/colors_texts_widget.dart';
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +20,7 @@ class _DetailNewTaskState extends State<DetailNewTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Text('Back'),
-        title: Text('New task'),
-      ),
+      appBar: AppBarCustom().getCupertinoNavBar('New Task'),
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(

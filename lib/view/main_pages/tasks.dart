@@ -11,12 +11,14 @@ import 'package:booking_ninjas/view/detail_today_tasks_all.dart';
 import 'package:booking_ninjas/view/new_task_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../widgets/completed_task.dart';
+import '../account_pages/login.dart';
 
 class Tasks extends StatefulWidget {
   @override
@@ -113,7 +115,7 @@ class _Card1State extends State<Card1> {
                 const Text('Assigned by supervisor'),
                 TextButton(
                   onPressed: () => null,
-                  child: Text('20'),
+                  child: Text('0'),
                 )
               ],
             ),
@@ -123,7 +125,7 @@ class _Card1State extends State<Card1> {
                 const Text('Accepted from tasks'),
                 TextButton(
                   onPressed: () => null,
-                  child: Text('8'),
+                  child: Text('0'),
                 )
               ],
             )
@@ -161,6 +163,8 @@ class _Card2State extends State<Card2> {
   late SharedPreferences prefs;
 
   String activeTask = '';
+
+  bool visibleOpen = false;
 
   @override
   void initState() {
@@ -200,10 +204,13 @@ class _Card2State extends State<Card2> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Current task'),
-                TextButton(
+                Text('Current task', style: TextCustom().heading2(),),
+                Visibility(
+                  visible: widget.switchValue,
+                  child: TextButton(
                   onPressed: () => Get.to(CurrentTask()),
-                  child: const Text('Open'),
+                    child: const Text('Open'),
+                  ),
                 )
               ],
             ),
@@ -217,7 +224,10 @@ class _Card2State extends State<Card2> {
   
   Widget noTask = const Align(
     alignment: Alignment.center,
-    child: Text('You don’t have a current task, please accept one to start working'),
+    child: Padding(
+      padding: EdgeInsets.only(top: 16),
+        child: Text('You don’t have a current task, please accept one to start working', style: TextStyle(fontSize: 16), textAlign: TextAlign.center,)
+    ),
   );
 }
 
@@ -235,7 +245,6 @@ class _Card3State extends State<Card3> {
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       child: Padding(
         padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
@@ -246,7 +255,7 @@ class _Card3State extends State<Card3> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('New tasks'),
+                  Text('New tasks', style: TextCustom().heading2(),),
                   TextButton(
                     onPressed: () => bsNewTaskAll(context),
                     child: Text('See All'),
@@ -261,6 +270,14 @@ class _Card3State extends State<Card3> {
                     return const CupertinoActivityIndicator(
                       radius: 15,
                       animating: true,
+                    );
+                  } else if(snapshot.data == null){
+                    setState(() {
+                      _seeAll3 = false;
+                    });
+                    return SizedBox(
+                      height: Get.height*0.2,
+                      child: Center(child: const Text('Task is no available now')),
                     );
                   } else {
                     return SizedBox(
@@ -349,19 +366,21 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               ListTile(
                 onTap: () => bsDetailTodayTask(context),
                 leading: Image.asset('assets/images/broom.png'),
-                title: Text('${_list[index].name}'),
+                title: Text('Clean Room'),
+                //title: Text('${_list[index].name}'),
                 //subtitle: Text('Room 475, Floor 4, Building 8'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
-                    SizedBox(
+                    //Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
+                    Text('Room 475, Floor 4, Building 8'),
+                    const SizedBox(
                       height: 16,
                     ),
                     Row(
@@ -399,18 +418,18 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
-                              onPressed: () => /*Get.to(Login())*/ null,
+                              onPressed: () => /*Get.to(Login())*/null,
                               child: Text('Decline')),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 height: 0.1,
                 color: Color.fromRGBO(205, 205, 205, 1.0),
               )

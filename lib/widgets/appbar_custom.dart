@@ -55,7 +55,7 @@ class AppBarCustom {
           Text(title, style: TextCustom().textTextBold(PalletColors.text_black),)
         ],
       ),
-      leadingWidth: Get.width*0.31,
+      leadingWidth: Get.width*0.40,
       leading: InkWell(
         onTap: () => Get.back(),
         child: Padding(
@@ -66,9 +66,14 @@ class AppBarCustom {
                 width: 16,
               ),
               const Icon(Icons.arrow_back_ios, color: PalletColors.text_blue,),
-              Text('Back', style: TextCustom().textText(PalletColors.text_blue),)
+              Text('Back', style: TextCustom().textMenu(),)
             ],
           ),
+        ),
+      ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(30),
         ),
       ),
       backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
@@ -101,6 +106,14 @@ class AppBarCustom {
             child: Text('Save', style: TextStyle(color: Colors.blue)))
       ],
       backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
+    );
+  }
+
+  getCupertinoNavBar(String title){
+    return CupertinoNavigationBar(
+      backgroundColor: PalletColors.btn_soft_grey,
+      middle: Text('New task'),
+      border: Border.all(width: 0.5,color: PalletColors.text_soft_grey),
     );
   }
 }
