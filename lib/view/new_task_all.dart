@@ -1,5 +1,9 @@
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../theme/colors_texts_widget.dart';
 
 class NewTaskAll extends StatefulWidget {
 
@@ -11,10 +15,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Text('Back'),
-        title: Text('New Task'),
-      ),
+      appBar: AppBarCustom().getCupertinoNavBar('New tasks'),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: ListView.builder(
@@ -29,14 +30,17 @@ class _NewTaskAllState extends State<NewTaskAll> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 16,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset('assets/images/broom.png'),
-                        Flexible(child: Text('Clean room, replace linen, Clean room, replace linen')),
+                        Padding(
+                            padding: EdgeInsets.only(right: 16),
+                            child: Image.asset('assets/images/broom.png')),
+                        Flexible(
+                            child: Text(
+                              'Clean room, replace linen, Clean room, replace linen',
+                              style: TextCustom().textText(PalletColors.text_black),
+                            )),
                       ],
                     ),
                     ListTile(
@@ -45,7 +49,11 @@ class _NewTaskAllState extends State<NewTaskAll> {
                         child: Container(
                             padding: EdgeInsets.all(8),
                             color: Colors.blue,
-                            child: Icon(Icons.vpn_key, color: Colors.white,)),
+                            child: Icon(
+                              Icons.vpn_key,
+                              color: Colors.white,
+                              size: Get.width * 0.05,
+                            )),
                       ),
                       title: Text('Room 326'),
                       subtitle: Text('Floor 3, Building 8'),
@@ -55,7 +63,13 @@ class _NewTaskAllState extends State<NewTaskAll> {
                       height: 0.1,
                       color: Color.fromRGBO(205, 205, 205, 1.0),
                     ),
-                    Text('Est. time 30 min'),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(32, 8, 0, 16),
+                        child: Text(
+                          'Est. time 30 min',
+                          style: TextCustom()
+                              .textFootnote(PalletColors.text_soft_grey),
+                        )),
                     ListTile(
                       //onTap: () => null,
                       //subtitle: Text('Room 475, Floor 4, Building 8'),

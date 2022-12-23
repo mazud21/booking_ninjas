@@ -104,7 +104,7 @@ class _Card1State extends State<Card1> {
                   style: TextCustom().heading2(),
                 ),
                 TextButton(
-                  onPressed: () => bsDetailTodayTaskAll(context),
+                  onPressed: () => Get.to(DetailTodayTasksAll()),
                   child: const Text('See All'),
                 )
               ],
@@ -139,6 +139,11 @@ class _Card1State extends State<Card1> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.9,
@@ -243,8 +248,33 @@ class Card3 extends StatefulWidget {
 
 class _Card3State extends State<Card3> {
 
+  late bool listVisible = false;
+
   @override
   Widget build(BuildContext context) {
+
+    Widget listOn = FutureBuilder(
+      future: Provider.of<FetchData>(context, listen: true).getListFlight(),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const CupertinoActivityIndicator(
+            radius: 15,
+            animating: true,
+          );
+        } else {
+          return SizedBox(
+            height: Get.height*0.48,
+            child: ListInfinityTask(flightModel: snapshot.data, switchValue: widget.switchValue,),
+          );
+        }
+      },
+    );
+
+    Widget listOff = SizedBox(
+      height: Get.height*0.2,
+      child: Center(child: const Text('Task is no available now')),
+    );
+
     return Card(
       child: Padding(
         padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
@@ -257,35 +287,23 @@ class _Card3State extends State<Card3> {
                 children: [
                   Text('New tasks', style: TextCustom().heading2(),),
                   TextButton(
-                    onPressed: () => bsNewTaskAll(context),
+                      onPressed: () {
+
+                        setState(() {
+                          listVisible = !listVisible;
+                        });
+                      },
+                      child: Text('Test List Data')
+                  ),
+                  TextButton(
+                    onPressed: () => Get.to(NewTaskAll()),
                     child: Text('See All'),
                   ),
                 ],
               ),
             ),
-            FutureBuilder(
-              future: Provider.of<FetchData>(context, listen: true).getListFlight(),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return const CupertinoActivityIndicator(
-                      radius: 15,
-                      animating: true,
-                    );
-                  } else if(snapshot.data == null){
-                    setState(() {
-                      _seeAll3 = false;
-                    });
-                    return SizedBox(
-                      height: Get.height*0.2,
-                      child: Center(child: const Text('Task is no available now')),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: Get.height*0.48,
-                      child: ListInfinityTask(flightModel: snapshot.data, switchValue: widget.switchValue,),
-                    );
-                  }
-                },
+            Container(
+                child: listVisible ? listOn : listOff,
             )
           ],
         ),
@@ -444,10 +462,16 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.9,
-            child: DetailNewTask(),
+            child: DetailNewTask(switchValue: widget.switchValue, context: context),
           );
         });
   }

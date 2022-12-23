@@ -104,6 +104,11 @@ class TextCustom {
     return ts;
   }
 
+  textMenuColor(Color c) {
+    ts = TextStyle(fontSize: 11.5, color: c, fontWeight: FontWeight.w500);
+    return ts;
+  }
+
   textMenuGrey() {
     ts = const TextStyle(fontSize: 11.5, color: PalletColors.text_soft_grey, fontWeight: FontWeight.w500);
     return ts;

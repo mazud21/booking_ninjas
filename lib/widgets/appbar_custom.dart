@@ -47,36 +47,10 @@ class AppBarCustom {
   }
 
   getSubAppBarCustom(String title) {
-    return AppBar(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(title, style: TextCustom().textTextBold(PalletColors.text_black),)
-        ],
-      ),
-      leadingWidth: Get.width*0.40,
-      leading: InkWell(
-        onTap: () => Get.back(),
-        child: Padding(
-          padding: EdgeInsets.all(4),
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 16,
-              ),
-              const Icon(Icons.arrow_back_ios, color: PalletColors.text_blue,),
-              Text('Back', style: TextCustom().textMenu(),)
-            ],
-          ),
-        ),
-      ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
-      ),
-      backgroundColor: const Color.fromRGBO(249, 249, 249, 0.94),
+    return CupertinoNavigationBar(
+      backgroundColor: PalletColors.btn_soft_grey,
+      middle: Text(title),
+      border: Border.all(width: 0.5,color: PalletColors.text_soft_grey),
     );
   }
 
@@ -112,7 +86,7 @@ class AppBarCustom {
   getCupertinoNavBar(String title){
     return CupertinoNavigationBar(
       backgroundColor: PalletColors.btn_soft_grey,
-      middle: Text('New task'),
+      middle: Text(title),
       border: Border.all(width: 0.5,color: PalletColors.text_soft_grey),
     );
   }
