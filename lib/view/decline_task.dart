@@ -1,5 +1,4 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,10 +27,10 @@ class _DeclinetaskState extends State<Declinetask> {
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.transparent, //your desire colour here
           ),
-          title: Text('Not my speciality'),
+          title: const Text('Not my speciality'),
         ),
         CheckboxListTile(
           value: _checked1,
@@ -43,10 +42,10 @@ class _DeclinetaskState extends State<Declinetask> {
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.transparent, //your desire colour here
           ),
-          title: Text('Don\'t have enough time'),
+          title: const Text('Don\'t have enough time'),
         ),
         CheckboxListTile(
           value: _checked2,
@@ -58,10 +57,10 @@ class _DeclinetaskState extends State<Declinetask> {
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.transparent, //your desire colour here
           ),
-          title: Text('It\'s too far from me'),
+          title: const Text('It\'s too far from me'),
         ),
         CheckboxListTile(
           value: _checked3,
@@ -73,10 +72,10 @@ class _DeclinetaskState extends State<Declinetask> {
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.transparent, //your desire colour here
           ),
-          title: Text('Other'),
+          title: const Text('Other'),
         ),
         const SizedBox(
           height: 16,

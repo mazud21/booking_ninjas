@@ -11,15 +11,15 @@ class FlightModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['totalPassengers'] = this.totalPassengers;
-    data['totalPages'] = this.totalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['totalPassengers'] = totalPassengers;
+    data['totalPages'] = totalPages;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -44,21 +44,21 @@ class Data {
       airline = <Airline>[];
       //jsonDecode(json['airline']).forEach((v) {
       json['airline'].forEach((v) {
-        airline!.add(new Airline.fromJson(v));
+        airline!.add(Airline.fromJson(v));
       });
     }
     iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['trips'] = this.trips;
-    if (this.airline != null) {
-      data['airline'] = this.airline!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['trips'] = trips;
+    if (airline != null) {
+      data['airline'] = airline!.map((v) => v.toJson()).toList();
     }
-    data['__v'] = this.iV;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -101,17 +101,17 @@ class Airline {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['country'] = this.country;
-    data['logo'] = this.logo;
-    data['slogan'] = this.slogan;
-    data['head_quaters'] = this.headQuaters;
-    data['website'] = this.website;
-    data['established'] = this.established;
-    data['__v'] = this.iV;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['id'] = id;
+    data['name'] = name;
+    data['country'] = country;
+    data['logo'] = logo;
+    data['slogan'] = slogan;
+    data['head_quaters'] = headQuaters;
+    data['website'] = website;
+    data['established'] = established;
+    data['__v'] = iV;
     return data;
   }
 }

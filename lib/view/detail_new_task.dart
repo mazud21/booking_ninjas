@@ -1,6 +1,5 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/widgets/appbar_custom.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +54,7 @@ class _DetailNewTaskState extends State<DetailNewTask> {
     return Scaffold(
       appBar: AppBarCustom().getCupertinoNavBar('New Task'),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,36 +76,36 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Room', style: TextCustom().textMenuGrey(),),
-                    Text('Room 326')
+                    const Text('Room 326')
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Floor', style: TextCustom().textMenuGrey(),),
-                    Text('Floor 3')
+                    const Text('Floor 3')
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Building/unit', style: TextCustom().textMenuGrey(),),
-                    Text('Building 8')
+                    const Text('Building 8')
                   ],
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text('Notes', style: TextCustom().textMenuGrey(),),
-            Text('Pay special attention to the bathroom'),
-            SizedBox(
+            const Text('Pay special attention to the bathroom'),
+            const SizedBox(
               height: 16,
             ),
             Text('Est. time', style: TextCustom().textMenuGrey(),),
-            Text('30 min'),
-            SizedBox(
+            const Text('30 min'),
+            const SizedBox(
               height: 32,
             ),
             Row(
@@ -118,7 +117,7 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                   height: MediaQuery.of(context).size.height*0.05,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -131,7 +130,7 @@ class _DetailNewTaskState extends State<DetailNewTask> {
 
                         Get.back();
                       },
-                      child: Text('Accept')
+                      child: const Text('Accept')
                   ),
                 ),
                 SizedBox(
@@ -139,13 +138,13 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                   height: MediaQuery.of(context).size.height*0.05,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        backgroundColor: Colors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       onPressed: () => /*Get.to(Login())*/null,
-                      child: Text('Decline')
+                      child: const Text('Decline')
                   ),
                 ),
               ],

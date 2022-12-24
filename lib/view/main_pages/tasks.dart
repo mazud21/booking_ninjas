@@ -5,20 +5,17 @@ import 'package:booking_ninjas/models/flightModel.dart';
 import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/current_task.dart';
-import 'package:booking_ninjas/view/dashboard.dart';
 import 'package:booking_ninjas/view/detail_new_task.dart';
 import 'package:booking_ninjas/view/detail_today_tasks_all.dart';
 import 'package:booking_ninjas/view/new_task_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../widgets/completed_task.dart';
-import '../account_pages/login.dart';
 
 class Tasks extends StatefulWidget {
   @override
@@ -36,7 +33,7 @@ class _TasksState extends State<Tasks> {
     // TODO: implement initState
     super.initState();
 
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       checkTaskAvailable();
 
     });
@@ -115,7 +112,7 @@ class _Card1State extends State<Card1> {
                 const Text('Assigned by supervisor'),
                 TextButton(
                   onPressed: () => null,
-                  child: Text('0'),
+                  child: const Text('0'),
                 )
               ],
             ),
@@ -125,7 +122,7 @@ class _Card1State extends State<Card1> {
                 const Text('Accepted from tasks'),
                 TextButton(
                   onPressed: () => null,
-                  child: Text('0'),
+                  child: const Text('0'),
                 )
               ],
             )
@@ -176,7 +173,7 @@ class _Card2State extends State<Card2> {
     // TODO: implement initState
     super.initState();
 
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       checkTaskAvailable();
 
     });
@@ -272,16 +269,16 @@ class _Card3State extends State<Card3> {
 
     Widget listOff = SizedBox(
       height: Get.height*0.2,
-      child: Center(child: const Text('Task is no available now')),
+      child: const Center(child: Text('Task is no available now')),
     );
 
     return Card(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.only(right: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -293,11 +290,11 @@ class _Card3State extends State<Card3> {
                           listVisible = !listVisible;
                         });
                       },
-                      child: Text('Test List Data')
+                      child: const Text('Test List Data')
                   ),
                   TextButton(
                     onPressed: () => Get.to(NewTaskAll()),
-                    child: Text('See All'),
+                    child: const Text('See All'),
                   ),
                 ],
               ),
@@ -378,7 +375,7 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
     return Scaffold(
       body: ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: 3,
         itemBuilder: (context, index) {
           return Column(
@@ -390,14 +387,14 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
               ListTile(
                 onTap: () => bsDetailTodayTask(context),
                 leading: Image.asset('assets/images/broom.png'),
-                title: Text('Clean Room'),
+                title: const Text('Clean Room'),
                 //title: Text('${_list[index].name}'),
                 //subtitle: Text('Room 475, Floor 4, Building 8'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
-                    Text('Room 475, Floor 4, Building 8'),
+                    const Text('Room 475, Floor 4, Building 8'),
                     const SizedBox(
                       height: 16,
                     ),
@@ -423,7 +420,7 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
                                 widget.switchValue.value = true;
 
                               },
-                              child: Text('Accept')),
+                              child: const Text('Accept')),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.25,
@@ -437,7 +434,7 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
                                 ),
                               ),
                               onPressed: () => /*Get.to(Login())*/null,
-                              child: Text('Decline')),
+                              child: const Text('Decline')),
                         ),
                       ],
                     ),
@@ -547,11 +544,11 @@ class _ActiveTaskState extends State<ActiveTask> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
+            const Flexible(
                 child: Text(
                     'Clean room, replace linen, Clean room, replace linen')),
             Chip(
-              label: Text('In progress'),
+              label: const Text('In progress'),
               padding: const EdgeInsets.fromLTRB(8, 8, 12, 10),
               backgroundColor: Colors.orange,
               deleteIcon: const Icon(Icons.keyboard_arrow_down),
@@ -563,15 +560,15 @@ class _ActiveTaskState extends State<ActiveTask> {
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 color: Colors.blue,
                 child: const Icon(
                   Icons.vpn_key,
                   color: Colors.white,
                 )),
           ),
-          title: Text('Room 326'),
-          subtitle: Text('Floor 3, Building 8'),
+          title: const Text('Room 326'),
+          subtitle: const Text('Floor 3, Building 8'),
           //dense: true,
         ),
         Column(
@@ -602,7 +599,7 @@ class _ActiveTaskState extends State<ActiveTask> {
               ),
             ),
             //Text('00:04:20', style: TextStyle(fontSize: 26, color: Colors.lightBlueAccent),),
-            Text('Est. time 30 min'),
+            const Text('Est. time 30 min'),
             const SizedBox(
               height: 26,
             ),
@@ -649,7 +646,7 @@ class _ActiveTaskState extends State<ActiveTask> {
                       () => dialogTakePhotos(context),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: const [
                       Icon(Icons.check),
                       Text('Mark as completed')
                     ],
@@ -666,7 +663,7 @@ class _ActiveTaskState extends State<ActiveTask> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Align(
+          title: const Align(
             alignment: Alignment.center,
             child: Text('Please take photos of the completed task'),
           ),

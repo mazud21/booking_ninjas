@@ -19,7 +19,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 0.0),
       ),
       body: FormLogin(),
     );
@@ -163,20 +163,20 @@ class _FormLoginState extends State<FormLogin> {
     });
     log('CHECK_LOGIN: ${response.data.toString()}');
 
-    var session_id = response.data['session_id'].toString();
-    var org_url = response.data['org_url'].toString();
+    var sessionId = response.data['session_id'].toString();
+    var orgUrl = response.data['org_url'].toString();
     var status = response.data['status'].toString();
 
     if (status == '1') {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("session_id", session_id);
-      prefs.setString("org_url", org_url);
+      prefs.setString("session_id", sessionId);
+      prefs.setString("org_url", orgUrl);
       prefs.setString("status", status);
 
       EasyLoading.dismiss();
 
-      Get.off(Dashboard());
+      Get.off(const Dashboard());
 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -196,8 +196,9 @@ String? validateEmail(String? value) {
       r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r"{0,253}[a-zA-Z0-9])?)*$";
   RegExp regex = RegExp(pattern);
-  if (value == null || value.isEmpty || !regex.hasMatch(value))
+  if (value == null || value.isEmpty || !regex.hasMatch(value)) {
     return 'Enter a valid email address';
-  else
+  } else {
     return null;
+  }
 }

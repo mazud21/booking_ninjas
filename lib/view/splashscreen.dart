@@ -28,14 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkLogIn() async {
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    var session_id =prefs.getString("session_id");
+    var sessionId =prefs.getString("session_id");
 
-    debugPrint("TEST_USERID: $session_id");
+    debugPrint("TEST_USERID: $sessionId");
 
-    if (session_id ==''|| session_id == null ||session_id.isEmpty) {
+    if (sessionId ==''|| sessionId == null ||sessionId.isEmpty) {
       Get.off(Login());
     } else {
-      Get.off(Dashboard());
+      Get.off(const Dashboard());
     }
   }
 
@@ -47,9 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _loadWidget() async {
-    var _duration = Duration(seconds: splashDelay);
+    var duration = Duration(seconds: splashDelay);
     //return Timer(_duration, navigationPage);
-    return Timer(_duration,(){
+    return Timer(duration,(){
       getVersion();
       checkLogIn();
     });
@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         height: 10,
                       ),
                       Center(
-                        child: Text("Versi $version", style: TextStyle(fontWeight: FontWeight.w600),),
+                        child: Text("Versi $version", style: const TextStyle(fontWeight: FontWeight.w600),),
                       ),
                     ],
                   ),

@@ -12,9 +12,9 @@ class _ProblemsState extends State<Problems> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Text('Task'),
-        title: Text('Problems'),
-        actions: [
+        leading: const Text('Task'),
+        title: const Text('Problems'),
+        actions: const [
           Text('Save')
         ],
       ),
@@ -32,25 +32,25 @@ class _ProblemsState extends State<Problems> {
       borderRadius: BorderRadius.circular(16)
     ),
     child: Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: [
+            children: const [
               Text('July 21, 2022, 08:00 AM'),
               Spacer(),
               Icon(Icons.close,color: Colors.red,)
             ],
           ),
           Row(
-            children: [
+            children: const [
               Icon(CupertinoIcons.wrench_fill),
               Text('Sink is Broken', style: TextStyle(fontSize: 26),
               ),
             ],
           ),
-          Text('Bathroom'),
+          const Text('Bathroom'),
           Row(
             children: [
               Image.network('https://icety.org/media/0b2fe56d-a690-48e3-a241-be496662624d/modern-bathroom-2.jpg', width: 75,),

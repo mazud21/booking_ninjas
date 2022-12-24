@@ -43,11 +43,11 @@ class AddImageDynamicallyState extends State<AddImageDynamically> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.image),
-          title: Text("Dynamic Add Image List"),
+          leading: const Icon(Icons.image),
+          title: const Text("Dynamic Add Image List"),
         ),
         body: Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           // list view to show images and list count
           child: ListView(
             scrollDirection: Axis.vertical,
@@ -55,12 +55,12 @@ class AddImageDynamicallyState extends State<AddImageDynamically> {
               Row(children: [
                 // showing item count
                 Text("Image Count:$ImgCount"),
-                SizedBox(width: 45),
+                const SizedBox(width: 45),
                 // icon button to call the
                 // method AddRandomImage
                 OutlinedButton.icon(
-                  icon: Icon(Icons.add),
-                  label: Text("Add Image"),
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add Image"),
                   onPressed: () {
                     setState(() {
                       // calling method
@@ -74,7 +74,7 @@ class AddImageDynamicallyState extends State<AddImageDynamically> {
               // showing list of images
               for (var item in imgList)
                 Center(
-                  child: Container(width: 500, height: 350, child: item),
+                  child: SizedBox(width: 500, height: 350, child: item),
                 )
             ],
           ),

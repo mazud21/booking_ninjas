@@ -1,7 +1,6 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/splashscreen.dart';
 import 'package:booking_ninjas/widgets/appbar_custom.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -13,24 +12,24 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
           Row(
             children: [
               SizedBox.fromSize(
-                size: Size.fromRadius(50),
+                size: const Size.fromRadius(50),
                 child: Stack(
                   children: [
                     ClipOval(
                       child: SizedBox.fromSize(
-                        size: Size.fromRadius(50), // Image radius
+                        size: const Size.fromRadius(50), // Image radius
                         child: Image.network(
                             'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
                             fit: BoxFit.cover),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(bottom: 8),
                       child: Align(
                           alignment: Alignment.bottomCenter,
@@ -42,7 +41,7 @@ class Profile extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Column(
@@ -61,7 +60,7 @@ class Profile extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Text(
@@ -79,12 +78,12 @@ class Profile extends StatelessWidget {
             lineWidth: 13.0,
             animation: true,
             percent: 0.7,
-            center: new Text(
+            center: const Text(
               "75%",
               style:
-              new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+              TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
-            footer: SizedBox(
+            footer: const SizedBox(
               height: 24,
             ),
             circularStrokeCap: CircularStrokeCap.round,
@@ -95,7 +94,7 @@ class Profile extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 0,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -136,16 +135,16 @@ class Profile extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Text(
                 'SKILLS',
                 style: TextCustom().textFootnote(PalletColors.text_soft_grey),
               )),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Card(
@@ -156,11 +155,11 @@ class Profile extends StatelessWidget {
               children: [
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 2,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                      padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -168,10 +167,10 @@ class Profile extends StatelessWidget {
                             'Cleaning',
                             style: TextCustom().textText(PalletColors.text_black),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
-                          Divider(
+                          const Divider(
                             height: 0.1,
                             color: PalletColors.text_soft_grey,
                           ),
@@ -181,13 +180,13 @@ class Profile extends StatelessWidget {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 0, 16),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 0, 16),
                   child: InkWell(
                     onTap: () => bsAddSkill(context),
                     child: Row(
                       children: [
-                        Icon(Icons.add_box_outlined, color: PalletColors.btn_deep_blue,),
-                        SizedBox(
+                        const Icon(Icons.add_box_outlined, color: PalletColors.btn_deep_blue,),
+                        const SizedBox(
                           width: 8,
                         ),
                         Text('Add new skill', style: TextCustom().heading2Color(PalletColors.btn_deep_blue),)
@@ -199,9 +198,9 @@ class Profile extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(24, 8, 0, 0),
+            padding: const EdgeInsets.fromLTRB(24, 8, 0, 0),
               child: Text('Your skills help us to select the most appropriate tasks for you.', style: TextCustom().textMenu(),)),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           Card(
@@ -211,7 +210,7 @@ class Profile extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -222,13 +221,13 @@ class Profile extends StatelessWidget {
                               'Update email address',
                               style: TextCustom().textText(PalletColors.text_black),
                             ),
-                            Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
+                            const Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
                           ]
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
-                      Divider(
+                      const Divider(
                         height: 0.1,
                         color: PalletColors.text_soft_grey,
                       ),
@@ -236,7 +235,7 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -247,13 +246,13 @@ class Profile extends StatelessWidget {
                               'Change password',
                               style: TextCustom().textText(PalletColors.text_black),
                             ),
-                            Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
+                            const Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
                           ]
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
-                      Divider(
+                      const Divider(
                         height: 0.1,
                         color: PalletColors.text_soft_grey,
                       ),
@@ -261,7 +260,7 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -272,13 +271,13 @@ class Profile extends StatelessWidget {
                               'Help',
                               style: TextCustom().textText(PalletColors.text_black),
                             ),
-                            Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
+                            const Icon(Icons.chevron_right, color: PalletColors.text_soft_grey,)
                           ]
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
-                      Divider(
+                      const Divider(
                         height: 0.1,
                         color: PalletColors.text_soft_grey,
                       ),
@@ -288,11 +287,11 @@ class Profile extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+            padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
             child: InkWell(
               onTap: () async {
                 SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -303,7 +302,7 @@ class Profile extends StatelessWidget {
               child: Card(
                 elevation: 0,
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -311,7 +310,7 @@ class Profile extends StatelessWidget {
                         'Log out',
                         style: TextCustom().textText(PalletColors.text_black),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                     ],
@@ -347,19 +346,19 @@ class AddNewSkill extends StatelessWidget {
       body: ListView(
         children: [
           Text('General', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
-          Text('Cleaning'),
-          Text('Maintenance'),
-          Text('Knowledge of cleaning products'),
+          const Text('Cleaning'),
+          const Text('Maintenance'),
+          const Text('Knowledge of cleaning products'),
           Text('Ability to operate cleaning tools', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
-          Text('Steam cleaner'),
-          Text('Floor buffer'),
-          Text('Steel scrubber'),
-          Text('Window and Glass Squeegee'),
-          Text('Floor cleaning machine'),
+          const Text('Steam cleaner'),
+          const Text('Floor buffer'),
+          const Text('Steel scrubber'),
+          const Text('Window and Glass Squeegee'),
+          const Text('Floor cleaning machine'),
           Text('Other Skills', style: TextCustom().textFootnote(PalletColors.text_soft_grey),),
-          Text('Problem solving'),
-          Text('Endurance'),
-          Text('Attentiveness to detail'),
+          const Text('Problem solving'),
+          const Text('Endurance'),
+          const Text('Attentiveness to detail'),
         ],
       ),
     );

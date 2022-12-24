@@ -29,12 +29,12 @@ class Notes extends StatelessWidget {
                     //fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white10),
+                      borderSide: const BorderSide(color: Colors.white10),
                     ),
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     suffixIcon: InkWell(
                       onTap: () => '',
-                      child: Icon(Icons.mic),
+                      child: const Icon(Icons.mic),
                     ))),
             SizedBox(
               height: Get.height*0.65,
@@ -49,7 +49,7 @@ class Notes extends StatelessWidget {
   bsAddNote(BuildContext context){
     AlertDialog(
       title: Stack(
-        children: [
+        children: const [
           Positioned(
             top: 16,
               child: Text('New note'),
@@ -61,7 +61,7 @@ class Notes extends StatelessWidget {
           )
         ],
       ),
-      content: AddNote(),
+      content: const AddNote(),
     );
   }
 
@@ -86,7 +86,7 @@ class AddNote extends StatelessWidget {
               onPressed: () {
 
               },
-              child: Text('Save')
+              child: const Text('Save')
           )
         ],
       ),
@@ -114,7 +114,7 @@ class _ListNotesState extends State<ListNotes> {
             child: CupertinoSlidingSegmentedControl<int>(
               thumbColor: CupertinoColors.white,
               groupValue: groupValueNotes,
-              children: {
+              children: const {
                 0: Text('All'),
                 1: Text('Shared with me'),
                 2: Text('I shared'),
@@ -129,12 +129,12 @@ class _ListNotesState extends State<ListNotes> {
           SizedBox(
             height: Get.height * 0.5,
             child: Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 50),
               child: groupValueNotes == 0
                   ? ListAllNotes()
                   : groupValueNotes == 1
-                      ? ListSharedWithMe()
-                      : ListIShared(),
+                      ? const ListSharedWithMe()
+                      : const ListIShared(),
             ),
           )
         ],
@@ -170,7 +170,7 @@ class _ListAllNotesState extends State<ListAllNotes> {
       body: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Card(
+          return const Card(
             child: Text('All'),
           );
         },
@@ -193,7 +193,7 @@ class _ListSharedWithMeState extends State<ListSharedWithMe> {
       body: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Card(
+          return const Card(
             child: Text('Shared with me'),
           );
         },
@@ -216,7 +216,7 @@ class _ListISharedState extends State<ListIShared> {
       body: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Card(
+          return const Card(
             child: Text('I Shared'),
           );
         },

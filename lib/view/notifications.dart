@@ -12,39 +12,39 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
         actions: [
           InkWell(
             onTap: () => bsNotifSetting(context),
-            child: Text('Setting'),
+            child: const Text('Setting'),
           )
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('TODAY'),
+                const Text('TODAY'),
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          color: Color(0xFFAF52DE),
-                          child: Icon(Icons.check),
+                          color: const Color(0xFFAF52DE),
+                          child: const Icon(Icons.check),
                         ),
                       ),
-                      title: Text('Supervisor 1 assigned you a task'),
+                      title: const Text('Supervisor 1 assigned you a task'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text('2h ago'),
                           Divider(
                   color: Colors.grey,
@@ -60,24 +60,24 @@ class _NotificationsState extends State<Notifications> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('YESTERDAY'),
+                const Text('YESTERDAY'),
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          color: Color(0xFFAF52DE),
-                          child: Icon(Icons.check),
+                          color: const Color(0xFFAF52DE),
+                          child: const Icon(Icons.check),
                         ),
                       ),
-                      title: Text('Task 1 was canceled by admin'),
+                      title: const Text('Task 1 was canceled by admin'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text('2h ago'),
                           Divider(
                   color: Colors.grey,
@@ -124,18 +124,18 @@ class _NotifSettingState extends State<NotifSetting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 children: [
-                  Text('Allow notifications'),
-                  Spacer(),
+                  const Text('Allow notifications'),
+                  const Spacer(),
                   CupertinoSwitch(
                       value: _obscureText,
                       onChanged: (value) {
@@ -147,16 +147,16 @@ class _NotifSettingState extends State<NotifSetting> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0.1,
               color: Colors.grey,
             ),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 children: [
-                  Text('Sound'),
-                  Spacer(),
+                  const Text('Sound'),
+                  const Spacer(),
                   CupertinoSwitch(
                     value: _obscureText,
                     onChanged: (value) {
@@ -168,20 +168,20 @@ class _NotifSettingState extends State<NotifSetting> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0.1,
               color: Colors.grey,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text('ALERTS'),
+            const Text('ALERTS'),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 children: [
-                  Text('Show on Locak Screen'),
-                  Spacer(),
+                  const Text('Show on Locak Screen'),
+                  const Spacer(),
                   CupertinoSwitch(
                     value: _obscureText,
                     onChanged: (value) {
@@ -193,16 +193,16 @@ class _NotifSettingState extends State<NotifSetting> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0.1,
               color: Colors.grey,
             ),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 children: [
-                  Text('Show in History'),
-                  Spacer(),
+                  const Text('Show in History'),
+                  const Spacer(),
                   CupertinoSwitch(
                     value: _obscureText,
                     onChanged: (value) {
@@ -214,16 +214,16 @@ class _NotifSettingState extends State<NotifSetting> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0.1,
               color: Colors.grey,
             ),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 children: [
-                  Text('Show as Banners'),
-                  Spacer(),
+                  const Text('Show as Banners'),
+                  const Spacer(),
                   CupertinoSwitch(
                     value: _obscureText,
                     onChanged: (value) {
@@ -235,7 +235,7 @@ class _NotifSettingState extends State<NotifSetting> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0.1,
               color: Colors.grey,
             ),

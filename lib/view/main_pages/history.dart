@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,12 +14,13 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+  late List<String> listFilters = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
@@ -28,30 +30,33 @@ class _HistoryState extends State<History> {
                     //fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white10),
+                      borderSide: const BorderSide(color: Colors.white10),
                     ),
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     suffixIcon: InkWell(
                       onTap: () => '',
-                      child: Icon(Icons.mic),
+                      child: const Icon(Icons.mic),
                     ))),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             SizedBox(
-              height: Get.height * 0.07,
+              height: Get.height * 0.05,
               child: Row(
                 children: <Widget>[
                   SizedBox(
                     width: Get.width * 0.2,
-                    child: InkWell(
-                      onTap: () => bsFilterSearch(context),
-                      child: Chip(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: Colors.blue,
-                        label: Icon(Icons.home),
-                        padding: EdgeInsets.all(8),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: PalletColors.chip_soft_blue,
+                      ),
+                      child: InkWell(
+                        onTap: () => bsFilterSearch(context),
+                        child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(CupertinoIcons.slider_horizontal_3)),
                       ),
                     ),
                     /*Container(
@@ -65,25 +70,28 @@ class _HistoryState extends State<History> {
                     ),*/
                   ),
                   SizedBox(
+                    height: Get.height * 0.07,
                     width: Get.width * 0.7,
                     child: ListView.builder(
+                      shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 5,
+                      itemCount: listFilters.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.all(4),
-                          child: Chip(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            avatar: InkWell(
-                              onTap: () => null,
-                              child: Icon(Icons.close),
+                        if (listFilters.isEmpty) {
+                          return SizedBox();
+                        } else {
+                          return Container(
+                            margin: EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: PalletColors.chip_soft_blue,
                             ),
-                            backgroundColor: Colors.blue,
-                            label: Text('data '),
-                            padding: EdgeInsets.all(8),
-                          ),
-                        );
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text('${listFilters[index]}'),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),
@@ -91,118 +99,134 @@ class _HistoryState extends State<History> {
               ),
             ),
             SizedBox(
-              height: Get.height * 0.7,
-              child: ListView.builder(
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                          child: Row(
-                            children: [
-                              Text(
-                                'July 22, 2022, 06:30 AM',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              Spacer(),
-                              Chip(label: Text('data'))
-                            ],
-                          ),
-                        ),
-                        ExpansionTile(
-                          title: Row(
-                            children: [
-                              Icon(Icons.home),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Text('Clean room, replace linen')
-                            ],
-                          ),
-                          children: <Widget>[
-                            ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    color: Colors.blue,
-                                    child: Icon(
-                                      Icons.location_pin,
-                                      color: Colors.white,
-                                    )),
-                              ),
-                              title: Text(
-                                'Room 326',
-                              ),
-                              subtitle: Text('Floor 3, Building 8'),
-                              //dense: true,
+              height: 16,
+            ),
+            SizedBox(
+              height: Get.height * 0.75,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 100),
+                child: ListView.builder(
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'July 22, 2022, 06:30 AM',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                Spacer(),
+                                Chip(
+                                    backgroundColor: PalletColors.chip_green,
+                                    label: Text(
+                                      'Completed',
+                                      style: TextCustom().textFootnote(
+                                          PalletColors.text_white),
+                                    ))
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(16, 0, 0, 16),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Assigned by'),
-                                        Text('Supervisor 1')
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: Divider(
-                                      height: 0.1,
-                                      thickness: 0.5,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Completion'),
-                                        Text('30 min')
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: Divider(
-                                      height: 0.1,
-                                      thickness: 0.5,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Task completed'),
-                                        Text('2/2')
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          ExpansionTile(
+                            title: Row(
+                              children: [
+                                Image.asset('assets/images/broom.png'),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text('Clean room, replace linen')
+                              ],
                             ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
+                            children: <Widget>[
+                              ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      color: Colors.blue,
+                                      child: const Icon(
+                                        Icons.location_pin,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                                title: const Text(
+                                  'Room 326',
+                                ),
+                                subtitle: const Text('Floor 3, Building 8'),
+                                //dense: true,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 0, 16),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 8, 16, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text('Assigned by'),
+                                          Text('Supervisor 1')
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 8),
+                                      child: Divider(
+                                        height: 0.1,
+                                        thickness: 0.5,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 8, 16, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text('Completion'),
+                                          Text('30 min')
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 8),
+                                      child: Divider(
+                                        height: 0.1,
+                                        thickness: 0.5,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 8, 16, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text('Task completed'),
+                                          Text('2/2')
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             )
           ],
@@ -215,6 +239,12 @@ class _HistoryState extends State<History> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.9,
@@ -236,6 +266,8 @@ class _FilterSearchState extends State<FilterSearch> {
 
   bool _visibleDate = false;
 
+  late List<String> listFilters = [];
+
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     // TODO: implement your code here
 
@@ -249,28 +281,41 @@ class _FilterSearchState extends State<FilterSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: Text('Clear'),
-          title: Text('Filters'),
-          actions: [
-            Text('Done'),
-          ],
-          elevation: 1,
+        appBar: CupertinoNavigationBar(
+          backgroundColor: PalletColors.btn_soft_grey,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Clear',
+                    style: TextStyle(color: PalletColors.text_blue),
+                  ))
+            ],
+          ),
+          middle: Text('Filters'),
+          trailing: TextButton(
+              onPressed: () {},
+              child: Text('Done',
+                  style: TextStyle(color: PalletColors.text_blue))),
+          border: Border.all(width: 0.5, color: PalletColors.text_soft_grey),
         ),
         body: ListView(
           children: [
             Card(
               elevation: 8,
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                 child: ListView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: const [
                     TextIcon(
                       text1: 'Room number',
                       text2: 'Room 362',
+                      value: 'room_number',
                     ),
                     TextIcon(
                       text1: 'Room type',
@@ -290,13 +335,13 @@ class _FilterSearchState extends State<FilterSearch> {
             ),
             Card(
               elevation: 8,
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                 child: ListView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: const [
                     TextIcon(
                       text1: 'Task',
                       text2: 'Cleaning',
@@ -311,15 +356,15 @@ class _FilterSearchState extends State<FilterSearch> {
             ),
             Card(
               elevation: 8,
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 0, 8),
                 child: ListView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    Text('Date'),
-                    TextIcon(
+                    const Text('Date'),
+                    const TextIcon(
                       text1: 'Period',
                       text2: 'Last week',
                     ),
@@ -368,7 +413,7 @@ class TextIcon extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+          padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
           child: Row(
             children: [
               Text(text1),
@@ -378,13 +423,17 @@ class TextIcon extends StatelessWidget {
                   children: [
                     value == 'date'
                         ? Container(
-                            padding: EdgeInsets.all(6),
+                            padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                                 color: PalletColors.btn_soft_grey,
                                 borderRadius: BorderRadius.circular(8)),
                             child: Text(text2),
                           )
-                        : Text(text2),
+                        : TextButton(
+                            onPressed: () {
+                              bsShowRoom(context);
+                            },
+                            child: Text(text2)),
                     const Icon(Icons.chevron_right_rounded)
                   ],
                 ),
@@ -392,11 +441,72 @@ class TextIcon extends StatelessWidget {
             ],
           ),
         ),
-        Divider(
+        const Divider(
           height: 0.1,
           color: Colors.grey,
         ),
       ],
+    );
+  }
+
+  bsShowRoom(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        barrierColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: RoomNumber(),
+          );
+        });
+  }
+}
+
+class RoomNumber extends StatefulWidget {
+  @override
+  State<RoomNumber> createState() => _RoomNumberState();
+}
+
+class _RoomNumberState extends State<RoomNumber> {
+  late int value = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarCustom().getCupertinoNavBar('Rooom number'),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              value: index,
+              groupValue: value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              shape: Border(
+                bottom: BorderSide(
+                  
+                  color: PalletColors.text_soft_grey
+                ),
+              ),
+              onChanged: (valueSelect) {
+                setState(() {
+                  value = valueSelect!;
+                });
+                log('CHECK_VALUE $value');
+              },
+              title: Text("Room ${index + 1}"),
+            );
+          },
+          itemCount: 20,
+        ),
+      ),
     );
   }
 }

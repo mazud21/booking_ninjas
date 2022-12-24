@@ -1,6 +1,5 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/account_pages/account_verification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +12,10 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 0.0),
         leading: InkWell(
             onTap: () => Get.back(),
-            child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
+            child: const Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
       body: Center(child: FormSignUp()),
     );

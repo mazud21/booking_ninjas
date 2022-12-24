@@ -1,3 +1,4 @@
+/*
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:highlight_text/highlight_text.dart';
@@ -117,4 +118,4 @@ class _SpeechScreenState extends State<SpeechScreen> {
       _speech.stop();
     }
   }
-}
+}*/

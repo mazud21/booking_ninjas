@@ -1,10 +1,8 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/account_pages/new_password.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'password_update_successful.dart';
 
 class PasswordReset extends StatelessWidget {
 
@@ -13,10 +11,10 @@ class PasswordReset extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 255, 255, 0.0),
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 0.0),
         leading: InkWell(
             onTap: () => Get.back(),
-            child: Icon(Icons.arrow_back_ios, color: Colors.black45,)),
+            child: const Icon(Icons.arrow_back_ios, color: Colors.black45,)),
       ),
       body: FormPasswordReset(),
     );
@@ -38,7 +36,7 @@ class _FormPasswordResetState extends State<FormPasswordReset> {
     return Form(
       key: _formKey,
       child: Container(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         child: Column(
           children: [
             Align(

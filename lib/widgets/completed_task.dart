@@ -1,8 +1,6 @@
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/dashboard.dart';
-import 'package:booking_ninjas/view/main_pages/history.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +42,7 @@ class _CompletedTaskState extends State<CompletedTask> {
             children: [
               GridView.builder(
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
@@ -53,12 +51,12 @@ class _CompletedTaskState extends State<CompletedTask> {
                 itemBuilder: (context, index) {
                   return Stack(children: [
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: DottedBorder(
                         color: PalletColors.text_soft_grey,
                         strokeWidth: 2,
-                        dashPattern: [6, 0, 2, 3],
-                        child: Center(
+                        dashPattern: const [6, 0, 2, 3],
+                        child: const Center(
                             child: Icon(
                               Icons.camera_alt_rounded,
                               color: PalletColors.text_soft_grey,
@@ -71,9 +69,9 @@ class _CompletedTaskState extends State<CompletedTask> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: Container(
-                            padding: EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(2),
                             color: PalletColors.btn_soft_grey,
-                            child: Icon(Icons.close, size: 18,),
+                            child: const Icon(Icons.close, size: 18,),
                           ),
                         )),
                   ]);
@@ -85,16 +83,16 @@ class _CompletedTaskState extends State<CompletedTask> {
                     inActiveTask();
                     stopTaskTime();
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                    Get.offAll(Dashboard());
+                    Get.offAll(const Dashboard());
                   },
-                  child: Text('Mark as completed')),
-              SizedBox(
+                  child: const Text('Mark as completed')),
+              const SizedBox(
                 height: 16,
               ),
               ElevatedButton(
                   style: ButtonCustom().elevatedRedSoft(),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     'Cancel'),
                   ),
             ],

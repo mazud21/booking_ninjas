@@ -7,7 +7,7 @@ class FlutterStopWatch extends StatefulWidget {
 
   final counterGet;
 
-  FlutterStopWatch({this.counterGet});
+  const FlutterStopWatch({this.counterGet});
 
   @override
   _FlutterStopWatchState createState() => _FlutterStopWatchState();
@@ -30,11 +30,9 @@ class _FlutterStopWatchState extends State<FlutterStopWatch> {
     //int counter = 0;
 
     void stopTimer() {
-      if (timer != null) {
-        timer.cancel();
-        counter = 0;
-        streamController.close();
-      }
+      timer.cancel();
+      counter = 0;
+      streamController.close();
     }
 
     void tick(_) {

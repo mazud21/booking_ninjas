@@ -27,7 +27,7 @@ class FetchData extends ChangeNotifier{
         if (response.statusCode == 200) {
 
           var result = FlightModel.fromJson(json.decode(response.body));
-          print('GET_PAGE_DATA0: ' + result.toString());
+          print('GET_PAGE_DATA0: $result');
 
           return result;
         } else {
@@ -72,7 +72,7 @@ class FetchData extends ChangeNotifier{
         if (response.statusCode == 200) {
 
           var result = FlightModel.fromJson(json.decode(response.body)['data'][0]);
-          print('GET_DETAIL_DATA0: ' + result.toString());
+          print('GET_DETAIL_DATA0: $result');
 
           return result;
         } else {

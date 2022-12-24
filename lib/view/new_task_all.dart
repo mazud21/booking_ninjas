@@ -1,5 +1,4 @@
 import 'package:booking_ninjas/widgets/appbar_custom.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +16,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
     return Scaffold(
       appBar: AppBarCustom().getCupertinoNavBar('New tasks'),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: ListView.builder(
           itemCount: 4,
           itemBuilder: (context, index) {
@@ -26,7 +25,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
                 borderRadius: BorderRadius.circular(8)
               ),
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -34,7 +33,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 16),
                             child: Image.asset('assets/images/broom.png')),
                         Flexible(
                             child: Text(
@@ -47,7 +46,7 @@ class _NewTaskAllState extends State<NewTaskAll> {
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             color: Colors.blue,
                             child: Icon(
                               Icons.vpn_key,
@@ -55,16 +54,16 @@ class _NewTaskAllState extends State<NewTaskAll> {
                               size: Get.width * 0.05,
                             )),
                       ),
-                      title: Text('Room 326'),
-                      subtitle: Text('Floor 3, Building 8'),
+                      title: const Text('Room 326'),
+                      subtitle: const Text('Floor 3, Building 8'),
                       //dense: true,
                     ),
-                    Divider(
+                    const Divider(
                       height: 0.1,
                       color: Color.fromRGBO(205, 205, 205, 1.0),
                     ),
                     Padding(
-                        padding: EdgeInsets.fromLTRB(32, 8, 0, 16),
+                        padding: const EdgeInsets.fromLTRB(32, 8, 0, 16),
                         child: Text(
                           'Est. time 30 min',
                           style: TextCustom()
@@ -85,13 +84,13 @@ class _NewTaskAllState extends State<NewTaskAll> {
                                 height: MediaQuery.of(context).size.height*0.05,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.green,
+                                      backgroundColor: Colors.green,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
                                     onPressed: () => /*Get.to(Login())*/null,
-                                    child: Text('Accept')
+                                    child: const Text('Accept')
                                 ),
                               ),
                               SizedBox(
@@ -99,18 +98,18 @@ class _NewTaskAllState extends State<NewTaskAll> {
                                 height: MediaQuery.of(context).size.height*0.05,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.red,
+                                      backgroundColor: Colors.red,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
                                     onPressed: () => /*Get.to(Login())*/null,
-                                    child: Text('Decline')
+                                    child: const Text('Decline')
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                         ],

@@ -2,19 +2,14 @@ import 'dart:developer';
 
 import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/route/routes.dart';
-import 'package:booking_ninjas/test/test_background_task.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/dashboard.dart';
-import 'package:booking_ninjas/view/main_pages/profile.dart';
-import 'package:booking_ninjas/view/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'test/speech_to_text.dart';
-import 'test/testValueListen.dart';
 
 main() async {
 
@@ -52,7 +47,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: PalletColors.text_blue)),
         //initialRoute: '/tasks',
         getPages: Routes.routes,
-        home: Dashboard(),
+        home: const Dashboard(),
         builder: EasyLoading.init(),
       ),
     );

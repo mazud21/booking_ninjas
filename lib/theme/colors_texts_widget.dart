@@ -1,34 +1,33 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 class PalletColors {
   ///LayoutColor
-  static const layout_soft_orange = const Color(0xFDB04829);
+  static const layout_soft_orange = Color(0xFDB04829);
 
   ///ButtonColor
-  static const btn_white = const Color.fromRGBO(255, 255, 255, 1.0);
-  static const btn_red = const Color(0xFFBC2929);
-  static const btn_soft_red = const Color.fromRGBO(255,186,186, 1);
-  static const btn_green = const Color(0xFF089716);
-  static const btn_soft_green = const Color(0x8876EE82);
-  static const btn_deep_blue = const Color(0xFF1A74C3);
-  static const btn_orange = const Color.fromRGBO(255, 255, 255, 1.0);
-  static const btn_soft_grey = const Color(0xFFF2F2F7);
+  static const btn_white = Color.fromRGBO(255, 255, 255, 1.0);
+  static const btn_red = Color(0xFFBC2929);
+  static const btn_soft_red = Color.fromRGBO(255,186,186, 1);
+  static const btn_green = Color(0xFF089716);
+  static const btn_soft_green = Color(0x8876EE82);
+  static const btn_deep_blue = Color(0xFF1A74C3);
+  static const btn_orange = Color.fromRGBO(255, 255, 255, 1.0);
+  static const btn_soft_grey = Color(0xFFF2F2F7);
 
   ///ChipColor
-  static const chip_orange = const Color(0xFFF8BC76);
-  static const chip_green = const Color(0xFF57C068);
-  static const chip_red = const Color(0xFFEB8888);
-  static const chip_soft_blue = const Color(0x72BCF826);
+  static const chip_orange = Color(0xFFF8BC76);
+  static const chip_green = Color(0xFF57C068);
+  static const chip_red = Color(0xFFEB8888);
+  static const chip_soft_blue = Color(0x7EA3D9FF);
 
   ///TextColor
-  static const text_black = const Color.fromRGBO(41, 44, 56, 1);
-  static const text_white = const Color.fromRGBO(255, 255, 255, 1.0);
-  static const text_soft_grey = const Color.fromRGBO(60, 60, 67, 0.6);
-  static const text_blue = const Color(0xFF2196F3);
-  static const text_red = const Color(0xFFbc2929);
-  static const text_green = const Color(0xff089716);
+  static const text_black = Color.fromRGBO(41, 44, 56, 1);
+  static const text_white = Color.fromRGBO(255, 255, 255, 1.0);
+  static const text_soft_grey = Color.fromRGBO(60, 60, 67, 0.6);
+  static const text_blue = Color(0xFF2196F3);
+  static const text_red = Color(0xFFbc2929);
+  static const text_green = Color(0xff089716);
 }
 
 class TextCustom {
@@ -153,7 +152,7 @@ class ButtonCustom{
     style = ElevatedButton.styleFrom(
       elevation: 0,
       backgroundColor: PalletColors.btn_red,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -167,7 +166,7 @@ class ButtonCustom{
     style = ElevatedButton.styleFrom(
       elevation: 0,
       backgroundColor: PalletColors.btn_soft_red,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -181,7 +180,7 @@ class ButtonCustom{
     style = ElevatedButton.styleFrom(
       elevation: 0,
       backgroundColor: PalletColors.btn_soft_grey,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),

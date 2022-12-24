@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/widgets/appbar_custom.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,17 +21,17 @@ class _ReportProblemState extends State<ReportProblem> {
     return Scaffold(
       appBar: AppBarCustom().getBSAppBarCustom('Report a problem'),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 children: [
-                  Text('Category'),
-                  Spacer(),
+                  const Text('Category'),
+                  const Spacer(),
                   Row(
-                    children: [
+                    children: const [
                       Text('Category'),
                       Icon(Icons.chevron_right)
                     ],
@@ -41,11 +39,11 @@ class _ReportProblemState extends State<ReportProblem> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
               color: Colors.grey,
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -75,7 +73,7 @@ class _ReportProblemState extends State<ReportProblem> {
                             elevation: 0,
                             backgroundColor: const Color.fromRGBO(
                                 242, 242, 247, 1),
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),

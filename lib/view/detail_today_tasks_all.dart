@@ -72,7 +72,7 @@ class _ListSpvState extends State<ListSpv> {
           return SizedBox(
             child: Card(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -80,7 +80,7 @@ class _ListSpvState extends State<ListSpv> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 16),
                             child: Image.asset('assets/images/broom.png')),
                         Flexible(
                             child: Text(
@@ -93,7 +93,7 @@ class _ListSpvState extends State<ListSpv> {
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             color: Colors.blue,
                             child: Icon(
                               Icons.vpn_key,
@@ -101,16 +101,16 @@ class _ListSpvState extends State<ListSpv> {
                               size: Get.width * 0.05,
                             )),
                       ),
-                      title: Text('Room 326'),
-                      subtitle: Text('Floor 3, Building 8'),
+                      title: const Text('Room 326'),
+                      subtitle: const Text('Floor 3, Building 8'),
                       //dense: true,
                     ),
-                    Divider(
+                    const Divider(
                       height: 0.1,
                       color: Color.fromRGBO(205, 205, 205, 1.0),
                     ),
                     Padding(
-                        padding: EdgeInsets.fromLTRB(32, 8, 0, 16),
+                        padding: const EdgeInsets.fromLTRB(32, 8, 0, 16),
                         child: Text(
                           'Est. time 30 min',
                           style: TextCustom()
@@ -121,7 +121,7 @@ class _ListSpvState extends State<ListSpv> {
                       child: Dismissible(
                         confirmDismiss: (direction) async {
                           log('GET_DISMISS');
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                               'Task from supervisor has been started',
                               style: TextStyle(color: Colors.black),
@@ -138,7 +138,7 @@ class _ListSpvState extends State<ListSpv> {
                         // Show a red background as the item is swiped away.
                         //background: Container(color: Colors.green),
                         child: Container(
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.green,
                             shape: RoundedRectangleBorder(
                               borderRadius:
@@ -160,7 +160,7 @@ class _ListSpvState extends State<ListSpv> {
                         },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     SizedBox(
@@ -222,7 +222,7 @@ class _ListTaskState extends State<ListTask> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset('assets/images/broom.png'),
-                      Flexible(
+                      const Flexible(
                           child: Text(
                               'Clean room, replace linen, Clean room, replace linen')),
                     ],
@@ -231,22 +231,22 @@ class _ListTaskState extends State<ListTask> {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           color: Colors.blue,
-                          child: Icon(
+                          child: const Icon(
                             Icons.vpn_key,
                             color: Colors.white,
                           )),
                     ),
-                    title: Text('Room 326'),
-                    subtitle: Text('Floor 3, Building 8'),
+                    title: const Text('Room 326'),
+                    subtitle: const Text('Floor 3, Building 8'),
                     //dense: true,
                   ),
-                  Divider(
+                  const Divider(
                     height: 0.1,
                     color: Color.fromRGBO(205, 205, 205, 1.0),
                   ),
-                  Text('Est. time 30 min'),
+                  const Text('Est. time 30 min'),
                   Dismissible(
                     confirmDismiss: (direction) async {
                       return null;
