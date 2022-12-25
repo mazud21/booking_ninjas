@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class History extends StatefulWidget {
@@ -14,7 +16,7 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  late List<String> listFilters = [];
+  late List<String> listFilters = ['Room 102','Twin', 'Cleaning', 'Floor 4', 'Last week'];
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,21 @@ class _HistoryState extends State<History> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(8),
-                              child: Text('${listFilters[index]}'),
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        listFilters.removeAt(index);
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(4, 0, 8, 0),
+                                        child: Icon(CupertinoIcons.clear_circled, size: 16,)),
+                                  ),
+                                  Text('${listFilters[index]}', style: TextCustom().textFootnote(PalletColors.text_blue),)
+                                ],
+                              ),
                             ),
                           );
                         }
@@ -320,14 +336,17 @@ class _FilterSearchState extends State<FilterSearch> {
                     TextIcon(
                       text1: 'Room type',
                       text2: 'Business Suite',
+                      value: 'room_type',
                     ),
                     TextIcon(
                       text1: 'Building',
                       text2: 'Select',
+                      value: 'building',
                     ),
                     TextIcon(
                       text1: 'Floor',
                       text2: 'Floor 3',
+                      value: 'floor',
                     ),
                   ],
                 ),
@@ -345,10 +364,12 @@ class _FilterSearchState extends State<FilterSearch> {
                     TextIcon(
                       text1: 'Task',
                       text2: 'Cleaning',
+                      value: 'task',
                     ),
                     TextIcon(
                       text1: 'Assigned by',
                       text2: 'Supervisor 1',
+                      value: 'assigned',
                     ),
                   ],
                 ),
@@ -363,10 +384,11 @@ class _FilterSearchState extends State<FilterSearch> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    const Text('Date'),
+                    const Text('Date', style: TextStyle(fontWeight: FontWeight.bold),),
                     const TextIcon(
                       text1: 'Period',
                       text2: 'Last week',
+                      value: 'period',
                     ),
                     InkWell(
                         onTap: () {
@@ -403,10 +425,29 @@ class _FilterSearchState extends State<FilterSearch> {
   }
 }
 
-class TextIcon extends StatelessWidget {
+class TextIcon extends StatefulWidget {
   final text1, text2, value;
 
-  const TextIcon({this.text1, this.text2, this.value});
+  const TextIcon({required this.text1, required this.text2, required this.value});
+
+  @override
+  State<TextIcon> createState() => _TextIconState();
+}
+
+class _TextIconState extends State<TextIcon> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  loadSaveLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var cv = prefs.getString('room_number');
+
+    return cv;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -416,24 +457,47 @@ class TextIcon extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
           child: Row(
             children: [
-              Text(text1),
+              Text(widget.text1),
               const Spacer(),
               SizedBox(
                 child: Row(
                   children: [
-                    value == 'date'
+                    widget.value == 'date'
                         ? Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                                 color: PalletColors.btn_soft_grey,
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Text(text2),
+                            child: Text(widget.text2),
                           )
                         : TextButton(
                             onPressed: () {
-                              bsShowRoom(context);
+
+                              switch (widget.value) {
+                                case 'room_number':
+                                  bsShowRoom(context);
+                                  break;
+                                case 'room_type':
+                                  bsShowType(context);
+                                  break;
+                                case 'building':
+
+                                  break;
+                                case 'floor':
+
+                                  break;
+                                case 'task':
+
+                                  break;
+                                case 'assigned':
+
+                                  break;
+                                case 'period':
+
+                                  break;
+                              }
                             },
-                            child: Text(text2)),
+                            child: Text(widget.text2)),
                     const Icon(Icons.chevron_right_rounded)
                   ],
                 ),
@@ -467,6 +531,25 @@ class TextIcon extends StatelessWidget {
           );
         });
   }
+
+  bsShowType(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        barrierColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: RoomType(),
+          );
+        });
+  }
 }
 
 class RoomNumber extends StatefulWidget {
@@ -475,7 +558,9 @@ class RoomNumber extends StatefulWidget {
 }
 
 class _RoomNumberState extends State<RoomNumber> {
+
   late int value = 0;
+  List<String> listRoomNumber = ['Room 101','Room 102','Room 103','Room 104','Room 105','Room 106','Room 107','Room 108','Room 109','Room 110','Room 111','Room 112'];
 
   @override
   Widget build(BuildContext context) {
@@ -484,6 +569,7 @@ class _RoomNumberState extends State<RoomNumber> {
       body: Padding(
         padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: ListView.builder(
+          itemCount: listRoomNumber.length,
           itemBuilder: (context, index) {
             return RadioListTile(
               value: index,
@@ -495,16 +581,64 @@ class _RoomNumberState extends State<RoomNumber> {
                   color: PalletColors.text_soft_grey
                 ),
               ),
+              onChanged: (valueSelect) async {
+                setState(() {
+                  value = valueSelect!;
+                });
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('room_number', listRoomNumber[index]);
+                var cv = prefs.getString('room_number');
+
+                log('CHECK_GET $cv');
+              },
+              title: Text(listRoomNumber[index]),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class RoomType extends StatefulWidget {
+  @override
+  State<RoomType> createState() => _RoomTypeState();
+}
+
+class _RoomTypeState extends State<RoomType> {
+  late int value = 0;
+
+  List<String> listRoomtType = ['Single','Twin','Double','Triple','Quad','King','Queen','Suite','Business Suite','Studio','Deluxe','Penthouse'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarCustom().getCupertinoNavBar('Rooom type'),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+        child: ListView.builder(
+          itemCount: listRoomtType.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              value: index,
+              groupValue: value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              shape: Border(
+                bottom: BorderSide(
+
+                    color: PalletColors.text_soft_grey
+                ),
+              ),
               onChanged: (valueSelect) {
                 setState(() {
                   value = valueSelect!;
                 });
-                log('CHECK_VALUE $value');
+                log('CHECK_VALUE $value ${listRoomtType[index]}');
               },
-              title: Text("Room ${index + 1}"),
+              title: Text(listRoomtType[index]),
             );
           },
-          itemCount: 20,
         ),
       ),
     );

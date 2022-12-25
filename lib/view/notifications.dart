@@ -1,5 +1,8 @@
+import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../theme/colors_texts_widget.dart';
 
 class Notifications extends StatefulWidget {
 
@@ -11,14 +14,11 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notifications'),
-        actions: [
-          InkWell(
-            onTap: () => bsNotifSetting(context),
-            child: const Text('Setting'),
-          )
-        ],
+      appBar: CupertinoNavigationBar(
+        backgroundColor: PalletColors.btn_soft_grey,
+        middle: Text('Notifications'),
+        trailing: Text('Settings', style: TextStyle(color: PalletColors.text_blue),),
+        border: Border.all(width: 0.5,color: PalletColors.text_soft_grey),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
