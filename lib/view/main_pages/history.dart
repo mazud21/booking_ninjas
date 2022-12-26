@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -49,14 +48,14 @@ class _HistoryState extends State<History> {
                   SizedBox(
                     width: Get.width * 0.2,
                     child: Container(
-                      margin: EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: PalletColors.chip_soft_blue,
                       ),
                       child: InkWell(
                         onTap: () => bsFilterSearch(context),
-                        child: Padding(
+                        child: const Padding(
                             padding: EdgeInsets.all(8),
                             child: Icon(CupertinoIcons.slider_horizontal_3)),
                       ),
@@ -80,16 +79,16 @@ class _HistoryState extends State<History> {
                       itemCount: listFilters.length,
                       itemBuilder: (context, index) {
                         if (listFilters.isEmpty) {
-                          return SizedBox();
+                          return const SizedBox();
                         } else {
                           return Container(
-                            margin: EdgeInsets.only(right: 8),
+                            margin: const EdgeInsets.only(right: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: PalletColors.chip_soft_blue,
                             ),
                             child: Padding(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               child: Row(
                                 children: [
                                   InkWell(
@@ -98,11 +97,11 @@ class _HistoryState extends State<History> {
                                         listFilters.removeAt(index);
                                       });
                                     },
-                                    child: Padding(
+                                    child: const Padding(
                                       padding: EdgeInsets.fromLTRB(4, 0, 8, 0),
                                         child: Icon(CupertinoIcons.clear_circled, size: 16,)),
                                   ),
-                                  Text('${listFilters[index]}', style: TextCustom().textFootnote(PalletColors.text_blue),)
+                                  Text(listFilters[index], style: TextCustom().textFootnote(PalletColors.text_blue),)
                                 ],
                               ),
                             ),
@@ -114,13 +113,13 @@ class _HistoryState extends State<History> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             SizedBox(
               height: Get.height * 0.75,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 100),
+                padding: const EdgeInsets.only(bottom: 100),
                 child: ListView.builder(
                   itemCount: 7,
                   itemBuilder: (context, index) {
@@ -133,11 +132,11 @@ class _HistoryState extends State<History> {
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                             child: Row(
                               children: [
-                                Text(
+                                const Text(
                                   'July 22, 2022, 06:30 AM',
                                   style: TextStyle(color: Colors.grey),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Chip(
                                     backgroundColor: PalletColors.chip_green,
                                     label: Text(
@@ -152,10 +151,10 @@ class _HistoryState extends State<History> {
                             title: Row(
                               children: [
                                 Image.asset('assets/images/broom.png'),
-                                SizedBox(
+                                const SizedBox(
                                   width: 16,
                                 ),
-                                Text('Clean room, replace linen')
+                                const Text('Clean room, replace linen')
                               ],
                             ),
                             children: <Widget>[
@@ -304,16 +303,16 @@ class _FilterSearchState extends State<FilterSearch> {
             children: <Widget>[
               TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     'Clear',
                     style: TextStyle(color: PalletColors.text_blue),
                   ))
             ],
           ),
-          middle: Text('Filters'),
+          middle: const Text('Filters'),
           trailing: TextButton(
               onPressed: () {},
-              child: Text('Done',
+              child: const Text('Done',
                   style: TextStyle(color: PalletColors.text_blue))),
           border: Border.all(width: 0.5, color: PalletColors.text_soft_grey),
         ),
@@ -567,7 +566,7 @@ class _RoomNumberState extends State<RoomNumber> {
     return Scaffold(
       appBar: AppBarCustom().getCupertinoNavBar('Rooom number'),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: ListView.builder(
           itemCount: listRoomNumber.length,
           itemBuilder: (context, index) {
@@ -575,7 +574,7 @@ class _RoomNumberState extends State<RoomNumber> {
               value: index,
               groupValue: value,
               controlAffinity: ListTileControlAffinity.trailing,
-              shape: Border(
+              shape: const Border(
                 bottom: BorderSide(
                   
                   color: PalletColors.text_soft_grey
@@ -616,7 +615,7 @@ class _RoomTypeState extends State<RoomType> {
     return Scaffold(
       appBar: AppBarCustom().getCupertinoNavBar('Rooom type'),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: ListView.builder(
           itemCount: listRoomtType.length,
           itemBuilder: (context, index) {
@@ -624,7 +623,7 @@ class _RoomTypeState extends State<RoomType> {
               value: index,
               groupValue: value,
               controlAffinity: ListTileControlAffinity.trailing,
-              shape: Border(
+              shape: const Border(
                 bottom: BorderSide(
 
                     color: PalletColors.text_soft_grey

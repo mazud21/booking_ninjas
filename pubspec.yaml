@@ -66,6 +66,7 @@ dependencies:
   avatar_glow: any
   stop_watch_timer: any
   percent_indicator: ^4.2.2
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:

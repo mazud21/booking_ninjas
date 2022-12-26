@@ -4,6 +4,7 @@ import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/route/routes.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/dashboard.dart';
+import 'package:booking_ninjas/view/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: PalletColors.text_blue)),
         //initialRoute: '/tasks',
         getPages: Routes.routes,
-        home: const Dashboard(),
+        home: Dashboard(),
         builder: EasyLoading.init(),
       ),
     );

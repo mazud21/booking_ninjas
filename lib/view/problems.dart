@@ -11,18 +11,21 @@ class _ProblemsState extends State<Problems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const Text('Task'),
-        title: const Text('Problems'),
-        actions: const [
-          Text('Save')
-        ],
+      appBar: CupertinoNavigationBar(
+        middle: const Text('Problems'),
+        trailing: InkWell(
+          onTap: () => null,
+          child: const Text('Save'),
+        ),
       ),
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return cardProblem;
-          },
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return cardProblem;
+            },
+        ),
       ),
     );
   }
@@ -43,14 +46,22 @@ class _ProblemsState extends State<Problems> {
               Icon(Icons.close,color: Colors.red,)
             ],
           ),
-          Row(
-            children: const [
-              Icon(CupertinoIcons.wrench_fill),
-              Text('Sink is Broken', style: TextStyle(fontSize: 26),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Row(
+              children: const [
+                Icon(CupertinoIcons.wrench_fill),
+                SizedBox(
+                  width: 16,
+                ),
+                Text('Sink is Broken', style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
-          const Text('Bathroom'),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+              child: Text('Bathroom')),
           Row(
             children: [
               Image.network('https://icety.org/media/0b2fe56d-a690-48e3-a241-be496662624d/modern-bathroom-2.jpg', width: 75,),

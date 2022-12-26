@@ -59,7 +59,7 @@ class TextCustom {
   }
 
   textTextBold(Color c) {
-    ts = TextStyle(fontSize: 17, color: c, fontWeight: FontWeight.bold);
+    ts = TextStyle(fontSize: 15, color: c, fontWeight: FontWeight.bold);
     return ts;
   }
 
@@ -124,7 +124,7 @@ class ButtonCustom{
     style = ElevatedButton.styleFrom(
       elevation: 0,
       backgroundColor: PalletColors.btn_green,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -152,7 +152,7 @@ class ButtonCustom{
     style = ElevatedButton.styleFrom(
       elevation: 0,
       backgroundColor: PalletColors.btn_red,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),

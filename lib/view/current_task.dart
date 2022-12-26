@@ -77,7 +77,7 @@ class _CurrentTaskState extends State<CurrentTask> {
         child: ListView(
           children: [
             Text(
-                'ndjfnhsjldikbnhskdjfnbskdjfhlsidjfnblsidfjbnsdifbhjfbldsfjkshbdkfjh',
+                'Clean room, replace linen',
                 style: TextCustom().textText(PalletColors.text_black)),
             const SizedBox(
               height: 8,
