@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: PalletColors.text_blue)),
         //initialRoute: '/tasks',
         getPages: Routes.routes,
-        home: Dashboard(),
+        home: SplashScreen(),
         builder: EasyLoading.init(),
       ),
     );

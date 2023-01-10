@@ -1,4 +1,4 @@
 class Endpoint{
-  static const LOGIN_URL = 'https://bn-sfauth.herokuapp.com/api/session';
+  static const LOGIN_URL = 'https://sfauth.bookingninjas.com/api/session';
 
 }

@@ -166,6 +166,7 @@ class _FormLoginState extends State<FormLogin> {
     var sessionId = response.data['session_id'].toString();
     var orgUrl = response.data['org_url'].toString();
     var status = response.data['status'].toString();
+    var contactId = response.data['contact_id'].toString();
 
     if (status == '1') {
 
@@ -173,6 +174,7 @@ class _FormLoginState extends State<FormLogin> {
       prefs.setString("session_id", sessionId);
       prefs.setString("org_url", orgUrl);
       prefs.setString("status", status);
+      prefs.setString("contact_id", contactId);
 
       EasyLoading.dismiss();
 

@@ -1,14 +1,20 @@
 import 'dart:developer';
 
 import 'package:booking_ninjas/models/flightModel.dart';
+import 'package:booking_ninjas/models/model_task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FetchData extends ChangeNotifier{
 
   List<Airline> _dataAirline = [];
   List<Airline> get dataAirline => _dataAirline;
+
+  List<ModelTask> _dataTask = [];
+  List<ModelTask> get dataTask => _dataTask;
 
   getListFlight() async {
 
@@ -87,5 +93,114 @@ class FetchData extends ChangeNotifier{
       log('ERROR_DATA: $e');
 
     }
+  }
+
+  getListTask() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var bearerToken = prefs.getString('session_id');
+    var endpoint = prefs.getString('org_url');
+    var contactId = prefs.getString('contact_id');
+
+    Map<String, String> requestHeaders = {
+      //'Authorization': 'Bearer $bearerToken'
+      'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'
+    };
+
+    //final url = "https://$endpoint/services/apexrest/bn2gpv1/Housekeeping/$contactId";
+    const url = "https://nosoftware-app-2024-dev-ed.scratch.my.salesforce.com/services/apexrest/bn2gpv1/Housekeeping/0036D00000hoWTWQA2";
+
+    try{
+
+      final response = await http.get(Uri.parse(url), headers: {'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'});
+
+      print('GET_DATA_DEFAULT: ${response.statusCode} ${response.body}');
+
+      try {
+        if (response.statusCode == 200) {
+
+          var result = ModelTask.fromJson(json.decode(response.body));
+          print('GET_PAGE_DATA0: $result');
+
+          return result;
+        } else {
+          debugPrint('statusSEARCH_cek_URL: ');
+        }
+      } on http.ClientException {
+        print("throwing new error");
+        throw Exception("Error on server");
+      }
+
+    } on Exception catch (e){
+      log('ERROR_DATA: $e');
+
+    }
+  }
+
+  Future<List<ModelTask>> getListTask2() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var bearerToken = prefs.getString('session_id');
+    var endpoint = prefs.getString('org_url');
+    var contactId = prefs.getString('contact_id');
+
+    Map<String, String> requestHeaders = {
+      'Authorization': 'Bearer $bearerToken'
+      //'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'
+    };
+
+    final url = "https://$endpoint/services/apexrest/bn2gpv1/Housekeeping/$contactId";
+    //const url = "https://nosoftware-app-2024-dev-ed.scratch.my.salesforce.com/services/apexrest/bn2gpv1/Housekeeping/0036D00000hoWTWQA2";
+
+    final response = await http.get(Uri.parse(url), headers: {'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'});
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body).cast<Map<String, dynamic>>();
+      print('RESPONSE_CEK_TASK : ${json.decode(response.body)}');
+      _dataTask = result.map<ModelTask>((json) => ModelTask.fromJson(json)).toList();
+      return _dataTask;
+    } else {
+      throw Exception();
+    }
+  }
+
+  postStatusTask(String taskId, String status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var bearerToken = prefs.getString('session_id');
+    var endpoint = prefs.getString('org_url');
+
+    Map<String, String> requestHeaders = {
+      'Authorization': 'Bearer $bearerToken'
+      //'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'
+    };
+
+    checkStatus(){
+
+      ///"Confirmed" -> petugas mengkonfirmasi untuk menerima task
+      /// "In Progress" -> mulai mengerjakan task
+      /// "Completed" -> selesai (edited)
+
+      if(status == 'Pending'){
+        return 'Confirmed';
+      } else if(status == 'Confirmed'){
+        return 'In Progress';
+      } else if(status == 'In Progress') {
+        return 'Completed';
+      }
+    }
+
+    Map<String, String> bodyData = {
+      "task_id" : /*"a0W0l00000cA0TLEA0"*/taskId,
+      "status" : /*"Confirmed"*/checkStatus().toString()
+    };
+
+    final url = "https://$endpoint/services/apexrest/bn2gpv1/Housekeeping/";
+    //const url = "https://nosoftware-app-2024-dev-ed.scratch.my.salesforce.com/services/apexrest/bn2gpv1/Housekeeping/0036D00000hoWTWQA2";
+
+    final response = await http.post(Uri.parse(url), headers: requestHeaders, body: bodyData);
+
   }
 }

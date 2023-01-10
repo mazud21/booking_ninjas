@@ -5,18 +5,25 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailNewTask extends StatefulWidget {
-
   late ValueNotifier<bool> switchValue;
   late BuildContext context;
+  late String title, status, room, floor, building, notes;
 
-  DetailNewTask({required this.switchValue, required this.context});
+  DetailNewTask(
+      {required this.switchValue,
+      required this.context,
+      required this.title,
+      required this.status,
+      required this.room,
+      required this.floor,
+      required this.building,
+      required this.notes});
 
   @override
   _DetailNewTaskState createState() => _DetailNewTaskState();
 }
 
 class _DetailNewTaskState extends State<DetailNewTask> {
-
   late SharedPreferences prefs;
   late String actTask;
 
@@ -29,10 +36,9 @@ class _DetailNewTaskState extends State<DetailNewTask> {
     prefs = await SharedPreferences.getInstance();
     actTask = prefs.getString('task')!;
 
-    if(actTask == 'inActive'){
+    if (actTask == 'inActive') {
       widget.switchValue.value = false;
     }
-
   }
 
   saveTime() async {
@@ -40,6 +46,8 @@ class _DetailNewTaskState extends State<DetailNewTask> {
     prefs = await SharedPreferences.getInstance();
     prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
   }
+
+
 
   @override
   void initState() {
@@ -58,15 +66,24 @@ class _DetailNewTaskState extends State<DetailNewTask> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Clean room', style: TextCustom().heading2(),),
+            Text(
+              widget.title,
+              style: TextCustom().heading2(),
+            ),
             const SizedBox(height: 16),
             Chip(
-              label: Text('In progress', style: TextCustom().textFootnote(PalletColors.text_white),),
+              label: Text(
+                widget.status,
+                style: TextCustom().textFootnote(PalletColors.text_white),
+              ),
               padding: const EdgeInsets.fromLTRB(8, 8, 12, 10),
               backgroundColor: Colors.orange,
-              deleteIcon: const Icon(Icons.keyboard_arrow_down, color: PalletColors.text_white, size: 18,),
-              onDeleted: () {
-              },
+              deleteIcon: const Icon(
+                Icons.keyboard_arrow_down,
+                color: PalletColors.text_white,
+                size: 18,
+              ),
+              onDeleted: () {},
             ),
             const SizedBox(height: 16),
             Row(
@@ -75,22 +92,31 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Room', style: TextCustom().textMenuGrey(),),
-                    const Text('Room 326')
+                    Text(
+                      'Room',
+                      style: TextCustom().textMenuGrey(),
+                    ),
+                    Text(widget.room)
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Floor', style: TextCustom().textMenuGrey(),),
-                    const Text('Floor 3')
+                    Text(
+                      'Floor',
+                      style: TextCustom().textMenuGrey(),
+                    ),
+                    Text(widget.floor)
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Building/unit', style: TextCustom().textMenuGrey(),),
-                    const Text('Building 8')
+                    Text(
+                      'Building/unit',
+                      style: TextCustom().textMenuGrey(),
+                    ),
+                    Text(widget.building)
                   ],
                 ),
               ],
@@ -98,12 +124,19 @@ class _DetailNewTaskState extends State<DetailNewTask> {
             const SizedBox(
               height: 16,
             ),
-            Text('Notes', style: TextCustom().textMenuGrey(),),
-            const Text('Pay special attention to the bathroom'),
+            Text(
+              'Notes',
+              style: TextCustom().textMenuGrey(),
+            ),
+            //const Text('Pay special attention to the bathroom'),
+            Text(widget.notes == 'null' ? '-' : widget.notes),
             const SizedBox(
               height: 16,
             ),
-            Text('Est. time', style: TextCustom().textMenuGrey(),),
+            Text(
+              'Est. time',
+              style: TextCustom().textMenuGrey(),
+            ),
             const Text('30 min'),
             const SizedBox(
               height: 32,
@@ -113,8 +146,8 @@ class _DetailNewTaskState extends State<DetailNewTask> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width*0.25,
-                  height: MediaQuery.of(context).size.height*0.05,
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
@@ -130,12 +163,11 @@ class _DetailNewTaskState extends State<DetailNewTask> {
 
                         Get.back();
                       },
-                      child: const Text('Accept')
-                  ),
+                      child: const Text('Accept')),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width*0.25,
-                  height: MediaQuery.of(context).size.height*0.05,
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
@@ -143,9 +175,8 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: () => /*Get.to(Login())*/null,
-                      child: const Text('Decline')
-                  ),
+                      onPressed: () => /*Get.to(Login())*/ null,
+                      child: const Text('Decline')),
                 ),
               ],
             ),

@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
+import '../../models/model_task.dart';
 import '../../widgets/completed_task.dart';
 
 class Tasks extends StatefulWidget {
@@ -248,20 +249,32 @@ class _Card3State extends State<Card3> {
   late bool listVisible = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FetchData().getListTask2();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Widget listOn = FutureBuilder(
-      future: Provider.of<FetchData>(context, listen: true).getListFlight(),
+      future: Provider.of<FetchData>(context, listen: false).getListTask(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.waiting){
           return const CupertinoActivityIndicator(
             radius: 15,
             animating: true,
           );
-        } else {
+        } /*else if(!snapshot.hasData) {
+          return Center(
+            child: Text('No Data'),
+          );
+        }*/ else {
           return SizedBox(
             height: Get.height*0.48,
-            child: ListInfinityTask(flightModel: snapshot.data, switchValue: widget.switchValue,),
+            //child: ListInfinityTask(taskModel: snapshot.data, switchValue: widget.switchValue,),
+            child: ListTask(switchValue: widget.switchValue),
           );
         }
       },
@@ -322,11 +335,185 @@ class _Card3State extends State<Card3> {
 
 }
 
+class ListTask extends StatefulWidget {
+
+  late ValueNotifier<bool> switchValue;
+  
+  ListTask({required this.switchValue});
+
+  @override
+  State<ListTask> createState() => _ListTaskState();
+}
+
+class _ListTaskState extends State<ListTask> {
+
+  late SharedPreferences prefs;
+  late String actTask;
+
+  //late List<Data> _list;
+  late List<ModelTask> _list;
+
+  activeTask() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('task', 'active');
+  }
+
+  checkTaskAvailable() async {
+    prefs = await SharedPreferences.getInstance();
+    actTask = prefs.getString('task')!;
+
+    if(actTask == 'inActive'){
+      widget.switchValue.value = false;
+    }
+
+  }
+
+  saveTime() async {
+    //Insert
+    prefs = await SharedPreferences.getInstance();
+    prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkTaskAvailable();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FutureBuilder(
+        future: Provider.of<FetchData>(context, listen: true).getListTask2(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CupertinoActivityIndicator(
+                  animating: true,
+                  radius: 15,
+                ),
+              );
+            } 
+            return Consumer<FetchData>(
+                builder: (context, data, _) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: data.dataTask.length,
+                    itemBuilder: (context, index) {
+
+                      var compressCall = data.dataTask[index];
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          ListTile(
+                            onTap: () => bsDetailTodayTask(context, compressCall.cleaningTask.toString(), compressCall.status.toString(), compressCall.roomUnitNumber.toString(), compressCall.roomUnitFloor.toString(), compressCall.roomUnitPropertyName.toString(), compressCall.notes.toString()),
+                            leading: Image.asset('assets/images/broom.png'),
+                            //title: const Text('Clean Room'),
+                            title: Text('${compressCall.cleaningTask}'),
+                            //subtitle: Text('Room 475, Floor 4, Building 8'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
+                                Text('${compressCall.roomUnitNumber}, Floor ${compressCall.roomUnitFloor}, ${compressCall.roomUnitPropertyName}'),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.25,
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            activeTask();
+                                            saveTime();
+
+                                            widget.switchValue.value = true;
+
+                                          },
+                                          child: const Text('Accept')),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.25,
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          onPressed: () => /*Get.to(Login())*/null,
+                                          child: const Text('Decline')),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(
+                            height: 0.1,
+                            color: Color.fromRGBO(205, 205, 205, 1.0),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+            );
+          },
+      ),
+    );
+  }
+
+  bsDetailTodayTask(BuildContext context, String title, String status, String room, String floor, String building, String notes) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: DetailNewTask(switchValue: widget.switchValue, context: context, title: title, status: status, room: room, floor: floor, building: building, notes: notes),
+          );
+        });
+  }
+  
+}
+
+/*
+
 class ListInfinityTask extends StatefulWidget {
   late ValueNotifier<bool> switchValue;
-  final flightModel;
+  //final flightModel;
+  final taskModel;
 
-  ListInfinityTask({required this.switchValue, required this.flightModel});
+  ListInfinityTask({required this.switchValue, required this.taskModel});
 
   @override
   State<ListInfinityTask> createState() => _ListInfinityTaskState();
@@ -337,7 +524,8 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
   late SharedPreferences prefs;
   late String actTask;
 
-  late List<Data> _list;
+  //late List<Data> _list;
+  late List<ModelTask> _list;
 
   activeTask() async {
     prefs = await SharedPreferences.getInstance();
@@ -366,7 +554,8 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
     super.initState();
     checkTaskAvailable();
 
-    _list = widget.flightModel.data!.cast<Data>();
+    //_list = widget.flightModel.data!.cast<Data>();
+    _list = widget.taskModel.data!.cast<ModelTask>();
 
   }
 
@@ -376,7 +565,7 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
       body: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 3,
+        itemCount: _list.length,
         itemBuilder: (context, index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,8 +576,8 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
               ListTile(
                 onTap: () => bsDetailTodayTask(context),
                 leading: Image.asset('assets/images/broom.png'),
-                title: const Text('Clean Room'),
-                //title: Text('${_list[index].name}'),
+                //title: const Text('Clean Room'),
+                title: Text('${_list[index].cleaningTask}'),
                 //subtitle: Text('Room 475, Floor 4, Building 8'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,7 +622,9 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
-                              onPressed: () => /*Get.to(Login())*/null,
+                              onPressed: () => */
+/*Get.to(Login())*//*
+null,
                               child: const Text('Decline')),
                         ),
                       ],
@@ -468,13 +659,14 @@ class _ListInfinityTaskState extends State<ListInfinityTask> {
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.9,
-            child: DetailNewTask(switchValue: widget.switchValue, context: context),
+            child: DetailNewTask(switchValue: widget.switchValue, context: context, title: title, status: status, room: room, floor: floor, building: building, notes: notes),
           );
         });
   }
 
 }
 
+*/
 
 class ActiveTask extends StatefulWidget {
   const ActiveTask({Key? key}) : super(key: key);

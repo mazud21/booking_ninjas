@@ -1,0 +1,80 @@
+class ModelTask {
+  String? status;
+  String? startDate;
+  String? roomUnitTypeName;
+  String? roomUnitTypeId;
+  String? roomUnitPropertyName;
+  String? roomUnitPropertyId;
+  String? roomUnitNumber;
+  String? roomUnitId;
+  String? roomUnitFloor;
+  String? resUnitId;
+  String? notes;
+  String? maintenanceTask;
+  bool? isUrgent;
+  String? id;
+  String? endDate;
+  String? cleaningTask;
+  String? category;
+
+  ModelTask(
+      {this.status,
+        this.startDate,
+        this.roomUnitTypeName,
+        this.roomUnitTypeId,
+        this.roomUnitPropertyName,
+        this.roomUnitPropertyId,
+        this.roomUnitNumber,
+        this.roomUnitId,
+        this.roomUnitFloor,
+        this.resUnitId,
+        this.notes,
+        this.maintenanceTask,
+        this.isUrgent,
+        this.id,
+        this.endDate,
+        this.cleaningTask,
+        this.category});
+
+  ModelTask.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    startDate = json['startDate'];
+    roomUnitTypeName = json['roomUnitTypeName'];
+    roomUnitTypeId = json['roomUnitTypeId'];
+    roomUnitPropertyName = json['roomUnitPropertyName'];
+    roomUnitPropertyId = json['roomUnitPropertyId'];
+    roomUnitNumber = json['roomUnitNumber'];
+    roomUnitId = json['roomUnitId'];
+    roomUnitFloor = json['roomUnitFloor'];
+    resUnitId = json['resUnitId'];
+    notes = json['notes'];
+    maintenanceTask = json['maintenanceTask'];
+    isUrgent = json['isUrgent'];
+    id = json['id'];
+    endDate = json['endDate'];
+    cleaningTask = json['cleaningTask'];
+    category = json['category'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['startDate'] = this.startDate;
+    data['roomUnitTypeName'] = this.roomUnitTypeName;
+    data['roomUnitTypeId'] = this.roomUnitTypeId;
+    data['roomUnitPropertyName'] = this.roomUnitPropertyName;
+    data['roomUnitPropertyId'] = this.roomUnitPropertyId;
+    data['roomUnitNumber'] = this.roomUnitNumber;
+    data['roomUnitId'] = this.roomUnitId;
+    data['roomUnitFloor'] = this.roomUnitFloor;
+    data['resUnitId'] = this.resUnitId;
+    data['notes'] = this.notes;
+    data['maintenanceTask'] = this.maintenanceTask;
+    data['isUrgent'] = this.isUrgent;
+    data['id'] = this.id;
+    data['endDate'] = this.endDate;
+    data['cleaningTask'] = this.cleaningTask;
+    data['category'] = this.category;
+    return data;
+  }
+}
