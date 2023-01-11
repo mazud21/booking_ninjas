@@ -246,7 +246,7 @@ class Card3 extends StatefulWidget {
 
 class _Card3State extends State<Card3> {
 
-  late bool listVisible = false;
+  late bool listVisible = true;
 
   @override
   void initState() {
@@ -259,7 +259,7 @@ class _Card3State extends State<Card3> {
   Widget build(BuildContext context) {
 
     Widget listOn = FutureBuilder(
-      future: Provider.of<FetchData>(context, listen: false).getListTask(),
+      future: Provider.of<FetchData>(context, listen: false).getListTask2(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.waiting){
           return const CupertinoActivityIndicator(
@@ -296,7 +296,7 @@ class _Card3State extends State<Card3> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('New tasks', style: TextCustom().heading2(),),
-                  TextButton(
+                  /*TextButton(
                       onPressed: () {
 
                         setState(() {
@@ -304,7 +304,7 @@ class _Card3State extends State<Card3> {
                         });
                       },
                       child: const Text('Test List Data')
-                  ),
+                  ),*/
                   TextButton(
                     onPressed: () => Get.to(NewTaskAll()),
                     child: const Text('See All'),
@@ -441,10 +441,12 @@ class _ListTaskState extends State<ListTask> {
                                             ),
                                           ),
                                           onPressed: () {
-                                            activeTask();
-                                            saveTime();
+                                            //activeTask();
+                                            //saveTime();
 
-                                            widget.switchValue.value = true;
+                                            //widget.switchValue.value = true;
+
+                                            FetchData().postStatusTask(compressCall.id.toString(), compressCall.status.toString());
 
                                           },
                                           child: const Text('Accept')),

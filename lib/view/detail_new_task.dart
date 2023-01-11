@@ -46,8 +46,18 @@ class _DetailNewTaskState extends State<DetailNewTask> {
     prefs = await SharedPreferences.getInstance();
     prefs.setInt('time', DateTime.now().millisecondsSinceEpoch);
   }
-
-
+  
+  _checkStatus(String status){
+    if(status == 'Pending'){
+      return PalletColors.chip_orange;
+    } else if(status == 'Confirmed'){
+      return PalletColors.chip_soft_blue;
+    } else if(status == 'In Progress') {
+      return PalletColors.btn_deep_blue;
+    } else {
+      return PalletColors.chip_green;
+    }
+  }
 
   @override
   void initState() {
@@ -77,7 +87,7 @@ class _DetailNewTaskState extends State<DetailNewTask> {
                 style: TextCustom().textFootnote(PalletColors.text_white),
               ),
               padding: const EdgeInsets.fromLTRB(8, 8, 12, 10),
-              backgroundColor: Colors.orange,
+              backgroundColor: _checkStatus(widget.status),
               deleteIcon: const Icon(
                 Icons.keyboard_arrow_down,
                 color: PalletColors.text_white,
