@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:booking_ninjas/models/flightModel.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
 import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/current_task.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-import '../../models/model_task.dart';
+import '../../models/model_task_general.dart';
 import '../../widgets/completed_task.dart';
 
 class Tasks extends StatefulWidget {
@@ -252,14 +253,14 @@ class _Card3State extends State<Card3> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    FetchData().getListTask2();
+    FetchData().getListTask();
   }
 
   @override
   Widget build(BuildContext context) {
 
     Widget listOn = FutureBuilder(
-      future: Provider.of<FetchData>(context, listen: false).getListTask2(),
+      future: Provider.of<FetchData>(context, listen: false).getListTask(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.waiting){
           return const CupertinoActivityIndicator(
@@ -351,7 +352,7 @@ class _ListTaskState extends State<ListTask> {
   late String actTask;
 
   //late List<Data> _list;
-  late List<ModelTask> _list;
+  late List<ModelTaskConfirm> _list;
 
   activeTask() async {
     prefs = await SharedPreferences.getInstance();
@@ -385,7 +386,7 @@ class _ListTaskState extends State<ListTask> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: Provider.of<FetchData>(context, listen: true).getListTask2(),
+        future: Provider.of<FetchData>(context, listen: true).getListTask(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -400,10 +401,10 @@ class _ListTaskState extends State<ListTask> {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.dataTask.length,
+                    itemCount: data.dataTaskGeneral.length,
                     itemBuilder: (context, index) {
 
-                      var compressCall = data.dataTask[index];
+                      var compressCall = data.dataTaskGeneral[index];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

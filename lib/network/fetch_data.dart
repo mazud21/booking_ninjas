@@ -1,7 +1,13 @@
 import 'dart:developer';
 
 import 'package:booking_ninjas/models/flightModel.dart';
-import 'package:booking_ninjas/models/model_task.dart';
+import 'package:booking_ninjas/models/model_task_assign.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
+import 'package:booking_ninjas/models/model_task_confirm.dart';
+import 'package:booking_ninjas/models/model_task_general.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -12,135 +18,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FetchData extends ChangeNotifier{
 
-  List<Airline> _dataAirline = [];
-  List<Airline> get dataAirline => _dataAirline;
+  List<ModelTaskGeneral> _dataTaskGeneral = [];
+  List<ModelTaskGeneral> get dataTaskGeneral => _dataTaskGeneral.where((element) => element.status == 'Pending').toList();
 
-  List<ModelTask> _dataTask = [];
-  List<ModelTask> get dataTask => _dataTask;
+  List<ModelTaskAssign> _dataTaskAssign = [];
+  List<ModelTaskAssign> get dataTaskAssign => _dataTaskAssign;
 
-  getListFlight() async {
-
-    /*Map<String, String> requestHeaders = {
-      'Authorization': 'Bearer ${tokenIzin.toString()}',
-
-    };*/
-
-    const url = "https://api.instantwebtools.net/v1/passenger?page=0&size=10";
-
-    try{
-
-      final response = await http.get(Uri.parse(url)/*, headers: requestHeaders*/);
-
-      try {
-        if (response.statusCode == 200) {
-
-          var result = FlightModel.fromJson(json.decode(response.body));
-          print('GET_PAGE_DATA0: $result');
-
-          return result;
-        } else {
-          debugPrint('statusSEARCH_cek_URL: ');
-        }
-      } on http.ClientException {
-        print("throwing new error");
-        throw Exception("Error on server");
-      }
-
-    } on Exception catch (e){
-      log('ERROR_DATA: $e');
-
-    }
-  }
-
-  Future<List<Airline>> fetchAirline() async {
-
-    const url = "https://api.instantwebtools.net/v1/passenger?page=0&size=10";
-
-    final response = await http.get(Uri.parse(url));
-    print(url);
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body)['data'][0]['airline'].cast<Map<String, dynamic>>();
-      print('RESPONSE_CEK_MEMO : ${json.decode(response.body)}');
-      _dataAirline = result.map<FlightModel>((json) => FlightModel.fromJson(json)).toList();
-      return _dataAirline;
-    } else {
-      throw Exception();
-    }
-  }
-
-  getDetailPassenger(String id) async {
-
-    final url = "https://api.instantwebtools.net/v1/passenger?id=$id";
-
-    try{
-
-      final response = await http.get(Uri.parse(url)/*, headers: requestHeaders*/);
-
-      try {
-        if (response.statusCode == 200) {
-
-          var result = FlightModel.fromJson(json.decode(response.body)['data'][0]);
-          print('GET_DETAIL_DATA0: $result');
-
-          return result;
-        } else {
-          debugPrint('statusSEARCH_cek_URL: ');
-        }
-      } on http.ClientException {
-        print("throwing new error");
-        throw Exception("Error on server");
-      }
-
-    } on Exception catch (e){
-      log('ERROR_DATA: $e');
-
-    }
-  }
+  List<ModelTaskConfirm> _dataTaskConfirm = [];
+  List<ModelTaskConfirm> get dataTaskConfirm => _dataTaskConfirm;
 
   getListTask() async {
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    var bearerToken = prefs.getString('session_id');
-    var endpoint = prefs.getString('org_url');
-    var contactId = prefs.getString('contact_id');
-
-    Map<String, String> requestHeaders = {
-      //'Authorization': 'Bearer $bearerToken'
-      'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'
-    };
-
-    //final url = "https://$endpoint/services/apexrest/bn2gpv1/Housekeeping/$contactId";
-    const url = "https://nosoftware-app-2024-dev-ed.scratch.my.salesforce.com/services/apexrest/bn2gpv1/Housekeeping/0036D00000hoWTWQA2";
-
-    try{
-
-      final response = await http.get(Uri.parse(url), headers: {'Authorization': 'Bearer 00D6D00000037nc!AQcAQNY1wS3O_cihoN284N1VVpkvg0.YLj8z1JJZkOUV3rsrpbdNGAKk3jlrMuJQGV9d8jiamr67PN9aDBRZsHqoWPDaSBJQ'});
-
-      print('GET_DATA_DEFAULT: ${response.statusCode} ${response.body}');
-
-      try {
-        if (response.statusCode == 200) {
-
-          var result = ModelTask.fromJson(json.decode(response.body));
-          print('GET_PAGE_DATA0: $result');
-
-          return result;
-        } else {
-          debugPrint('statusSEARCH_cek_URL: ');
-        }
-      } on http.ClientException {
-        print("throwing new error");
-        throw Exception("Error on server");
-      }
-
-    } on Exception catch (e){
-      log('ERROR_DATA: $e');
-
-    }
-  }
-
-  Future<List<ModelTask>> getListTask2() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -159,10 +46,35 @@ class FetchData extends ChangeNotifier{
     final response = await http.get(Uri.parse(url), headers: requestHeaders);
 
     if (response.statusCode == 200) {
+
       final result = json.decode(response.body).cast<Map<String, dynamic>>();
-      print('RESPONSE_CEK_TASK : ${json.decode(response.body)}');
-      _dataTask = result.map<ModelTask>((json) => ModelTask.fromJson(json)).toList();
-      return _dataTask;
+
+      final status = result[0]['status'].toString();
+      final performerId = result[0]['performerId'].toString();
+
+      print('RESPONSE_CEK_TASK_GENERAL : $status $performerId');
+      _dataTaskGeneral = result.map<ModelTaskGeneral>((json) => ModelTaskGeneral.fromJson(json)).toList();
+      //final _new = _dataTaskGeneral.where((element) => element.status == 'Confirmed');
+      //List<ModelTaskGeneral> _lastData = _dataTaskGeneral.where((element) => element.status == 'Confirmed').toList();
+      return _dataTaskGeneral;
+
+      /*if(status == 'Pending' && performerId == 'null'){
+
+        print('RESPONSE_CEK_TASK_GENERAL : $status $performerId');
+        _dataTaskGeneral = result.map<ModelTaskGeneral>((json) => ModelTaskGeneral.fromJson(json)).toList();
+        return _dataTaskGeneral;
+      } else if(status == 'Pending' && performerId == contactId){
+        //final result = json.decode(response.body).cast<Map<String, dynamic>>();
+        print('RESPONSE_CEK_TASK_ASSIGN : $status $performerId');
+        _dataTaskAssign = result.map<ModelTaskAssign>((json) => ModelTaskAssign.fromJson(json)).toList();
+        return _dataTaskAssign;
+      } else {
+        //final result = json.decode(response.body).cast<Map<String, dynamic>>();
+        print('RESPONSE_CEK_TASK_CONFIRM : $status $performerId');
+        _dataTaskConfirm = result.map<ModelTaskConfirm>((json) => ModelTaskConfirm.fromJson(json)).toList();
+        return _dataTaskConfirm;
+      }*/
+
     } else {
       throw Exception();
     }

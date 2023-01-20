@@ -1,3 +1,4 @@
+import 'package:booking_ninjas/helper/sharepref.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
 import 'package:booking_ninjas/view/splashscreen.dart';
 import 'package:booking_ninjas/widgets/appbar_custom.dart';
@@ -52,7 +53,7 @@ class Profile extends StatelessWidget {
                     style: TextCustom().heading1(),
                   ),
                   Text(
-                    'email@gmail.com',
+                    '${setSession().getTest()}',
                     style:
                         TextCustom().textFootnote(PalletColors.text_soft_grey),
                   )

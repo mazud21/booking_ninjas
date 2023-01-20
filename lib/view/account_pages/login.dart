@@ -54,7 +54,7 @@ class _FormLoginState extends State<FormLogin> {
             Align(
               alignment: Alignment.center,
               child:
-                  Text('Welcome back!', style: TextCustom().textLargeHeading()),
+              Text('Welcome back!', style: TextCustom().textLargeHeading()),
             ),
             const SizedBox(
               height: 24,
@@ -98,9 +98,11 @@ class _FormLoginState extends State<FormLogin> {
                   style: ButtonCustom().elevatedGreen(),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      EasyLoading.show(status: 'loading...');
+                      //EasyLoading.show(status: 'loading...');
                       getLogin(email.text, password.text);
-                    } else {}
+                    } else {
+
+                    }
                   },
                   child: Text(
                     'Login',
@@ -122,7 +124,7 @@ class _FormLoginState extends State<FormLogin> {
                     child: Text(
                       'Reset Password',
                       style:
-                          TextCustom().textFormCaption(PalletColors.text_blue),
+                      TextCustom().textFormCaption(PalletColors.text_blue),
                     ))
               ],
             ),
@@ -157,11 +159,11 @@ class _FormLoginState extends State<FormLogin> {
 
   getLogin(String email, String password) async {
     response = await dio.get(Endpoint.LOGIN_URL, queryParameters: {
-      'username': /*'test-5zqqdxohps7d@example.com'*/ email,
-      'password': /*'i!vvrAv4cotfi'*/ password,
+      'username':  /*'test-wjjmdlr20nya@example.com'*/  email,
+      'password':  /*'fuznjIgv4ye^g'*/  password,
       'is_test': 'true'
     });
-    log('CHECK_LOGIN: ${response.data.toString()}');
+    log('CHECK_LOGIN: $email $password ${response.data.toString()} ${Endpoint.LOGIN_URL}');
 
     var sessionId = response.data['session_id'].toString();
     var orgUrl = response.data['org_url'].toString();
@@ -169,6 +171,9 @@ class _FormLoginState extends State<FormLogin> {
     var contactId = response.data['contact_id'].toString();
 
     if (status == '1') {
+
+      //setSession.createTest(sessionId);
+      //setSession().getTest();
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("session_id", sessionId);
@@ -190,17 +195,22 @@ class _FormLoginState extends State<FormLogin> {
       EasyLoading.dismiss();
     }
   }
-}
+    //setSession.createTest(email);
+    //setSession().getTest();
 
-String? validateEmail(String? value) {
-  String pattern =
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-      r"{0,253}[a-zA-Z0-9])?)*$";
-  RegExp regex = RegExp(pattern);
-  if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-    return 'Enter a valid email address';
-  } else {
-    return null;
+    //Get.off(const Dashboard());
+
+
+  String? validateEmail(String? value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    } else {
+      return null;
+    }
   }
 }

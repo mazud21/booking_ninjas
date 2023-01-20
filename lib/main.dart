@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:booking_ninjas/helper/sharepref.dart';
 import 'package:booking_ninjas/network/fetch_data.dart';
 import 'package:booking_ninjas/route/routes.dart';
 import 'package:booking_ninjas/theme/colors_texts_widget.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
               create: (_) => FetchData(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => setSession(),
           ),
         ],
       child: GetMaterialApp(

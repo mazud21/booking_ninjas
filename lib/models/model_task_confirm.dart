@@ -1,4 +1,4 @@
-class ModelTask {
+class ModelTaskConfirm {
   String? status;
   String? startDate;
   String? roomUnitTypeName;
@@ -9,6 +9,8 @@ class ModelTask {
   String? roomUnitId;
   String? roomUnitFloor;
   String? resUnitId;
+  String? performerName;
+  String? performerId;
   String? notes;
   String? maintenanceTask;
   bool? isUrgent;
@@ -17,7 +19,7 @@ class ModelTask {
   String? cleaningTask;
   String? category;
 
-  ModelTask(
+  ModelTaskConfirm(
       {this.status,
         this.startDate,
         this.roomUnitTypeName,
@@ -28,6 +30,8 @@ class ModelTask {
         this.roomUnitId,
         this.roomUnitFloor,
         this.resUnitId,
+        this.performerName,
+        this.performerId,
         this.notes,
         this.maintenanceTask,
         this.isUrgent,
@@ -36,7 +40,7 @@ class ModelTask {
         this.cleaningTask,
         this.category});
 
-  ModelTask.fromJson(Map<String, dynamic> json) {
+  ModelTaskConfirm.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     startDate = json['startDate'];
     roomUnitTypeName = json['roomUnitTypeName'];
@@ -47,6 +51,8 @@ class ModelTask {
     roomUnitId = json['roomUnitId'];
     roomUnitFloor = json['roomUnitFloor'];
     resUnitId = json['resUnitId'];
+    performerName = json['performerName'];
+    performerId = json['performerId'];
     notes = json['notes'];
     maintenanceTask = json['maintenanceTask'];
     isUrgent = json['isUrgent'];
@@ -68,6 +74,8 @@ class ModelTask {
     data['roomUnitId'] = this.roomUnitId;
     data['roomUnitFloor'] = this.roomUnitFloor;
     data['resUnitId'] = this.resUnitId;
+    data['performerName'] = this.performerName;
+    data['performerId'] = this.performerId;
     data['notes'] = this.notes;
     data['maintenanceTask'] = this.maintenanceTask;
     data['isUrgent'] = this.isUrgent;
