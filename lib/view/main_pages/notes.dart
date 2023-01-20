@@ -15,7 +15,7 @@ class _NotesState extends State<Notes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
+      /*floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           // Add your onPressed code here!
           bsAddNote(context);
@@ -26,33 +26,43 @@ class _NotesState extends State<Notes> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
         ),
-      ),
+      ),*/
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.all(16),
 
-        child: Column(
+        child: Stack(
           children: [
-            TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Search",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: Colors.white10),
-                    ),
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: InkWell(
-                      onTap: () => '',
-                      child: const Icon(Icons.mic),
-                    ))),
-            const SizedBox(
-              height: 16,
+            Column(
+              children: [
+                TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "Search",
+                        //fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Colors.white10),
+                        ),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: InkWell(
+                          onTap: () => '',
+                          child: const Icon(Icons.mic),
+                        ))),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                    height: Get.height*0.67,
+                    child: ListNotes()
+                )
+              ],
             ),
-            SizedBox(
-                height: Get.height*0.67,
-                child: ListNotes()
-            )
+            Container(
+              color: const Color(0x7EFFFFFF).withOpacity(0.8),
+              child: Center(
+                child: Text('Coming Soon...', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              ),
+            ),
           ],
         ),
       ),

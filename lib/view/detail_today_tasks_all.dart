@@ -6,6 +6,10 @@ import 'package:booking_ninjas/widgets/appbar_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../network/fetch_data.dart';
+import 'detail_new_task.dart';
 
 class DetailTodayTasksAll extends StatefulWidget {
   @override
@@ -21,20 +25,22 @@ class _DetailTodayTasksAllState extends State<DetailTodayTasksAll> {
     return Scaffold(
       appBar: AppBarCustom().getSubAppBarCustom('Today\'s task'),
       body: Container(
+        width: double.maxFinite,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(10),
         child: Stack(
+          alignment: Alignment.topCenter,
           children: [
             CupertinoSlidingSegmentedControl<int>(
               thumbColor: CupertinoColors.white,
               groupValue: groupValue,
               children: const {
                 0: Text(
-                  'Assigned by supervisor',
+                  'Assigned Task',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 1: Text(
-                  'Accepted from tasks',
+                  'Unassign Task',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )
               },
@@ -45,8 +51,8 @@ class _DetailTodayTasksAllState extends State<DetailTodayTasksAll> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: groupValue == 0 ? ListSpv() : ListSpv(),
+              padding: const EdgeInsets.only(top: 40),
+              child: groupValue == 0 ? ListAssignedTask() : ListUnassignedTask(),
             ),
           ],
         ),
@@ -55,126 +61,110 @@ class _DetailTodayTasksAllState extends State<DetailTodayTasksAll> {
   }
 }
 
-class ListSpv extends StatefulWidget {
+class ListAssignedTask extends StatefulWidget {
   @override
-  _ListSpvState createState() => _ListSpvState();
+  _ListAssignedTaskState createState() => _ListAssignedTaskState();
 }
 
-class _ListSpvState extends State<ListSpv> {
-  List items = List<String>.generate(20, (i) => 'Item ${i + 1}');
+class _ListAssignedTaskState extends State<ListAssignedTask> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: Image.asset('assets/images/broom.png')),
-                        Flexible(
-                            child: Text(
-                          'Clean room, replace linen, Clean room, replace linen',
-                          style: TextCustom().textText(PalletColors.text_black),
-                        )),
-                      ],
-                    ),
-                    ListTile(
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Container(
-                            padding: const EdgeInsets.all(8),
-                            color: Colors.blue,
-                            child: Icon(
-                              Icons.vpn_key,
-                              color: Colors.white,
-                              size: Get.width * 0.05,
-                            )),
-                      ),
-                      title: const Text('Room 326'),
-                      subtitle: const Text('Floor 3, Building 8'),
-                      //dense: true,
-                    ),
-                    const Divider(
-                      height: 0.1,
-                      color: Color.fromRGBO(205, 205, 205, 1.0),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(32, 8, 0, 16),
-                        child: Text(
-                          'Est. time 30 min',
-                          style: TextCustom()
-                              .textFootnote(PalletColors.text_soft_grey),
-                        )),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Dismissible(
-                        confirmDismiss: (direction) async {
-                          log('GET_DISMISS');
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text(
-                              'Task from supervisor has been started',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            backgroundColor: Colors.white,
-                          ));
-                          return null;
-                        },
-                        // Each Dismissible must contain a Key. Keys allow Flutter to
-                        // uniquely identify widgets.
-                        key: Key(items.toString()),
-                        // Provide a function that tells the app
-                        // what to do after an item has been swiped away.
-                        // Show a red background as the item is swiped away.
-                        //background: Container(color: Colors.green),
-                        child: Container(
-                          decoration: const ShapeDecoration(
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                            ),
-                          ),
-                          child: const ListTile(
-                            leading: Icon(
-                              CupertinoIcons.chevron_right_2,
-                              color: Colors.white,
-                            ),
-                            //tileColor: Colors.green,
-                            title: Text("Swipe to start",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                        onDismissed: (direction) {
-                          log('GET_DISMISS');
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ButtonCustom().elevatedRedSoft(),
-                          onPressed: () => dialogDeclineTask(context),
-                          child: Text('Cancel', style: TextCustom().textButton(PalletColors.text_red),),
-                      ),
-                    )
-                  ],
-                ),
+    return Container(
+      child: FutureBuilder(
+        future: Provider.of<FetchData>(context, listen: true).getListTaskAssign(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CupertinoActivityIndicator(
+                animating: true,
+                radius: 15,
               ),
-            ),
+            );
+          }
+          return Consumer<FetchData>(
+            builder: (context, data, _) {
+              return ListView.builder(
+                /*shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),*/
+                itemCount: data.dataTaskAssign.length,
+                itemBuilder: (context, index) {
+
+                  var compressCall = data.dataTaskAssign[index];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListTile(
+                        //onTap: () => bsDetailTodayTask(context, compressCall.cleaningTask.toString(), compressCall.status.toString(), compressCall.roomUnitNumber.toString(), compressCall.roomUnitFloor.toString(), compressCall.roomUnitPropertyName.toString(), compressCall.notes.toString()),
+                        leading: Image.asset('assets/images/broom.png'),
+                        //title: const Text('Clean Room'),
+                        title: Text('${compressCall.cleaningTask}'),
+                        //subtitle: Text('Room 475, Floor 4, Building 8'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
+                            Text('${compressCall.roomUnitNumber}, Floor ${compressCall.roomUnitFloor}, ${compressCall.roomUnitPropertyName}'),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.05,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      onPressed: () {
+
+                                        FetchData().postStatusTask(compressCall.id.toString(), compressCall.status.toString());
+
+                                      },
+                                      child: const Text('Accept')),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.05,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      onPressed: () => /*Get.to(Login())*/null,
+                                      child: const Text('Decline')),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        height: 0.1,
+                        color: Color.fromRGBO(205, 205, 205, 1.0),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
           );
         },
       ),
@@ -199,75 +189,130 @@ class _ListSpvState extends State<ListSpv> {
 
 }
 
-class ListTask extends StatefulWidget {
+class ListUnassignedTask extends StatefulWidget {
   @override
-  _ListTaskState createState() => _ListTaskState();
+  _ListUnassignedTaskState createState() => _ListUnassignedTaskState();
 }
 
-class _ListTaskState extends State<ListTask> {
-  List items = List<String>.generate(20, (i) => 'Item ${i + 1}');
+class _ListUnassignedTaskState extends State<ListUnassignedTask> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 200,
-            child: Card(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset('assets/images/broom.png'),
-                      const Flexible(
-                          child: Text(
-                              'Clean room, replace linen, Clean room, replace linen')),
-                    ],
-                  ),
-                  ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                          padding: const EdgeInsets.all(8),
-                          color: Colors.blue,
-                          child: const Icon(
-                            Icons.vpn_key,
-                            color: Colors.white,
-                          )),
-                    ),
-                    title: const Text('Room 326'),
-                    subtitle: const Text('Floor 3, Building 8'),
-                    //dense: true,
-                  ),
-                  const Divider(
-                    height: 0.1,
-                    color: Color.fromRGBO(205, 205, 205, 1.0),
-                  ),
-                  const Text('Est. time 30 min'),
-                  Dismissible(
-                    confirmDismiss: (direction) async {
-                      return null;
-                    },
-                    // Each Dismissible must contain a Key. Keys allow Flutter to
-                    // uniquely identify widgets.
-                    key: Key(items.toString()),
-                    // Provide a function that tells the app
-                    // what to do after an item has been swiped away.
-                    // Show a red background as the item is swiped away.
-                    background: Container(color: Colors.red),
-                    child: ListTile(
-                      title: Text(items.toString()),
-                    ),
-                  )
-                ],
+    return Container(
+      child: FutureBuilder(
+        future: Provider.of<FetchData>(context, listen: true).getListTask(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CupertinoActivityIndicator(
+                animating: true,
+                radius: 15,
               ),
-            ),
+            );
+          }
+          return Consumer<FetchData>(
+            builder: (context, data, _) {
+              return ListView.builder(
+                /*shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),*/
+                itemCount: data.dataTaskGeneral.length,
+                itemBuilder: (context, index) {
+
+                  var compressCall = data.dataTaskGeneral[index];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListTile(
+                        //onTap: () => bsDetailTodayTask(context, compressCall.cleaningTask.toString(), compressCall.status.toString(), compressCall.roomUnitNumber.toString(), compressCall.roomUnitFloor.toString(), compressCall.roomUnitPropertyName.toString(), compressCall.notes.toString()),
+                        leading: Image.asset('assets/images/broom.png'),
+                        //title: const Text('Clean Room'),
+                        title: Text('${compressCall.cleaningTask}'),
+                        //subtitle: Text('Room 475, Floor 4, Building 8'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Text('${_list[index].airline![0].name}, ${_list[index].airline![0].id}, Building 8'),
+                            Text('${compressCall.roomUnitNumber}, Floor ${compressCall.roomUnitFloor}, ${compressCall.roomUnitPropertyName}'),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.05,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      onPressed: () {
+
+                                        FetchData().postStatusTask(compressCall.id.toString(), compressCall.status.toString());
+
+                                      },
+                                      child: const Text('Accept')),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.05,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      onPressed: () => /*Get.to(Login())*/null,
+                                      child: const Text('Decline')),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        height: 0.1,
+                        color: Color.fromRGBO(205, 205, 205, 1.0),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
           );
         },
       ),
     );
   }
+
+  dialogDeclineTask(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: PalletColors.btn_white,
+          title: const Align(
+            alignment: Alignment.center,
+            child: Text('Why do you want to decline this task?'),
+          ),
+          content: Declinetask(),
+        );
+      },
+    );
+  }
+
 }

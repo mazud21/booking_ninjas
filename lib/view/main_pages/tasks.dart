@@ -111,7 +111,7 @@ class _Card1State extends State<Card1> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Assigned by supervisor'),
+                const Text('Assigned task'),
                 TextButton(
                   onPressed: () => null,
                   child: const Text('0'),
@@ -121,7 +121,7 @@ class _Card1State extends State<Card1> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Accepted from tasks'),
+                const Text('Unassigned task'),
                 TextButton(
                   onPressed: () => null,
                   child: const Text('0'),
@@ -210,7 +210,8 @@ class _Card2State extends State<Card2> {
               children: [
                 Text('Current task', style: TextCustom().heading2(),),
                 Visibility(
-                  visible: widget.switchValue,
+                  //visible: widget.switchValue,
+                  visible: false,
                   child: TextButton(
                   onPressed: () => Get.to(CurrentTask()),
                     child: const Text('Open'),
@@ -246,14 +247,30 @@ class Card3 extends StatefulWidget {
 }
 
 class _Card3State extends State<Card3> {
-
+  late SharedPreferences prefs;
+  String activeTask = '';
   late bool listVisible = true;
+
+  checkTaskAvailable() async {
+    prefs = await SharedPreferences.getInstance();
+    activeTask = prefs.getString('task')!;
+
+    log('CHECK_VALUE_TASK: $activeTask');
+
+    if(activeTask == 'active'){
+      ///enable on testing
+      //listVisible = false;
+      listVisible = true;
+    }
+
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     FetchData().getListTask();
+    checkTaskAvailable();
   }
 
   @override
@@ -283,7 +300,7 @@ class _Card3State extends State<Card3> {
 
     Widget listOff = SizedBox(
       height: Get.height*0.2,
-      child: const Center(child: Text('Task is no available now')),
+      child: const Center(child: Text('Task is not available now or finish current task')),
     );
 
     return Card(
@@ -306,10 +323,10 @@ class _Card3State extends State<Card3> {
                       },
                       child: const Text('Test List Data')
                   ),*/
-                  TextButton(
+                  listVisible ? TextButton(
                     onPressed: () => Get.to(NewTaskAll()),
                     child: const Text('See All'),
-                  ),
+                  ) : SizedBox(),
                 ],
               ),
             ),
@@ -386,7 +403,7 @@ class _ListTaskState extends State<ListTask> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: Provider.of<FetchData>(context, listen: true).getListTask(),
+        future: Provider.of<FetchData>(context, listen: true).getListTaskConfirm(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -395,16 +412,16 @@ class _ListTaskState extends State<ListTask> {
                   radius: 15,
                 ),
               );
-            } 
+            }
             return Consumer<FetchData>(
                 builder: (context, data, _) {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.dataTaskGeneral.length,
+                    itemCount: data.dataTaskConfirm.length,
                     itemBuilder: (context, index) {
 
-                      var compressCall = data.dataTaskGeneral[index];
+                      var compressCall = data.dataTaskConfirm[index];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,12 +459,12 @@ class _ListTaskState extends State<ListTask> {
                                             ),
                                           ),
                                           onPressed: () {
-                                            //activeTask();
-                                            //saveTime();
+                                            activeTask();
+                                            saveTime();
 
-                                            //widget.switchValue.value = true;
+                                            widget.switchValue.value = true;
 
-                                            FetchData().postStatusTask(compressCall.id.toString(), compressCall.status.toString());
+                                            FetchData().postStatusTaskDetail(compressCall.id.toString(), compressCall.status.toString(), compressCall.cleaningTask.toString(), compressCall.roomUnitNumber.toString(), compressCall.roomUnitFloor.toString(), compressCall.roomUnitPropertyName.toString());
 
                                           },
                                           child: const Text('Accept')),
@@ -682,12 +699,15 @@ class _ActiveTaskState extends State<ActiveTask> {
 
   late SharedPreferences prefs;
 
+  late String idTask='', status='', cleaningTask='', room='', floor='', building='';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     loadTime();
+    _fillCT();
 
     _stopWatchTimer.rawTime.listen((value) =>
         print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));
@@ -732,6 +752,37 @@ class _ActiveTaskState extends State<ActiveTask> {
     await _stopWatchTimer.dispose();
   }
 
+  _checkStatusChip(String status){
+    if(status == 'Pending'){
+      return PalletColors.chip_orange;
+    } else if(status == 'Confirmed'){
+      return PalletColors.chip_soft_blue;
+    } else if(status == 'In Progress') {
+      return PalletColors.btn_deep_blue;
+    } else {
+      return PalletColors.chip_green;
+    }
+  }
+
+  _fillCT() async{
+    idTask = (prefs.getString('idCT'))!;
+    status = (prefs.getString('statusCT'))!;
+    cleaningTask = (prefs.getString('cleaningCT'))!;
+    room = (prefs.getString('roomCT'))!;
+    floor = (prefs.getString('floorCT'))!;
+    building = (prefs.getString('buildingCT'))!;
+  }
+
+  inActiveTask() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('task', 'inActive');
+  }
+
+  stopTaskTime() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.remove('time');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -739,13 +790,13 @@ class _ActiveTaskState extends State<ActiveTask> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Flexible(
+            Flexible(
                 child: Text(
-                    'Clean room, replace linen, Clean room, replace linen')),
+                    cleaningTask)),
             Chip(
-              label: const Text('In progress'),
+              label: Text(/*'In progress'*/'$status'),
               padding: const EdgeInsets.fromLTRB(8, 8, 12, 10),
-              backgroundColor: Colors.orange,
+              backgroundColor: _checkStatusChip(status),
               deleteIcon: const Icon(Icons.keyboard_arrow_down),
               onDeleted: () {},
             ),
@@ -762,8 +813,8 @@ class _ActiveTaskState extends State<ActiveTask> {
                   color: Colors.white,
                 )),
           ),
-          title: const Text('Room 326'),
-          subtitle: const Text('Floor 3, Building 8'),
+          title: Text(room),
+          subtitle: Text('$floor, $building'),
           //dense: true,
         ),
         Column(
@@ -837,8 +888,10 @@ class _ActiveTaskState extends State<ActiveTask> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed:
-                      () => dialogTakePhotos(context),
+                  //onPressed: () => dialogTakePhotos(context),
+                  onPressed: () {
+                    FetchData().postStatusTask(idTask.toString(), status.toString());
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [

@@ -20,232 +20,242 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Search",
-                    //fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: Colors.white10),
-                    ),
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: InkWell(
-                      onTap: () => '',
-                      child: const Icon(Icons.mic),
-                    ))),
-            const SizedBox(
-              height: 16,
-            ),
-            SizedBox(
-              height: Get.height * 0.05,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: Get.width * 0.2,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: PalletColors.chip_soft_blue,
-                      ),
-                      child: InkWell(
-                        onTap: () => bsFilterSearch(context),
-                        child: const Padding(
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              children: [
+                TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "Search",
+                        //fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Colors.white10),
+                        ),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: InkWell(
+                          onTap: () => '',
+                          child: const Icon(Icons.mic),
+                        ))),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: Get.height * 0.05,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: Get.width * 0.2,
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: PalletColors.chip_soft_blue,
+                          ),
+                          child: InkWell(
+                            onTap: () => bsFilterSearch(context),
+                            child: const Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Icon(CupertinoIcons.slider_horizontal_3)),
+                          ),
+                        ),
+                        /*Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.blue,
+                        ),
+                        child: Padding(
                             padding: EdgeInsets.all(8),
                             child: Icon(CupertinoIcons.slider_horizontal_3)),
+                      ),*/
                       ),
-                    ),
-                    /*Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.blue,
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(CupertinoIcons.slider_horizontal_3)),
-                    ),*/
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.07,
-                    width: Get.width * 0.7,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: listFilters.length,
-                      itemBuilder: (context, index) {
-                        if (listFilters.isEmpty) {
-                          return const SizedBox();
-                        } else {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: PalletColors.chip_soft_blue,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        listFilters.removeAt(index);
-                                      });
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.fromLTRB(4, 0, 8, 0),
-                                        child: Icon(CupertinoIcons.clear_circled, size: 16,)),
+                      SizedBox(
+                        height: Get.height * 0.07,
+                        width: Get.width * 0.7,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listFilters.length,
+                          itemBuilder: (context, index) {
+                            if (listFilters.isEmpty) {
+                              return const SizedBox();
+                            } else {
+                              return Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: PalletColors.chip_soft_blue,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            listFilters.removeAt(index);
+                                          });
+                                        },
+                                        child: const Padding(
+                                            padding: EdgeInsets.fromLTRB(4, 0, 8, 0),
+                                            child: Icon(CupertinoIcons.clear_circled, size: 16,)),
+                                      ),
+                                      Text(listFilters[index], style: TextCustom().textFootnote(PalletColors.text_blue),)
+                                    ],
                                   ),
-                                  Text(listFilters[index], style: TextCustom().textFootnote(PalletColors.text_blue),)
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            SizedBox(
-              height: Get.height * 0.75,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: ListView.builder(
-                  itemCount: 7,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'July 22, 2022, 06:30 AM',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                const Spacer(),
-                                Chip(
-                                    backgroundColor: PalletColors.chip_green,
-                                    label: Text(
-                                      'Completed',
-                                      style: TextCustom().textFootnote(
-                                          PalletColors.text_white),
-                                    ))
-                              ],
-                            ),
-                          ),
-                          ExpansionTile(
-                            title: Row(
-                              children: [
-                                Image.asset('assets/images/broom.png'),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                const Text('Clean room, replace linen')
-                              ],
-                            ),
-                            children: <Widget>[
-                              ListTile(
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      color: Colors.blue,
-                                      child: const Icon(
-                                        Icons.location_pin,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                                title: const Text(
-                                  'Room 326',
-                                ),
-                                subtitle: const Text('Floor 3, Building 8'),
-                                //dense: true,
-                              ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: Get.height * 0.75,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 100),
+                    child: ListView.builder(
+                      itemCount: 7,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Column(
+                            children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 0, 0, 16),
-                                child: Column(
+                                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                                child: Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 8, 16, 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text('Assigned by'),
-                                          Text('Supervisor 1')
-                                        ],
-                                      ),
+                                    const Text(
+                                      'July 22, 2022, 06:30 AM',
+                                      style: TextStyle(color: Colors.grey),
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8),
-                                      child: Divider(
-                                        height: 0.1,
-                                        thickness: 0.5,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 8, 16, 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text('Completion'),
-                                          Text('30 min')
-                                        ],
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8),
-                                      child: Divider(
-                                        height: 0.1,
-                                        thickness: 0.5,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 8, 16, 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text('Task completed'),
-                                          Text('2/2')
-                                        ],
-                                      ),
-                                    ),
+                                    const Spacer(),
+                                    Chip(
+                                        backgroundColor: PalletColors.chip_green,
+                                        label: Text(
+                                          'Completed',
+                                          style: TextCustom().textFootnote(
+                                              PalletColors.text_white),
+                                        ))
                                   ],
                                 ),
                               ),
+                              ExpansionTile(
+                                title: Row(
+                                  children: [
+                                    Image.asset('assets/images/broom.png'),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    const Text('Clean room, replace linen')
+                                  ],
+                                ),
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          color: Colors.blue,
+                                          child: const Icon(
+                                            Icons.location_pin,
+                                            color: Colors.white,
+                                          )),
+                                    ),
+                                    title: const Text(
+                                      'Room 326',
+                                    ),
+                                    subtitle: const Text('Floor 3, Building 8'),
+                                    //dense: true,
+                                  ),
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 0, 16),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              16, 8, 16, 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: const [
+                                              Text('Assigned by'),
+                                              Text('Supervisor 1')
+                                            ],
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 8),
+                                          child: Divider(
+                                            height: 0.1,
+                                            thickness: 0.5,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              16, 8, 16, 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: const [
+                                              Text('Completion'),
+                                              Text('30 min')
+                                            ],
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 8),
+                                          child: Divider(
+                                            height: 0.1,
+                                            thickness: 0.5,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              16, 8, 16, 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: const [
+                                              Text('Task completed'),
+                                              Text('2/2')
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            )
-          ],
-        ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            color: const Color(0x7EFFFFFF).withOpacity(0.8),
+            child: Center(
+              child: Text('Coming Soon...', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            ),
+          )
+        ],
       ),
     );
   }
